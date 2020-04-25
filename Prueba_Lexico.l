@@ -82,21 +82,12 @@ DISPLAY "DISPLAY"|"display"
 GET "GET"|"get"
 
 
-"DEFVAR"			{ return DEFVAR; }
-"ENDVAR"		{ return ENDVAR; }		
 "BEGINP"		{ return BEGINP; }
 "ENDP"			{ return ENDP; }	
-{FLOAT}			{ return FLOAT; }
-{INTEGER}		{return INTEGER; }
 {STRING}		{return STRING;}
-{IF}			{ return IF; }
-{THEN}			{ return THEN; }
-{ELSE}			{ return ELSE; }
-{ENDIF}			{ return ENDIF; }
 {AND}      	 	{ return AND; }
 {OR}        	{ return OR; }
 {NOT}       	{ return NOT; }
-{ENDIF}			{ return ENDIF; }
 {WHILE}        { return WHILE; }
 {ENDWHILE}     { return ENDREPEAT; }
 {MOV}	    { return MOV; }
@@ -105,12 +96,6 @@ GET "GET"|"get"
 {COMENT_SIMPLE}	{  }
 {COMENT_DOBLE}	{  }
 
-"=="		{ return COMP_IGUAL; }
-"!="		{ return COMP_DIST; }
-"<"			{ return MENOR; }
-">"			{ return MAYOR; }
-"<="		{ return COMP_MENIG; }
-">="		{ return COMP_MAYIG; }
 
 
 
