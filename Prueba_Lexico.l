@@ -78,6 +78,74 @@ ID			{LETRA}({LETRA}|{DIGITO}|_)*
     insertarEnTablaDeSimbolos(&lista, NULL, yytext, NULL,  NULL);
     return FLOAT;
 }
+DISPLAY "DISPLAY"|"display"
+GET "GET"|"get"
+
+
+"DEFVAR"			{ return DEFVAR; }
+"ENDVAR"		{ return ENDVAR; }		
+"BEGINP"		{ return BEGINP; }
+"ENDP"			{ return ENDP; }	
+{FLOAT}			{ return FLOAT; }
+{INTEGER}		{return INTEGER; }
+{STRING}		{return STRING;}
+{IF}			{ return IF; }
+{THEN}			{ return THEN; }
+{ELSE}			{ return ELSE; }
+{ENDIF}			{ return ENDIF; }
+{AND}      	 	{ return AND; }
+{OR}        	{ return OR; }
+{NOT}       	{ return NOT; }
+{ENDIF}			{ return ENDIF; }
+{WHILE}        { return WHILE; }
+{ENDWHILE}     { return ENDREPEAT; }
+{MOV}	    { return MOV; }
+{DIV}	    { return DIV; }
+
+{COMENT_SIMPLE}	{  }
+{COMENT_DOBLE}	{  }
+
+"=="		{ return COMP_IGUAL; }
+"!="		{ return COMP_DIST; }
+"<"			{ return MENOR; }
+">"			{ return MAYOR; }
+"<="		{ return COMP_MENIG; }
+">="		{ return COMP_MAYIG; }
+
+
+
+{CONST_STR}		{
+                    int longitud=strlen(yytext);
+					if(longitud <= 30)
+					{
+					 guardarLexemas(yytext,1);
+                     return CONST_STR;
+					 }
+					else{
+						printf("Error cte string fuera de rango.\n");
+						system ("Pause");
+						exit(1);
+					} 
+			    }
+				
+
+{CONST_INT}		{	int num = atoi(yytext); 
+					
+					if(num >= 0 && num <= 65535){
+						
+						 guardarLexemas(yytext,2);
+						  
+						return CONST_INT; 
+					}
+					else	{
+						printf("Error. Integer fuera de rango.\n");
+						system ("Pause");
+						exit(1);
+					} 
+				}
+				
+
+
 
 "\n"      		
 "\t"		

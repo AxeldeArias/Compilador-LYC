@@ -92,6 +92,19 @@ factor     :
 
 			|P_A expresion P_C   {printf("Regla FACTOR \n");}
 	;
+	
+	interacion: condicion lista_sentencias ENDWHILE  {printf("Regla - INTERACION: WHILE CONDICION LISTA_SENTENCIAS ENDWHILE\n");}      
+;  
+
+lista_id:ID   { printf("Regla 21 - LISTA_ID:ID\n");}
+         |ID  COMA lista_id  { printf("Regla 22- LISTA_ID:ID COMA LISTA_ID\n");}
+;
+
+entsal: DIPLAY CONST_STR   {printf("Regla 23 - ENTSAL CONST_STR\n");}
+       |DIPLAY ID          {printf("Regla 24 - ENTSAL ID\n");}
+       |GET ID           {printf("Regla 25 - ENTSAL ID\n");}
+
+
 %%
 
 
