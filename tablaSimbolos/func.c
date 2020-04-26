@@ -26,7 +26,7 @@ void insertarEnTablaDeSimbolos(tLista *lista,char* nombre, char * valor, char* t
     }
     
     if(longitud){
-        sprintf(dato.longitud, "%d", longitud);
+        sprintf(dato.longitud, "%s", longitud);
     }else{
         sprintf(dato.longitud, "%s", "-");
     }

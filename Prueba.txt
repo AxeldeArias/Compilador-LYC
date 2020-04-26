@@ -1,8 +1,17 @@
-DEFVAR Float : a;b; c;d ENDVAR
+DEFVAR 
+    Float : a;b; c;d
+    String : s
+ENDDEF
+
+***/ES UN COMENTARIO REY /*** 
+
+
+s = "esto es un string";
+s = "sigue siendo un string";
+
 IF(23.3 < a +4){
  a = 5.2+2;
 }ELSE{
  b = 5.2+2;
 }
-c = 5.2+2;
-
+c = z;
