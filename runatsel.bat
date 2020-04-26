@@ -1,3 +1,4 @@
+del ts.txt
 flex Lexico.L
 bison -dyv Sintactico.y
 gcc.exe lex.yy.c y.tab.c -o TP.exe

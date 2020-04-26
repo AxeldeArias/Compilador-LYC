@@ -1,20 +1,22 @@
-
 %{
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <string.h>
 #include "y.tab.h"
 
-#include "listaDinamica\header.h"
-#include "tablaSimbolos\header.h"
-
+#include "./listaDinamica/listaHeader.h"
+#include "./tablaSimbolos/tablaHeader.h"
 
 int yystopparser = 0;
-FILE  *yyin;
+FILE *yyin;
 
 /* Variables TABLA DE SIMBOLOS */
-char tipoID[100];
-tLista listaIDs;
+int tipoId;
+int lengString;
+char valor[100];
+
+tLista listaSimbolos;
 
 %}
 
@@ -52,7 +54,7 @@ char *str_val;
 %token DISPLAY
 
 %%
-start   : programa { recorrerLista(&listaIDs);printf("Regla Compilacion OK\n");}
+start   : programa { recorrerLista(&listaSimbolos); guardarTabla(&listaSimbolos); printf("Regla Compilacion OK\n");}
 		;
 
 programa	: seccion_declaraciones bloque { printf("Regla PROGRAMA \n");}
@@ -68,40 +70,34 @@ bloque_declaraciones	: declaracion
 declaracion : tipo_dato DOS_PUNTOS lista_ids  { printf("Regla DECLARACION \n");}
 			;
 
-tipo_dato 	: TIPO_FLOAT { sprintf(tipoID, "%s","FLOAT");}  { printf("Regla TIPO DECLARACION \n");}
-			| TIPO_INTEGER { sprintf(tipoID, "%s","INTEGER");}  { printf("Regla TIPO DECLARACION \n");}
-			| TIPO_STRING { sprintf(tipoID, "%s","STRING");}  { printf("Regla TIPO DECLARACION \n");}
+tipo_dato 	: TIPO_INTEGER { tipoId = T_INTEGER;}  { printf("Regla TIPO DECLARACION \n");}
+			| TIPO_FLOAT { tipoId = T_FLOAT;}  { printf("Regla TIPO DECLARACION \n");}
+			| TIPO_STRING { tipoId = T_STRING;}  { printf("Regla TIPO DECLARACION \n");}
 			;
 
-lista_ids	: ID { agregarVarATabla(&listaIDs, yylval.str_val, NULL, tipoID, NULL);} { printf("Regla LISTAIDS \n");}
-			| lista_ids PUNTO_COMA ID { agregarVarATabla(&listaIDs, yylval.str_val, NULL, tipoID, NULL);} { printf("Regla LISTAIDS \n");}
+lista_ids	: ID { agregarVarATabla(&listaSimbolos, yylval.str_val, NULL, tipoId, (int) NULL); printf("Regla LISTA IDS \n");}
+			| lista_ids PUNTO_COMA ID { agregarVarATabla(&listaSimbolos, yylval.str_val, NULL, tipoId, (int) NULL); printf("Regla LISTA IDS \n");}
 			;
 
 bloque  : sentencia
 		| bloque sentencia { printf("Regla BLOQUE \n");}
 
-sentencia   : asignacion
-			| bloque_if
-			| bloque_while
-			| expresion_aritmetica {printf("Regla SENTENCIA \n");}
-			| escritura
-			| lectura
+sentencia   : asignacion { printf("Regla SENTENCIA \n");}
+			| bloque_if { printf("Regla SENTENCIA \n");}
+			| bloque_while { printf("Regla SENTENCIA \n");}
+			| expresion_aritmetica { printf("Regla SENTENCIA \n");}
+			| escritura { printf("Regla SENTENCIA \n");}
+			| lectura { printf("Regla SENTENCIA \n");}
 			;
 
-bloque_if	: IF P_A expresion_logica P_C LL_A bloque LL_C {printf("Regla BLOQUE_IF \n");}
+bloque_if	: IF P_A expresion_logica P_C LL_A bloque LL_C { printf("Regla BLOQUE_IF \n");}
 			| IF P_A expresion_logica P_C LL_A bloque LL_C
-				ELSE LL_A bloque LL_C {printf("Regla SENTENCIA \n");}
+				ELSE LL_A bloque LL_C { printf("Regla BLOQUE IF ELSE \n");}
 			;
 
-bloque_if_unario	: IF P_A expresion_logica COMA expresion COMA expresion P_C {printf("Regla BLOQUE_IF \n");}
+bloque_if_unario	: IF P_A expresion_logica COMA expresion COMA expresion P_C { printf("Regla BLOQUE IF UNARIO \n");}
 
-bloque_while	: WHILE P_A expresion_logica P_C LL_A bloque LL_C {printf("Regla BLOQUE_WHILE \n");}
-				;
-
-op_aritmetico 	: OP_SUMA
-				| OP_RESTA
-				| OP_MUL
-				| OP_DIV {printf("Regla OPERADOR ARITMETICO \n");}
+bloque_while	: WHILE P_A expresion_logica P_C LL_A bloque LL_C { printf("Regla BLOQUE_WHILE \n");}
 				;
 
 op_booleano 	: OP_MENOR
@@ -109,76 +105,74 @@ op_booleano 	: OP_MENOR
 				| OP_MAYOR
 				| OP_MAYOR_IGUAL
 				| OP_IGUAL   
-				| OP_DISTINTO {printf("Regla OPERADOR BOOLEANO \n");}
+				| OP_DISTINTO
 				;
 
-expresion_logica	: expresion_logica OP_AND termino_logico
-					| expresion_logica OP_OR termino_logico
-					| termino_logico {printf("Regla EXPRESION_LOGICA \n");}
+expresion_logica	: expresion_logica OP_AND termino_logico { printf("Regla EXPRESION_LOGICA \n");}
+					| expresion_logica OP_OR termino_logico { printf("Regla EXPRESION_LOGICA \n");}
+					| termino_logico { printf("Regla EXPRESION_LOGICA \n");}
 					;
 
-termino_logico	: OP_NOT termino_logico
-				| expresion_aritmetica op_booleano expresion_aritmetica {printf("Regla TERMINO LOGICO \n");}
+termino_logico	: OP_NOT termino_logico { printf("Regla TERMINO LOGICO \n");}
+				| expresion_aritmetica op_booleano expresion_aritmetica { printf("Regla TERMINO LOGICO \n");}
 				;
 	
-//asignacion 	: ID OP_ASIG asignacion {printf("Regla ASIGNACION \n");}
-//			| ID OP_ASIG expresion PUNTO_COMA {printf("Regla ASIGNACION \n");}
-//			;
+//asignacion 	: ID OP_ASIG asignacion { printf("Regla ASIGNACION \n");}
+//				| ID OP_ASIG expresion PUNTO_COMA { printf("Regla ASIGNACION \n");}
+//				;
 
-asignacion 	: ID OP_ASIG expresion {chequearVarEnTabla($1); printf("Regla ASIGNACION \n");}
+asignacion 	: ID OP_ASIG expresion { chequearVarEnTabla(&listaSimbolos, $1); printf("Regla ASIGNACION \n");}
 			;
 
 
-
-expresion	: expresion_aritmetica {printf("Regla EXPRESION_ARITMETICA \n");}
-			| expresion_cadena {printf("Regla EXPRESION_CADENA \n");}
+expresion	: expresion_aritmetica
+			| expresion_cadena
+			| bloque_if_unario
 			;
 		
-expresion_aritmetica	: termino { printf("Regla EXPRESION \n");}
-						| expresion_aritmetica OP_SUMA termino { printf("Regla EXPRESION \n");}
-						| expresion_aritmetica OP_RESTA termino { printf("Regla EXPRESION \n");}
+expresion_aritmetica	: termino
+						| expresion_aritmetica OP_SUMA termino { printf("Regla EXPRESION ARITMETICA \n");}
+						| expresion_aritmetica OP_RESTA termino { printf("Regla EXPRESION ARITMETICA \n");}
 						;
 
-expresion_cadena	: CONST_STR {agregarCteStringATabla(yylval.str_val); printf("Regla FACTOR \n");}
+expresion_cadena	: CONST_STR { lengString = (strlen(yylval.str_val)-2); agregarVarATabla(&listaSimbolos, NULL, yylval.str_val, (int) NULL, lengString); printf("Regla EXPRESION CADENA \n");}
 					;
 			
 termino	: termino OP_MUL factor { printf("Regla TERMINO \n");}
 		| termino OP_DIV factor  { printf("Regla TERMINO \n");}
-		| factor { printf("Regla TERMINO \n");}
+		| factor
 		;
 			
-factor	: P_A expresion_aritmetica P_C {printf("Regla FACTOR \n");}
+factor	: P_A expresion_aritmetica P_C { printf("Regla FACTOR \n");}
 		;
 
-factor	: ID {chequearVarEnTabla(yylval.str_val); printf("Regla FACTOR \n");}
-		| CONST_INT {agregarCteIntATabla(yylval.int_val); printf("Regla FACTOR \n");}
-		| CONST_FLOAT {agregarCteFloatATabla(yylval.double_val); printf("Regla FACTOR \n");}		
+factor	: ID { chequearVarEnTabla(&listaSimbolos, $1);}
+		| CONST_INT { sprintf(valor, "%d", yylval.int_val); agregarVarATabla(&listaSimbolos, NULL, valor, (int) NULL, (int) NULL);}
+		| CONST_FLOAT { sprintf(valor, "%f", yylval.double_val); agregarVarATabla(&listaSimbolos, NULL, valor, (int) NULL, (int) NULL );}	
 		;
 
-escritura	: DISPLAY ID 
-			| DISPLAY CONST_STR {printf("Regla ESCRITURA");}
+escritura	: DISPLAY ID { printf("Regla ESCRITURA\n");}
+			| DISPLAY CONST_STR { printf("Regla ESCRITURA\n");}
 			;
 
-lectura	: GET ID {printf("Regla LECTURA");}
+lectura	: GET ID { printf("Regla LECTURA\n");}
+		;
 
 %%
 
-int main(int argc,char *argv[])
+int main(int argc, char *argv[])
 {
-  if ((yyin = fopen(argv[1], "rt")) == NULL)
-  {
-	printf("\nNo se puede abrir el archivo: %s\n", argv[1]);
-  }
-  else
-  {
-	yyparse();
-  }
-  fclose(yyin);
-  return 0;
+	if ((yyin = fopen(argv[1], "rt")) == NULL)
+	{
+		printf("\nNo se puede abrir el archivo: %s\n", argv[1]);
+	}
+	else
+	{
+	  	crearLista(&listaSimbolos);
+		yyparse();
+  	}
+  	fclose(yyin);
+  	return 0;
 }
-int yyerror(void) {
-	printf("Syntax Error\n");
-	system ("Pause");
-	exit (1);
-}
+
 

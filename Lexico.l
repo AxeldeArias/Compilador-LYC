@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <conio.h>
 #include "y.tab.h"
-#include "string.h"
 
 #include "listaDinamica\func.c"
 #include "tablaSimbolos\func.c"
@@ -13,7 +12,6 @@
 FILE  *yyin;
 
 /* Variables TABLA DE SIMBOLOS */
-tLista lista;
 char longitudCadena[10];
 
 void logError(char* msg);
@@ -47,8 +45,8 @@ COMENTARIO      "***/"{CADENA}*"/***"
 "GET"       {printf("Token GET\n"); return GET;}
 
 "Integer"   {printf("Token Integer\n"); yylval.int_val = atoi( yytext ); return TIPO_INTEGER;}
-"Float"     {printf("Token Float\n");yylval.double_val = atof( yytext );return TIPO_FLOAT;}
-"String"    {printf("Token String\n");yylval.str_val = strdup( yytext );return TIPO_STRING;}
+"Float"     {printf("Token Float\n"); yylval.double_val = atof( yytext );return TIPO_FLOAT;}
+"String"    {printf("Token String\n") ;yylval.str_val = strdup( yytext );return TIPO_STRING;}
 
 "="	        {printf("Token =\n"); return OP_ASIG;}
 
@@ -76,7 +74,7 @@ COMENTARIO      "***/"{CADENA}*"/***"
 "OR"        {printf("Token OR\n");return OP_OR; }
 "NOT"       {printf("Token NOT\n");return OP_NOT; }
 
-<<EOF>>     {printf("Token EOF\n");recorrerLista(&lista); yyterminate();}
+<<EOF>>     {printf("Token EOF\n"); yyterminate();}
 
 {ID}			{ 
     yylval.str_val = strdup(yytext);
@@ -87,8 +85,7 @@ COMENTARIO      "***/"{CADENA}*"/***"
 {CONST_INT}		{
     if(atoi(yytext) >= 0 && atoi(yytext) <= 65535){
         yylval.int_val = atoi(yytext);
-        printf("Token ENTERO(%d)\n",yylval.int_val) ; 
-        //insertarEnTablaDeSimbolos(&lista, NULL, yytext, NULL, NULL);
+        printf("Token ENTERO(%d)\n",yylval.int_val);
         return CONST_INT;
     }
     logError("La constante Integer esta fuera del limite. \n");
@@ -97,8 +94,7 @@ COMENTARIO      "***/"{CADENA}*"/***"
 {CONST_FLOAT} {
     if(atof(yytext) >= 0 && atof(yytext) <= 2147483647){
         yylval.double_val = atof(yytext);
-        printf("Token FLOAT(%f)\n", yylval.double_val) ; 
-        //insertarEnTablaDeSimbolos(&lista, NULL, yytext, NULL,  NULL);
+        printf("Token FLOAT(%f)\n", yylval.double_val);
         return CONST_FLOAT;
     }
     logError("La constante Float esta fuera del limite. \n");
@@ -107,9 +103,7 @@ COMENTARIO      "***/"{CADENA}*"/***"
 {CONST_STR}		{
     if(yyleng <= 32){
         yylval.str_val = strdup(yytext);
-        printf("Token CADENA(%s)\n", yylval.str_val) ;
-        //sprintf(longitudCadena,"%d", yyleng);
-        //insertarEnTablaDeSimbolos(&lista, NULL, yytext, NULL, longitudCadena);
+        printf("Token CADENA(%s)\n", yylval.str_val);
         return CONST_STR;
     }
         logError("La constante String esta fuera del limite. \n");
