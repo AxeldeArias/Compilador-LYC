@@ -1,6 +1,6 @@
-c:\GnuWin32\bin\flex Prueba_Lexico.l
+c:\GnuWin32\bin\flex Lexico.l
 
-c:\GnuWin32\bin\bison -dyv TPFinal2.y
+c:\GnuWin32\bin\bison -dyv Sintactico.y
 
 c:\MinGW\bin\gcc.exe lex.yy.c y.tab.c -o TPFinal.exe
 
