@@ -49,7 +49,10 @@ COMENTARIO      "***/"{CADENA}*"/***"
 "String"    {printf("Token String\n") ;yylval.str_val = strdup( yytext );return TIPO_STRING;}
 
 "="	        {printf("Token =\n"); return OP_ASIG;}
-
+"+="        {printf("Token +=\n"); return OP_ASIG_SUM;}    
+"-="        {printf("Token -=\n"); return OP_ASIG_RES;}
+"*="        {printf("Token *=\n"); return OP_ASIG_MUL;}                                   
+"/="        {printf("Token /=\n"); return OP_ASIG_DIV;}
 "+"			{printf("Token +\n"); return OP_SUMA;}       
 "-"			{printf("Token -\n"); return OP_RESTA;}
 "*"			{printf("Token *\n"); return OP_MUL;}       

@@ -44,7 +44,7 @@ char *str_val;
 %token OP_MUL OP_DIV
 %token OP_IGUAL OP_DISTINTO
 %token OP_MENOR OP_MENOR_IGUAL OP_MAYOR OP_MAYOR_IGUAL 
-
+%token OP_ASIG_SUM OP_ASIG_RES OP_ASIG_MUL OP_ASIG_DIV
 %token LL_A LL_C P_A P_C
 %token PUNTO_COMA 
 %token DOS_PUNTOS
@@ -83,9 +83,10 @@ bloque  : sentencia
 		| bloque sentencia { printf("Regla BLOQUE \n");}
 
 sentencia   : asignacion { printf("Regla SENTENCIA \n");}
+			| asignacion_especial { printf("Regla SENTENCIA \n");}
 			| bloque_if { printf("Regla SENTENCIA \n");}
 			| bloque_while { printf("Regla SENTENCIA \n");}
-			| expresion_aritmetica { printf("Regla SENTENCIA \n");}
+			| expresion { printf("Regla SENTENCIA \n");}
 			| escritura { printf("Regla SENTENCIA \n");}
 			| lectura { printf("Regla SENTENCIA \n");}
 			;
@@ -114,7 +115,7 @@ expresion_logica	: expresion_logica OP_AND termino_logico { printf("Regla EXPRES
 					;
 
 termino_logico	: OP_NOT termino_logico { printf("Regla TERMINO LOGICO \n");}
-				| expresion_aritmetica op_booleano expresion_aritmetica { printf("Regla TERMINO LOGICO \n");}
+				| expresion op_booleano expresion { printf("Regla TERMINO LOGICO \n");}
 				;
 	
 //asignacion 	: ID OP_ASIG asignacion { printf("Regla ASIGNACION \n");}
@@ -124,26 +125,27 @@ termino_logico	: OP_NOT termino_logico { printf("Regla TERMINO LOGICO \n");}
 asignacion 	: ID OP_ASIG expresion { chequearVarEnTabla(&listaSimbolos, $1); printf("Regla ASIGNACION \n");}
 			;
 
-
-expresion	: expresion_aritmetica
-			| expresion_cadena
-			| bloque_if_unario
-			;
-		
-expresion_aritmetica	: termino
-						| expresion_aritmetica OP_SUMA termino { printf("Regla EXPRESION ARITMETICA \n");}
-						| expresion_aritmetica OP_RESTA termino { printf("Regla EXPRESION ARITMETICA \n");}
+asignacion_especial : ID operadores_especiales expresion  { chequearVarEnTabla(&listaSimbolos, $1); 
+															printf("Regla ASIGNACION ESPECIAL\n"); }
+					;
+															
+operadores_especiales   : OP_ASIG_SUM | OP_ASIG_RES | OP_ASIG_MUL | OP_ASIG_DIV
 						;
 
-expresion_cadena	: CONST_STR { lengString = (strlen(yylval.str_val)-2); agregarVarATabla(&listaSimbolos, NULL, yylval.str_val, (int) NULL, lengString); printf("Regla EXPRESION CADENA \n");}
-					;
-			
+		
+expresion	: termino
+			| expresion OP_SUMA termino { printf("Regla EXPRESION ARITMETICA \n");}
+			| expresion OP_RESTA termino { printf("Regla EXPRESION ARITMETICA \n");}
+			| bloque_if_unario
+			;
+
+		
 termino	: termino OP_MUL factor { printf("Regla TERMINO \n");}
 		| termino OP_DIV factor  { printf("Regla TERMINO \n");}
 		| factor
 		;
 			
-factor	: P_A expresion_aritmetica P_C { printf("Regla FACTOR \n");}
+factor	: P_A expresion P_C { printf("Regla FACTOR \n");}
 		;
 
 factor	: ID { chequearVarEnTabla(&listaSimbolos, $1);}
@@ -152,7 +154,7 @@ factor	: ID { chequearVarEnTabla(&listaSimbolos, $1);}
 		;
 
 escritura	: DISPLAY ID { printf("Regla ESCRITURA\n");}
-			| DISPLAY CONST_STR { printf("Regla ESCRITURA\n");}
+			| DISPLAY CONST_STR { lengString = (strlen(yylval.str_val)-2); agregarVarATabla(&listaSimbolos, NULL, yylval.str_val, (int) NULL, lengString); printf("Regla EXPRESION CADENA \n");}
 			;
 
 lectura	: GET ID { printf("Regla LECTURA\n");}
