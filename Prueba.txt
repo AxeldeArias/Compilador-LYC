@@ -6,9 +6,6 @@ ENDDEF
 
 ***/ES UN COMENTARIO REY /*** 
 
-s = "esto es un string"
-s = "sigue siendo un string"
-
 IF(23.3 < a +4){
  a = 5.2+2
 }ELSE{
@@ -16,8 +13,14 @@ IF(23.3 < a +4){
 
 }
 DISPLAY "5"
+DISPLAY "HOLA MUNDO"
+
 WHILE(i < 5){
     GET a
     c = IF (i>5, c+10, c-10)
 }
-c = "tu vieja"
+
+a += 2.3
+b -= 1
+c /= 5
+d *= 5
