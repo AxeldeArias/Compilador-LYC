@@ -1,22 +1,68 @@
-#include "header.h"
-#include "string.h"
+#include "listaHeader.h"
 
 
-void mostrarDato(const t_lex *d)
+void mostrarDato(const tSimbolo *d)
 {
-    printf("Nombre %s\n",d->nombre);
-    printf("Tipo %s\n",d->tipo);
-    printf("Valor %s\n",d->valor);
-    printf("Longitud %s\n\n\n",d->longitud);
+    printf("-----------------------\n");
+    printf("Nombre %s\n", d->nombre);
+    printf("Tipo %s\n", d->tipo);
+    printf("Valor %s\n", d->valor);
+    printf("Longitud %d\n", d->longitud);
+    printf("-----------------------\n");
 }
 
 
 void crearLista(tLista *pl)
 {
-    *pl=NULL;
+    *pl = NULL;
 }
 
+int insertarEnOrden(tLista *pl, const tSimbolo *d)
+{
+    tNodo *nue;
 
+    while(*pl && fCompNombre(&(*pl)->info, d) < 0)
+        pl = &(*pl)->sig;
+    if(*pl && fCompNombre(&(*pl)->info, d) == 0)
+    {
+        return DUPLICADO;
+    }
+    nue = (tNodo*) malloc(sizeof(tNodo));
+    if(!nue)
+        return SIN_MEM;
+    nue->info = *d;
+    nue->sig = *pl;
+    *pl = nue;
+    return TODO_BIEN;
+}
+
+int existeEnLista(tLista *pl, const tSimbolo* d)
+{
+    while(*pl){
+        if(fCompNombre(&(*pl)->info, d) == 0)
+            return EXISTE;
+        pl = &(*pl)->sig;
+    }
+    return NO_EXISTE;
+}
+
+void recorrerLista(tLista *pl)
+{
+    puts("------------------Recorro lista------------------");
+    while(*pl)
+    {
+        mostrarDato(&(*pl)->info);
+        pl = &(*pl)->sig;
+    }
+    puts("------------------Recorro lista------------------");
+}
+
+int fCompNombre(const void *d1, const void *d2)
+{
+    tSimbolo *dato1 = (tSimbolo*)d1;
+    tSimbolo *dato2 = (tSimbolo*)d2;
+    return strcmp(dato1->nombre, dato2->nombre);
+}
 
 // int insertarAlPrincipio(tLista *pl, const t_lex *d)
 // {
@@ -45,25 +91,6 @@ void crearLista(tLista *pl)
 //     *pl=nue;
 //     return TODO_BIEN;
 // }
-
-int insertarEnOrden(tLista *pl, const t_lex *d)
-{
-    tNodo *nue;
-
-    while(*pl && fComp(&(*pl)->info,d)<0)
-        pl=&(*pl)->sig;
-    if(*pl && fComp(&(*pl)->info,d)==0)
-    {
-        return DUPLICADO;
-    }
-    nue=(tNodo*)malloc(sizeof(tNodo));
-    if(!nue)
-        return SIN_MEM;
-    nue->info=*d;
-    nue->sig=*pl;
-    *pl=nue;
-    return TODO_BIEN;
-}
 
 // int eliminarDuplicadosNoOrd(tLista *pl, int(*comparar)(const void*, const void*))
 // {
@@ -226,23 +253,6 @@ int insertarEnOrden(tLista *pl, const t_lex *d)
 // {
 //     return *pl==NULL;
 // }
-
-void recorrerLista(tLista *pl)
-{
-    puts("------------------Recorro lista------------------");
-    while(*pl)
-    {
-        mostrarDato(&(*pl)->info);
-        pl=&(*pl)->sig;
-    }
-}
-
-int fComp(const void *d1, const void *d2)
-{
-    t_lex *dato1=(t_lex*)d1;
-    t_lex *dato2=(t_lex*)d2;
-    return strcmp(dato1->nombre,dato2->nombre);
-}
 
 // void fAcum(void *d1, const void *d2)
 // {

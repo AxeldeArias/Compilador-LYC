@@ -1,0 +1,12 @@
+C:\Users\mprodriguez\Desktop\UNLaM 2020\2020 UNLaM\LyC v2\TP\Compilador-LYC>gcc.exe lex.yy.c y.tab.c -o TP.exe
+Sintactico.y:21:12: error: expected declaration specifiers or '...' before '&' token
+
+C:\Users\mprodriguez\Desktop\UNLaM 2020\2020 UNLaM\LyC v2\TP\Compilador-LYC>TP.exe Prueba.txt
+"TP.exe" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+
+C:\Users\mprodriguez\Desktop\UNLaM 2020\2020 UNLaM\LyC v2\TP\Compilador-LYC>pause
+Presione una tecla para continuar . . .
+
+C:\Users\mprodriguez\Desktop\UNLaM 2020\2020 UNLaM\LyC v2\TP\Compilador-LYC>del lex.yy.c y.tab.c y.output y.tab.h TP.exe
+PS C:\Users\mprodriguez\Desktop\UNLaM 2020\2020 UNLaM\LyC v2\TP\Compilador-LYC>

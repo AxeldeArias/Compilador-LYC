@@ -1,0 +1,18 @@
+NOMBRE                        |TIPODATO                      |VALOR                         |LONGITUD                      
+.........................................................................................................
+_"esto es un string"          |-                             |"esto es un string"           |17                            
+_"sigue siendo un string"     |-                             |"sigue siendo un string"      |22                            
+_"tu vieja"                   |-                             |"tu vieja"                    |8                             
+_10                           |-                             |10                            |-                             
+_2                            |-                             |2                             |-                             
+_23.300000                    |-                             |23.300000                     |-                             
+_4                            |-                             |4                             |-                             
+_5                            |-                             |5                             |-                             
+_5.200000                     |-                             |5.200000                      |-                             
+a                             |Float                         |-                             |-                             
+b                             |Float                         |-                             |-                             
+c                             |Float                         |-                             |-                             
+d                             |Float                         |-                             |-                             
+i                             |Integer                       |-                             |-                             
+s                             |String                        |-                             |-                             
+
