@@ -46,7 +46,6 @@ COMENTARIO      "***/"{CADENA}*"/***"
 
 "Integer"   {printf("Token Integer\n"); yylval.int_val = atoi( yytext ); return TIPO_INTEGER;}
 "Float"     {printf("Token Float\n"); yylval.double_val = atof( yytext );return TIPO_FLOAT;}
-"String"    {printf("Token String\n") ;yylval.str_val = strdup( yytext );return TIPO_STRING;}
 
 "="	        {printf("Token =\n"); return OP_ASIG;}
 "+="        {printf("Token +=\n"); return OP_ASIG_SUM;}    

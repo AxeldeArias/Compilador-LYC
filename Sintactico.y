@@ -33,7 +33,7 @@ char *str_val;
 %token <str_val>CONST_STR
 
 %token DEFVAR ENDDEF
-%token TIPO_INTEGER TIPO_FLOAT TIPO_STRING
+%token TIPO_INTEGER TIPO_FLOAT 
 
 %token WHILE
 %token IF ELSE
@@ -72,7 +72,6 @@ declaracion : tipo_dato DOS_PUNTOS lista_ids  { printf("Regla DECLARACION \n");}
 
 tipo_dato 	: TIPO_INTEGER { tipoId = T_INTEGER;}  { printf("Regla TIPO DECLARACION \n");}
 			| TIPO_FLOAT { tipoId = T_FLOAT;}  { printf("Regla TIPO DECLARACION \n");}
-			| TIPO_STRING { tipoId = T_STRING;}  { printf("Regla TIPO DECLARACION \n");}
 			;
 
 lista_ids	: ID { agregarVarATabla(&listaSimbolos, yylval.str_val, NULL, tipoId, (int) NULL); printf("Regla LISTA IDS \n");}
@@ -118,9 +117,6 @@ termino_logico	: OP_NOT termino_logico { printf("Regla TERMINO LOGICO \n");}
 				| expresion op_booleano expresion { printf("Regla TERMINO LOGICO \n");}
 				;
 	
-//asignacion 	: ID OP_ASIG asignacion { printf("Regla ASIGNACION \n");}
-//				| ID OP_ASIG expresion PUNTO_COMA { printf("Regla ASIGNACION \n");}
-//				;
 
 asignacion 	: ID OP_ASIG expresion { chequearVarEnTabla(&listaSimbolos, $1); printf("Regla ASIGNACION \n");}
 			;
