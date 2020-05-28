@@ -10,9 +10,10 @@ import java.util.LinkedList;
     public static LinkedList<TError> TablaEL = new LinkedList<TError>();
 %}
 
+
 //--------> Directivas
 %public
-%class Analizador_Lexico
+%class AnalizadorLexico
 %cupsym Simbolos
 %cup
 %column
@@ -39,6 +40,8 @@ COMENTARIO = "***/"{CADENA}*"/***"
 
 
 %%
+
+
 /* 3er Area: Reglas Léxicas */
 //--------> Simbolos  
 <YYINITIAL> "IF"	    {System.out.println("Token IF"); return new Symbol(Simbolos.IF,yycolumn,yyline,yytext());}
@@ -129,6 +132,7 @@ COMENTARIO = "***/"{CADENA}*"/***"
 
 //--------> Simbolos Exp Reg
 [\ \t\r\n\f]          {/*Espacios en blanco, se ignoran*/}
+
 
 //--------> Errores Lexicos
 .                   {  System.out.println("Error Léxico"+ yytext()+" Linea"+yyline+" Columna"+yycolumn);

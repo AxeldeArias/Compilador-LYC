@@ -13,7 +13,7 @@ import java_cup.runtime.XMLElement;
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
   */
 @SuppressWarnings({"rawtypes"})
-public class analisis_sintactico extends java_cup.runtime.lr_parser {
+public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
 
  public final Class getSymbolContainer() {
     return Simbolos.class;
@@ -21,14 +21,14 @@ public class analisis_sintactico extends java_cup.runtime.lr_parser {
 
   /** Default constructor. */
   @Deprecated
-  public analisis_sintactico() {super();}
+  public AnalizadorSintactico() {super();}
 
   /** Constructor which sets the default scanner. */
   @Deprecated
-  public analisis_sintactico(java_cup.runtime.Scanner s) {super(s);}
+  public AnalizadorSintactico(java_cup.runtime.Scanner s) {super(s);}
 
   /** Constructor which sets the default scanner. */
-  public analisis_sintactico(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf) {super(s,sf);}
+  public AnalizadorSintactico(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf) {super(s,sf);}
 
   /** Production table. */
   protected static final short _production_table[][] = 
@@ -278,12 +278,12 @@ public class analisis_sintactico extends java_cup.runtime.lr_parser {
   public short[][] reduce_table() {return _reduce_table;}
 
   /** Instance of action encapsulation class. */
-  protected CUP$analisis_sintactico$actions action_obj;
+  protected CUP$AnalizadorSintactico$actions action_obj;
 
   /** Action encapsulation object initializer. */
   protected void init_actions()
     {
-      action_obj = new CUP$analisis_sintactico$actions(this);
+      action_obj = new CUP$AnalizadorSintactico$actions(this);
     }
 
   /** Invoke a user supplied parse action. */
@@ -295,7 +295,7 @@ public class analisis_sintactico extends java_cup.runtime.lr_parser {
     throws java.lang.Exception
   {
     /* call code in generated class */
-    return action_obj.CUP$analisis_sintactico$do_action(act_num, parser, stack, top);
+    return action_obj.CUP$AnalizadorSintactico$do_action(act_num, parser, stack, top);
   }
 
   /** Indicates start state. */
@@ -312,359 +312,359 @@ public class analisis_sintactico extends java_cup.runtime.lr_parser {
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
-class CUP$analisis_sintactico$actions {
+class CUP$AnalizadorSintactico$actions {
 
 
 
-  private final analisis_sintactico parser;
+  private final AnalizadorSintactico parser;
 
   /** Constructor */
-  CUP$analisis_sintactico$actions(analisis_sintactico parser) {
+  CUP$AnalizadorSintactico$actions(AnalizadorSintactico parser) {
     this.parser = parser;
   }
 
   /** Method 0 with the actual generated action code for actions 0 to 300. */
-  public final java_cup.runtime.Symbol CUP$analisis_sintactico$do_action_part00000000(
-    int                        CUP$analisis_sintactico$act_num,
-    java_cup.runtime.lr_parser CUP$analisis_sintactico$parser,
-    java.util.Stack            CUP$analisis_sintactico$stack,
-    int                        CUP$analisis_sintactico$top)
+  public final java_cup.runtime.Symbol CUP$AnalizadorSintactico$do_action_part00000000(
+    int                        CUP$AnalizadorSintactico$act_num,
+    java_cup.runtime.lr_parser CUP$AnalizadorSintactico$parser,
+    java.util.Stack            CUP$AnalizadorSintactico$stack,
+    int                        CUP$AnalizadorSintactico$top)
     throws java.lang.Exception
     {
       /* Symbol object for return from actions */
-      java_cup.runtime.Symbol CUP$analisis_sintactico$result;
+      java_cup.runtime.Symbol CUP$AnalizadorSintactico$result;
 
       /* select the action based on the action number */
-      switch (CUP$analisis_sintactico$act_num)
+      switch (CUP$AnalizadorSintactico$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 0: // $START ::= inicio EOF 
             {
               Object RESULT =null;
-		int start_valleft = ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)).left;
-		int start_valright = ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)).right;
-		Object start_val = (Object)((java_cup.runtime.Symbol) CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)).value;
+		int start_valleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).left;
+		int start_valright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).right;
+		Object start_val = (Object)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).value;
 		RESULT = start_val;
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("$START",0, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("$START",0, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           /* ACCEPT */
-          CUP$analisis_sintactico$parser.done_parsing();
-          return CUP$analisis_sintactico$result;
+          CUP$AnalizadorSintactico$parser.done_parsing();
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 1: // inicio ::= programa 
             {
               Object RESULT =null;
 		/* recorrerLista(&listaSimbolos); guardarTabla(&listaSimbolos); */System.out.println("Regla Compilacion OK");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 2: // programa ::= seccion_declaraciones bloque 
             {
               Object RESULT =null;
 		 System.out.println("Regla PROGRAMA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("programa",1, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("programa",1, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 3: // seccion_declaraciones ::= DEFVAR bloque_declaraciones ENDDEF 
             {
               Object RESULT =null;
 		 System.out.println("Regla SECCION DECLARACION");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("seccion_declaraciones",2, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("seccion_declaraciones",2, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 4: // bloque_declaraciones ::= declaracion 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("bloque_declaraciones",3, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("bloque_declaraciones",3, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 5: // bloque_declaraciones ::= bloque_declaraciones declaracion 
             {
               Object RESULT =null;
 		 System.out.println("Regla BLOQUE DECLARACION");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("bloque_declaraciones",3, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("bloque_declaraciones",3, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 6: // declaracion ::= tipo_dato DOS_PUNTOS lista_ids 
             {
               Object RESULT =null;
 		 System.out.println("Regla DECLARACION");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("declaracion",4, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("declaracion",4, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 7: // tipo_dato ::= TIPO_INTEGER 
             {
               Object RESULT =null;
 		 /*tipoId = T_INTEGER;*/ System.out.println("Regla TIPO DECLARACION");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("tipo_dato",5, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("tipo_dato",5, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 8: // tipo_dato ::= TIPO_FLOAT 
             {
               Object RESULT =null;
 		/* tipoId = T_FLOAT;*/ System.out.println("Regla TIPO DECLARACION");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("tipo_dato",5, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("tipo_dato",5, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 9: // lista_ids ::= ID 
             {
               Object RESULT =null;
 		 /*agregarVarATabla(&listaSimbolos, yylval.str_val, NULL, tipoId, (int) NULL);*/ System.out.println("Regla LISTA IDS");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("lista_ids",6, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("lista_ids",6, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 10: // lista_ids ::= lista_ids PUNTO_COMA ID 
             {
               Object RESULT =null;
 		 /*agregarVarATabla(&listaSimbolos, yylval.str_val, NULL, tipoId, (int) NULL);*/ System.out.println("Regla LISTA IDS");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("lista_ids",6, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("lista_ids",6, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 11: // bloque ::= sentencia 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("bloque",7, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("bloque",7, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 12: // bloque ::= bloque sentencia 
             {
               Object RESULT =null;
 		 System.out.println("Regla BLOQUE");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("bloque",7, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("bloque",7, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 13: // sentencia ::= asignacion 
             {
               Object RESULT =null;
 		 System.out.println("Regla SENTENCIA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 14: // sentencia ::= asignacion_especial 
             {
               Object RESULT =null;
 		 System.out.println("Regla SENTENCIA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 15: // sentencia ::= bloque_if 
             {
               Object RESULT =null;
 		 System.out.println("Regla SENTENCIA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 16: // sentencia ::= bloque_while 
             {
               Object RESULT =null;
 		 System.out.println("Regla SENTENCIA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 17: // sentencia ::= expresion 
             {
               Object RESULT =null;
 		 System.out.println("Regla SENTENCIA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 18: // sentencia ::= escritura 
             {
               Object RESULT =null;
 		 System.out.println("Regla SENTENCIA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 19: // sentencia ::= lectura 
             {
               Object RESULT =null;
 		 System.out.println("Regla SENTENCIA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 20: // bloque_if ::= IF P_A expresion_logica P_C LL_A bloque LL_C 
             {
               Object RESULT =null;
 		 System.out.println("Regla BLOQUE_IF");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("bloque_if",9, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("bloque_if",9, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 21: // bloque_if ::= IF P_A expresion_logica P_C LL_A bloque LL_C ELSE LL_A bloque LL_C 
             {
               Object RESULT =null;
 		 System.out.println("Regla BLOQUE IF ELSE");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("bloque_if",9, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-10)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("bloque_if",9, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-10)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 22: // bloque_if_unario ::= IF P_A expresion_logica COMA expresion COMA expresion P_C 
             {
               Object RESULT =null;
 		 System.out.println("Regla BLOQUE IF UNARIO");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("bloque_if_unario",10, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-7)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("bloque_if_unario",10, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-7)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 23: // bloque_while ::= WHILE P_A expresion_logica P_C LL_A bloque LL_C 
             {
               Object RESULT =null;
 		 System.out.println("Regla BLOQUE_WHILE");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("bloque_while",11, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-6)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("bloque_while",11, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 24: // op_booleano ::= OP_MENOR 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 25: // op_booleano ::= OP_MENOR_IGUAL 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 26: // op_booleano ::= OP_MAYOR 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 27: // op_booleano ::= OP_MAYOR_IGUAL 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 28: // op_booleano ::= OP_IGUAL 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 29: // op_booleano ::= OP_DISTINTO 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",12, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 30: // expresion_logica ::= expresion_logica OP_AND termino_logico 
             {
               Object RESULT =null;
 		 System.out.println("Regla EXPRESION_LOGICA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("expresion_logica",13, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion_logica",13, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 31: // expresion_logica ::= expresion_logica OP_OR termino_logico 
             {
               Object RESULT =null;
 		 System.out.println("Regla EXPRESION_LOGICA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("expresion_logica",13, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion_logica",13, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 32: // expresion_logica ::= termino_logico 
             {
               Object RESULT =null;
 		 System.out.println("Regla EXPRESION_LOGICA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("expresion_logica",13, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion_logica",13, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 33: // termino_logico ::= OP_NOT termino_logico 
             {
               Object RESULT =null;
 		 System.out.println("Regla TERMINO LOGICO");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("termino_logico",14, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino_logico",14, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 34: // termino_logico ::= expresion op_booleano expresion 
             {
               Object RESULT =null;
 		 System.out.println("Regla TERMINO LOGICO");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("termino_logico",14, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino_logico",14, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 35: // asignacion ::= ID OP_ASIG expresion 
             {
               Object RESULT =null;
 		 /*chequearVarEnTabla(&listaSimbolos, $1);*/ System.out.println("Regla ASIGNACION");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("asignacion",15, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("asignacion",15, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 36: // asignacion_especial ::= ID operadores_especiales expresion 
@@ -672,199 +672,199 @@ class CUP$analisis_sintactico$actions {
               Object RESULT =null;
 		 /*chequearVarEnTabla(&listaSimbolos, $1); */
 															System.out.println("Regla ASIGNACION ESPECIA"); 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("asignacion_especial",16, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("asignacion_especial",16, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 37: // operadores_especiales ::= OP_ASIG_SUM 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",17, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",17, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 38: // operadores_especiales ::= OP_ASIG_RES 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",17, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",17, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 39: // operadores_especiales ::= OP_ASIG_MUL 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",17, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",17, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 40: // operadores_especiales ::= OP_ASIG_DIV 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",17, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",17, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 41: // expresion ::= termino 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("expresion",18, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion",18, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 42: // expresion ::= expresion OP_SUMA termino 
             {
               Object RESULT =null;
 		 System.out.println("Regla EXPRESION ARITMETICA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("expresion",18, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion",18, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 43: // expresion ::= expresion OP_RESTA termino 
             {
               Object RESULT =null;
 		 System.out.println("Regla EXPRESION ARITMETICA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("expresion",18, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion",18, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 44: // expresion ::= bloque_if_unario 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("expresion",18, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion",18, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 45: // termino ::= termino OP_MUL factor 
             {
               Object RESULT =null;
 		 System.out.println("Regla TERMINO");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("termino",19, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino",19, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 46: // termino ::= termino OP_DIV factor 
             {
               Object RESULT =null;
 		 System.out.println("Regla TERMINO");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("termino",19, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino",19, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 47: // termino ::= factor 
             {
               Object RESULT =null;
 
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("termino",19, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino",19, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 48: // factor ::= P_A expresion P_C 
             {
               Object RESULT =null;
 		 System.out.println("Regla FACTOR");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("factor",20, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-2)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("factor",20, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 49: // factor ::= ID 
             {
               Object RESULT =null;
 		/* chequearVarEnTabla(&listaSimbolos, $1);*/
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("factor",20, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("factor",20, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 50: // factor ::= CONST_INT 
             {
               Object RESULT =null;
-		int aleft = ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()).left;
-		int aright = ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$analisis_sintactico$stack.peek()).value;
+		int aleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		Object a = (Object)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		 System.out.println(a); /*agregarVarATabla(&listaSimbolos, NULL, valor, (int) NULL, (int) NULL);*/
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("factor",20, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("factor",20, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 51: // factor ::= CONST_FLOAT 
             {
               Object RESULT =null;
-		int aleft = ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()).left;
-		int aright = ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()).right;
-		Object a = (Object)((java_cup.runtime.Symbol) CUP$analisis_sintactico$stack.peek()).value;
+		int aleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		Object a = (Object)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		 System.out.println(a);/* agregarVarATabla(&listaSimbolos, NULL, valor, (int) NULL, (int) NULL );*/
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("factor",20, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("factor",20, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 52: // escritura ::= DISPLAY ID 
             {
               Object RESULT =null;
 		 System.out.println("Regla ESCRITURA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("escritura",21, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("escritura",21, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 53: // escritura ::= DISPLAY CONST_STR 
             {
               Object RESULT =null;
 		 /*lengString = (strlen(yylval.str_val)-2); agregarVarATabla(&listaSimbolos, NULL, yylval.str_val, (int) NULL, lengString); System.out.println("Regla EXPRESION CADENA");*/
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("escritura",21, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("escritura",21, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 54: // lectura ::= GET ID 
             {
               Object RESULT =null;
 		 System.out.println("Regla LECTURA");
-              CUP$analisis_sintactico$result = parser.getSymbolFactory().newSymbol("lectura",22, ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.elementAt(CUP$analisis_sintactico$top-1)), ((java_cup.runtime.Symbol)CUP$analisis_sintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("lectura",22, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
-          return CUP$analisis_sintactico$result;
+          return CUP$AnalizadorSintactico$result;
 
           /* . . . . . .*/
           default:
             throw new Exception(
-               "Invalid action number "+CUP$analisis_sintactico$act_num+"found in internal parse table");
+               "Invalid action number "+CUP$AnalizadorSintactico$act_num+"found in internal parse table");
 
         }
     } /* end of method */
 
   /** Method splitting the generated action code into several parts. */
-  public final java_cup.runtime.Symbol CUP$analisis_sintactico$do_action(
-    int                        CUP$analisis_sintactico$act_num,
-    java_cup.runtime.lr_parser CUP$analisis_sintactico$parser,
-    java.util.Stack            CUP$analisis_sintactico$stack,
-    int                        CUP$analisis_sintactico$top)
+  public final java_cup.runtime.Symbol CUP$AnalizadorSintactico$do_action(
+    int                        CUP$AnalizadorSintactico$act_num,
+    java_cup.runtime.lr_parser CUP$AnalizadorSintactico$parser,
+    java.util.Stack            CUP$AnalizadorSintactico$stack,
+    int                        CUP$AnalizadorSintactico$top)
     throws java.lang.Exception
     {
-              return CUP$analisis_sintactico$do_action_part00000000(
-                               CUP$analisis_sintactico$act_num,
-                               CUP$analisis_sintactico$parser,
-                               CUP$analisis_sintactico$stack,
-                               CUP$analisis_sintactico$top);
+              return CUP$AnalizadorSintactico$do_action_part00000000(
+                               CUP$AnalizadorSintactico$act_num,
+                               CUP$AnalizadorSintactico$parser,
+                               CUP$AnalizadorSintactico$stack,
+                               CUP$AnalizadorSintactico$top);
     }
 }
 
