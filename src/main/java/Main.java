@@ -22,10 +22,12 @@ public class Main {
             AnalizadorLexico lexico = new AnalizadorLexico(new BufferedReader(fr));
             AnalizadorSintactico sintactico = new AnalizadorSintactico(lexico);
             sintactico.parse();
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException e) {
             LOGGER.severe("El archivo no existe");
-        } catch (Exception ex) {
+            e.printStackTrace();
+        } catch (Exception e) {
             LOGGER.severe("Hubo un error");
+            e.printStackTrace();
         }
     }
 }

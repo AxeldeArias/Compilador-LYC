@@ -2,12 +2,11 @@
 package Analizadores;
 import java_cup.runtime.*;
 import java.util.LinkedList;
-
-
+import java.util.List;
 %%
 %{
     //Código de usuario en sintaxis java
-    public static LinkedList<TError> TablaEL = new LinkedList<TError>();
+    public static List<TError> TablaEL = new LinkedList<TError>();
 %}
 
 
@@ -53,8 +52,7 @@ COMENTARIO = "***/"{CADENA}*"/***"
 <YYINITIAL> "GET"       {System.out.println("Token GET"); return new Symbol(Simbolos.GET,yycolumn,yyline,yytext());}
 
 <YYINITIAL> "Integer"   {
-                            System.out.println("Token Integer"); 
-                      
+                            System.out.println("Token Integer");
                             return new Symbol(Simbolos.TIPO_INTEGER,yycolumn,yyline,yytext());
                         }
 <YYINITIAL> "Float"     {
@@ -90,8 +88,6 @@ COMENTARIO = "***/"{CADENA}*"/***"
 <YYINITIAL> "AND"       {System.out.println("Token AND");return new Symbol(Simbolos.OP_AND,yycolumn,yyline,yytext()); }
 <YYINITIAL> "OR"        {System.out.println("Token OR");return new Symbol(Simbolos.OP_OR,yycolumn,yyline,yytext()); }
 <YYINITIAL> "NOT"       {System.out.println("Token NOT");return new Symbol(Simbolos.OP_NOT,yycolumn,yyline,yytext()); }
-
-
 
 
 <YYINITIAL> {ID} {
@@ -135,7 +131,8 @@ COMENTARIO = "***/"{CADENA}*"/***"
 
 
 //--------> Errores Lexicos
-.                   {  System.out.println("Error Léxico"+ yytext()+" Linea"+yyline+" Columna"+yycolumn);
+.                   {
+                        System.out.println("Error Léxico"+ yytext()+" Linea"+yyline+" Columna"+yycolumn);
                         TError datos = new TError(yytext(),yyline,yycolumn,"Error Lexico","No existe el simbolo en el lenguaje");
                         TablaEL.add(datos);
                         System.exit(0);

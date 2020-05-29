@@ -4,11 +4,15 @@ package Analizadores;
 import java_cup.runtime.*;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+import Tabla.*;
+
 //-------> Codigo para el parser, variables, metodos
 
 // ---------> Codigo para las acciones gramaticales
 action code
 {:
+    public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
+    public TipoDato tipoId;
 :}
 
 
@@ -57,9 +61,7 @@ non terminal factor, escritura, lectura ;
 start with inicio;
 
 
-
-
-inicio   ::= programa {:/* recorrerLista(&listaSimbolos); guardarTabla(&listaSimbolos); */System.out.println("Regla Compilacion OK");:};
+inicio   ::= programa {:tablaDeSimbolos.recorrerTabla(); tablaDeSimbolos.guardarTabla(); System.out.println("Regla Compilacion OK");:};
 
 programa	::= seccion_declaraciones bloque {: System.out.println("Regla PROGRAMA");:};
 
@@ -72,12 +74,12 @@ bloque_declaraciones	::= declaracion
 declaracion ::= tipo_dato DOS_PUNTOS lista_ids  {: System.out.println("Regla DECLARACION");:}
 			;
 
-tipo_dato 	::= TIPO_INTEGER {: /*tipoId = T_INTEGER;*/:}  {: System.out.println("Regla TIPO DECLARACION");:}
-			| TIPO_FLOAT {:/* tipoId = T_FLOAT;*/:}  {: System.out.println("Regla TIPO DECLARACION");:}
+tipo_dato 	::= TIPO_INTEGER {: tipoId = TipoDato.T_INTEGER;:}  {: System.out.println("Regla TIPO DECLARACION");:}
+			| TIPO_FLOAT {: tipoId = TipoDato.T_FLOAT;:}  {: System.out.println("Regla TIPO DECLARACION");:}
 			;
 
-lista_ids	::= ID {: /*agregarVarATabla(&listaSimbolos, yylval.str_val, NULL, tipoId, (int) NULL);*/ System.out.println("Regla LISTA IDS");:}
-			| lista_ids PUNTO_COMA ID {: /*agregarVarATabla(&listaSimbolos, yylval.str_val, NULL, tipoId, (int) NULL);*/ System.out.println("Regla LISTA IDS");:}
+lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(String.valueOf(_id), null, tipoId, null); System.out.println("Regla LISTA IDS");:}
+			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(String.valueOf(_id), null, tipoId, null); System.out.println("Regla LISTA IDS");:}
 			;
 
 bloque  ::= sentencia
@@ -120,10 +122,10 @@ termino_logico	::= OP_NOT termino_logico {: System.out.println("Regla TERMINO LO
 				;
 	
 
-asignacion 	::= ID OP_ASIG expresion {: /*chequearVarEnTabla(&listaSimbolos, $1);*/ System.out.println("Regla ASIGNACION");:}
+asignacion 	::= ID:_id OP_ASIG expresion {: tablaDeSimbolos.chequearEnTabla(String.valueOf(_id)); System.out.println("Regla ASIGNACION");:}
 			;
 
-asignacion_especial ::= ID operadores_especiales expresion  {: /*chequearVarEnTabla(&listaSimbolos, $1); */
+asignacion_especial ::= ID:_id operadores_especiales expresion  {: tablaDeSimbolos.chequearEnTabla(String.valueOf(_id));
 															System.out.println("Regla ASIGNACION ESPECIA"); :}
 					;
 															
@@ -146,13 +148,13 @@ termino	::= termino OP_MUL factor {: System.out.println("Regla TERMINO");:}
 factor	::= P_A expresion P_C {: System.out.println("Regla FACTOR");:}
 		;
 
-factor	::= ID {:/* chequearVarEnTabla(&listaSimbolos, $1);*/:}
-		| CONST_INT:a {: System.out.println(a); /*agregarVarATabla(&listaSimbolos, NULL, valor, (int) NULL, (int) NULL);*/:}
-		| CONST_FLOAT:a {: System.out.println(a);/* agregarVarATabla(&listaSimbolos, NULL, valor, (int) NULL, (int) NULL );*/:}	
+factor	::= ID:_id {:tablaDeSimbolos.chequearEnTabla(String.valueOf(_id));:}
+		| CONST_INT:_intVal {: System.out.println(_intVal); tablaDeSimbolos.agregarEnTabla(null, String.valueOf(_intVal), null, null);:}
+		| CONST_FLOAT:_floatVal {: System.out.println(_floatVal); tablaDeSimbolos.agregarEnTabla(null, String.valueOf(_floatVal),null, null);:}
 		;
 
 escritura	::= DISPLAY ID {: System.out.println("Regla ESCRITURA");:}
-			| DISPLAY CONST_STR {: /*lengString = (strlen(yylval.str_val)-2); agregarVarATabla(&listaSimbolos, NULL, yylval.str_val, (int) NULL, lengString); System.out.println("Regla EXPRESION CADENA");*/:}
+			| DISPLAY CONST_STR:_strVal {: tablaDeSimbolos.agregarEnTabla(null, String.valueOf(_strVal), null, String.valueOf(_strVal).length()); System.out.println("Regla EXPRESION CADENA");:}
 			;
 
 lectura	::= GET ID {: System.out.println("Regla LECTURA");:}
