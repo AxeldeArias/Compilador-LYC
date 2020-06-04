@@ -14,7 +14,9 @@ action code
 {:
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public TipoDato tipoId;
-    public Nodo izq, der, raiz;
+    public Nodo nodoInicio, nodoPrograma, nodoBloque, nodoSentencia, 
+               nodoAsignacion, nodoAsignacionEspecial, 
+               nodoExpresion, nodoTermino, nodoFactor;
 :}
 
 
@@ -22,10 +24,10 @@ action code
 //----------> declaracion de terminales
 
 
-terminal ID;
-terminal CONST_INT;
-terminal CONST_FLOAT;
-terminal CONST_STR;
+terminal String ID;
+terminal String CONST_INT;
+terminal String CONST_FLOAT;
+terminal String CONST_STR;
 
 terminal DEFVAR, ENDDEF;
 terminal TIPO_INTEGER, TIPO_FLOAT;
@@ -63,9 +65,9 @@ non terminal factor, escritura, lectura ;
 start with inicio;
 
 
-inicio   ::= programa {:tablaDeSimbolos.recorrerTabla(); tablaDeSimbolos.guardarTabla(); System.out.println("Regla Compilacion OK");:};
+inicio   ::= programa {: nodoInicio = nodoPrograma; tablaDeSimbolos.recorrerTabla(); tablaDeSimbolos.guardarTabla(); System.out.println("Regla Compilacion OK"); nodoPrograma.recorrer();:};
 
-programa	::= seccion_declaraciones bloque {: System.out.println("Regla PROGRAMA");:};
+programa	::= seccion_declaraciones bloque {: nodoPrograma = nodoBloque; :};
 
 seccion_declaraciones 	::= DEFVAR bloque_declaraciones ENDDEF {: System.out.println("Regla SECCION DECLARACION");:};
 
@@ -80,15 +82,16 @@ tipo_dato 	::= TIPO_INTEGER {: tipoId = TipoDato.T_INTEGER;:}  {: System.out.pri
 			| TIPO_FLOAT {: tipoId = TipoDato.T_FLOAT;:}  {: System.out.println("Regla TIPO DECLARACION");:}
 			;
 
-lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(String.valueOf(_id), null, tipoId, null); System.out.println("Regla LISTA IDS");:}
-			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(String.valueOf(_id), null, tipoId, null); System.out.println("Regla LISTA IDS");:}
+lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); System.out.println("Regla LISTA IDS");:}
+			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); System.out.println("Regla LISTA IDS");:}
 			;
 
-bloque  ::= sentencia
-		    | bloque sentencia {: System.out.println("Regla BLOQUE");:};
+bloque  ::= sentencia  {:nodoBloque = nodoSentencia; :}
+		    | bloque sentencia {: nodoBloque = new Nodo("SEPARADOR",nodoBloque, nodoSentencia); :}
+		    ;
 
-sentencia ::= asignacion {: System.out.println("Regla SENTENCIA");:}
-			| asignacion_especial {: System.out.println("Regla SENTENCIA");:}
+sentencia ::= asignacion {: nodoSentencia = nodoAsignacion; :}
+			| asignacion_especial {: nodoSentencia = nodoAsignacionEspecial;:}
 			| bloque_if {: System.out.println("Regla SENTENCIA");:}
 			| bloque_while {: System.out.println("Regla SENTENCIA");:}
 			| expresion {: System.out.println("Regla SENTENCIA");:}
@@ -124,40 +127,52 @@ termino_logico	::= OP_NOT termino_logico {: System.out.println("Regla TERMINO LO
 				;
 	
 
-asignacion 	::= ID:_id OP_ASIG expresion {: tablaDeSimbolos.chequearEnTabla(String.valueOf(_id)); System.out.println("Regla ASIGNACION");:}
+asignacion 	::= ID:_id OP_ASIG expresion {: 
+					tablaDeSimbolos.chequearEnTabla(_id);
+                    nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresion);
+            :}
 			;
 
-asignacion_especial ::= ID:_id operadores_especiales expresion  {: tablaDeSimbolos.chequearEnTabla(String.valueOf(_id));
-															System.out.println("Regla ASIGNACION ESPECIAL"); :}
+asignacion_especial ::= ID:_id operadores_especiales:_operador expresion  {: 
+						tablaDeSimbolos.chequearEnTabla(_id);
+						nodoAsignacionEspecial = new Nodo(String.valueOf(_operador), new Hoja(_id), nodoExpresion);
+					:}
 					;
 															
-operadores_especiales   ::= OP_ASIG_SUM | OP_ASIG_RES | OP_ASIG_MUL | OP_ASIG_DIV
+operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=String.valueOf(_op); :}| OP_ASIG_RES:_op {: RESULT=String.valueOf(_op); :}| OP_ASIG_MUL:_op {: RESULT=String.valueOf(_op); :}| OP_ASIG_DIV:_op {: RESULT=String.valueOf(_op); :}
 						;
 
 		
-expresion	::= termino
-			| expresion OP_SUMA termino {: System.out.println("Regla EXPRESION ARITMETICA");:}
-			| expresion OP_RESTA termino {: System.out.println("Regla EXPRESION ARITMETICA");:}
+expresion	::= termino {: nodoExpresion = nodoTermino; ;:}
+			| expresion OP_SUMA termino {: nodoExpresion = new Nodo("+",nodoExpresion, nodoTermino); :}
+			| expresion OP_RESTA termino {: nodoExpresion = new Nodo("-",nodoExpresion, nodoTermino); :}
 			| bloque_if_unario
 			;
 
 		
-termino	::= termino OP_MUL factor {: System.out.println("Regla TERMINO");:}
-		| termino OP_DIV factor  {: System.out.println("Regla TERMINO");:}
-		| factor
+termino	::= termino OP_MUL factor {: nodoTermino = new Nodo("*",nodoTermino, nodoFactor); :}
+		| termino OP_DIV factor  {: nodoTermino = new Nodo("/",nodoTermino, nodoFactor); :}
+		| factor {: nodoTermino = nodoFactor; :}
 		;
 			
-factor	::= P_A expresion P_C {: System.out.println("Regla FACTOR");:}
+factor	::= P_A expresion P_C {: nodoFactor = nodoExpresion; :}
 		;
 
-factor	::= ID:_id {:tablaDeSimbolos.chequearEnTabla(String.valueOf(_id));:}
-		| CONST_INT:_intVal {: System.out.println(_intVal); tablaDeSimbolos.agregarEnTabla(null, String.valueOf(_intVal), null, null);:}
-		| CONST_FLOAT:_floatVal {: System.out.println(_floatVal); tablaDeSimbolos.agregarEnTabla(null, String.valueOf(_floatVal),null, null);:}
+factor	::= ID:_id {:
+            tablaDeSimbolos.chequearEnTabla(_id);
+            nodoFactor = new Hoja(_id);
+        :}
+		| CONST_INT:_intVal {:
+            tablaDeSimbolos.agregarEnTabla(null, _intVal, null, null);
+            nodoFactor = new Hoja(_intVal);
+
+		:}
+		| CONST_FLOAT:_floatVal {: System.out.println(_floatVal); tablaDeSimbolos.agregarEnTabla(null, _floatVal, null, null);:}
 		;
 
-escritura	::= DISPLAY ID {: System.out.println("Regla ESCRITURA");:}
-			| DISPLAY CONST_STR:_strVal {: tablaDeSimbolos.agregarEnTabla(null, String.valueOf(_strVal), null, String.valueOf(_strVal).length()); System.out.println("Regla EXPRESION CADENA");:}
+escritura	::= DISPLAY ID {: :}
+			| DISPLAY CONST_STR:_strVal {: tablaDeSimbolos.agregarEnTabla(null, _strVal, null, _strVal.length());:}
 			;
 
-lectura	::= GET ID {: System.out.println("Regla LECTURA");:}
+lectura	::= GET ID {: :}
 		;
