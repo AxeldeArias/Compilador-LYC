@@ -5,6 +5,7 @@ import java_cup.runtime.*;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import Tabla.*;
+import Arbol.*;
 
 //-------> Codigo para el parser, variables, metodos
 
@@ -13,6 +14,7 @@ action code
 {:
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public TipoDato tipoId;
+    public Nodo izq, der, raiz;
 :}
 
 
@@ -126,7 +128,7 @@ asignacion 	::= ID:_id OP_ASIG expresion {: tablaDeSimbolos.chequearEnTabla(Stri
 			;
 
 asignacion_especial ::= ID:_id operadores_especiales expresion  {: tablaDeSimbolos.chequearEnTabla(String.valueOf(_id));
-															System.out.println("Regla ASIGNACION ESPECIA"); :}
+															System.out.println("Regla ASIGNACION ESPECIAL"); :}
 					;
 															
 operadores_especiales   ::= OP_ASIG_SUM | OP_ASIG_RES | OP_ASIG_MUL | OP_ASIG_DIV

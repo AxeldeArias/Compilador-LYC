@@ -1,0 +1,6 @@
+DEFVAR
+    Integer: i ; d ;f ;d ;a
+ENDDEF
+if ( a <= d AND (f > 5) OR d == 4 ){
+    a
+}

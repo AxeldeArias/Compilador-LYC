@@ -9,6 +9,7 @@ import java_cup.runtime.*;
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import Tabla.*;
+import Arbol.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -318,6 +319,7 @@ class CUP$AnalizadorSintactico$actions {
 
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public TipoDato tipoId;
+    public Nodo izq, der, raiz;
 
   private final AnalizadorSintactico parser;
 
@@ -686,7 +688,7 @@ class CUP$AnalizadorSintactico$actions {
 		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).right;
 		Object _id = (Object)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
 		 tablaDeSimbolos.chequearEnTabla(String.valueOf(_id));
-															System.out.println("Regla ASIGNACION ESPECIA"); 
+															System.out.println("Regla ASIGNACION ESPECIAL"); 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("asignacion_especial",16, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;

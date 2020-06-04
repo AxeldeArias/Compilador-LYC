@@ -14,7 +14,7 @@ public class TablaDeSimbolos {
     private List<Simbolo> listaDeSimbolos;
 
     public TablaDeSimbolos() {
-        this.listaDeSimbolos = new LinkedList<Simbolo>();
+        this.listaDeSimbolos = new LinkedList<>();
     }
 
     public void agregarEnTabla(String nombre, String valor, TipoDato tipo, Integer longitud) {

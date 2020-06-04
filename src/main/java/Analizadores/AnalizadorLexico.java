@@ -712,7 +712,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { System.out.println("Error Léxico"+ yytext()+" Linea"+yyline+" Columna"+yycolumn);
+            { System.out.println("Error Léxico "+ yytext()+" Linea "+yyline+" Columna "+yycolumn);
                         TError datos = new TError(yytext(),yyline,yycolumn,"Error Lexico","No existe el simbolo en el lenguaje");
                         TablaEL.add(datos);
                         System.exit(0);

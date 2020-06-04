@@ -132,7 +132,7 @@ COMENTARIO = "***/"{CADENA}*"/***"
 
 //--------> Errores Lexicos
 .                   {
-                        System.out.println("Error Léxico"+ yytext()+" Linea"+yyline+" Columna"+yycolumn);
+                        System.out.println("Error Léxico "+ yytext()+" Linea "+yyline+" Columna "+yycolumn);
                         TError datos = new TError(yytext(),yyline,yycolumn,"Error Lexico","No existe el simbolo en el lenguaje");
                         TablaEL.add(datos);
                         System.exit(0);
