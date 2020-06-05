@@ -1,9 +1,10 @@
 DEFVAR 
-    Float : a;b; c;d
+    Float : a;b; c;d;h
     Integer:      i
 ENDDEF
 
 ***/ES UN COMENTARIO REY /*** 
 
 d *= a -3 *2 + 5
-c *= 5 + 2/3
+c /= 5 + 2/3
+h /= 2 - 2* 4* 3
