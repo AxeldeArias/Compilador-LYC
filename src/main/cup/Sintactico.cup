@@ -41,7 +41,7 @@ terminal OP_SUMA, OP_RESTA;
 terminal OP_MUL, OP_DIV;
 terminal OP_IGUAL, OP_DISTINTO;
 terminal OP_MENOR, OP_MENOR_IGUAL, OP_MAYOR, OP_MAYOR_IGUAL;
-terminal OP_ASIG_SUM, OP_ASIG_RES, OP_ASIG_MUL, OP_ASIG_DIV;
+terminal String OP_ASIG_SUM, OP_ASIG_RES, OP_ASIG_MUL, OP_ASIG_DIV;
 terminal LL_A, LL_C, P_A, P_C;
 terminal PUNTO_COMA;
 terminal DOS_PUNTOS;
@@ -55,7 +55,8 @@ non terminal inicio, programa;
 non terminal seccion_declaraciones, bloque_declaraciones, declaracion;
 non terminal tipo_dato, lista_ids, bloque, sentencia, bloque_if, bloque_if_unario ;
 non terminal bloque_while, op_booleano, expresion_logica, termino_logico, asignacion ;
-non terminal asignacion_especial, operadores_especiales, expresion, termino;
+non terminal String operadores_especiales;
+non terminal asignacion_especial, expresion, termino;
 non terminal factor, escritura, lectura ;
 
 //----------> precedencia de menor a mayor
@@ -65,48 +66,49 @@ non terminal factor, escritura, lectura ;
 start with inicio;
 
 
-inicio   ::= programa {: nodoInicio = nodoPrograma; tablaDeSimbolos.recorrerTabla(); tablaDeSimbolos.guardarTabla(); System.out.println("Regla Compilacion OK"); nodoPrograma.recorrer();:};
+inicio   ::= programa {: nodoInicio = nodoPrograma; tablaDeSimbolos.recorrerTabla(); tablaDeSimbolos.guardarTabla(); System.out.println("Regla Compilacion OK");  nodoPrograma.recorrer();:};
 
 programa	::= seccion_declaraciones bloque {: nodoPrograma = nodoBloque; :};
 
-seccion_declaraciones 	::= DEFVAR bloque_declaraciones ENDDEF {: System.out.println("Regla SECCION DECLARACION");:};
+seccion_declaraciones 	::= DEFVAR bloque_declaraciones ENDDEF {: :};
 
 bloque_declaraciones	::= declaracion
-						| bloque_declaraciones declaracion  {: System.out.println("Regla BLOQUE DECLARACION");:}
+						| bloque_declaraciones declaracion  {: :}
 						;
 
-declaracion ::= tipo_dato DOS_PUNTOS lista_ids  {: System.out.println("Regla DECLARACION");:}
+declaracion ::= tipo_dato DOS_PUNTOS lista_ids  {: :}
 			;
 
-tipo_dato 	::= TIPO_INTEGER {: tipoId = TipoDato.T_INTEGER;:}  {: System.out.println("Regla TIPO DECLARACION");:}
-			| TIPO_FLOAT {: tipoId = TipoDato.T_FLOAT;:}  {: System.out.println("Regla TIPO DECLARACION");:}
+tipo_dato 	::= TIPO_INTEGER {: tipoId = TipoDato.T_INTEGER; :}
+			| TIPO_FLOAT {: tipoId = TipoDato.T_FLOAT; :}
 			;
 
-lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); System.out.println("Regla LISTA IDS");:}
-			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); System.out.println("Regla LISTA IDS");:}
+lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); :}
+			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); :}
 			;
 
-bloque  ::= sentencia  {:nodoBloque = nodoSentencia; :}
-		    | bloque sentencia {: nodoBloque = new Nodo("SEPARADOR",nodoBloque, nodoSentencia); :}
+bloque  ::= sentencia  {: nodoBloque = nodoSentencia; :}
+		    | bloque sentencia {: nodoBloque = new Nodo("DELIMITADOR",nodoBloque, nodoSentencia); :}
 		    ;
 
 sentencia ::= asignacion {: nodoSentencia = nodoAsignacion; :}
 			| asignacion_especial {: nodoSentencia = nodoAsignacionEspecial;:}
-			| bloque_if {: System.out.println("Regla SENTENCIA");:}
-			| bloque_while {: System.out.println("Regla SENTENCIA");:}
-			| expresion {: System.out.println("Regla SENTENCIA");:}
-			| escritura {: System.out.println("Regla SENTENCIA");:}
-			| lectura {: System.out.println("Regla SENTENCIA");:}
+			| bloque_if
+			| bloque_while
+			| expresion
+			| escritura
+			| lectura
 			;
 
-bloque_if	::= IF P_A expresion_logica P_C LL_A bloque LL_C {: System.out.println("Regla BLOQUE_IF");:}
+bloque_if	::= IF P_A expresion_logica P_C LL_A bloque LL_C
 			| IF P_A expresion_logica P_C LL_A bloque LL_C
-				ELSE LL_A bloque LL_C {: System.out.println("Regla BLOQUE IF ELSE");:}
+				ELSE LL_A bloque LL_C
 			;
 
-bloque_if_unario	::= IF P_A expresion_logica COMA expresion COMA expresion P_C {: System.out.println("Regla BLOQUE IF UNARIO");:};
+bloque_if_unario	::= IF P_A expresion_logica COMA expresion COMA expresion P_C
+                    ;
 
-bloque_while	::= WHILE P_A expresion_logica P_C LL_A bloque LL_C {: System.out.println("Regla BLOQUE_WHILE");:}
+bloque_while    ::= WHILE P_A expresion_logica P_C LL_A bloque LL_C
 				;
 
 op_booleano 	::= OP_MENOR
@@ -117,13 +119,13 @@ op_booleano 	::= OP_MENOR
 				| OP_DISTINTO
 				;
 
-expresion_logica	::= expresion_logica OP_AND termino_logico {: System.out.println("Regla EXPRESION_LOGICA");:}
-					| expresion_logica OP_OR termino_logico {: System.out.println("Regla EXPRESION_LOGICA");:}
-					| termino_logico {: System.out.println("Regla EXPRESION_LOGICA");:}
+expresion_logica	::= expresion_logica OP_AND termino_logico
+					| expresion_logica OP_OR termino_logico
+					| termino_logico
 					;
 
-termino_logico	::= OP_NOT termino_logico {: System.out.println("Regla TERMINO LOGICO");:}
-				| expresion op_booleano expresion {: System.out.println("Regla TERMINO LOGICO");:}
+termino_logico	::= OP_NOT termino_logico
+				| expresion op_booleano expresion
 				;
 	
 
@@ -135,11 +137,11 @@ asignacion 	::= ID:_id OP_ASIG expresion {:
 
 asignacion_especial ::= ID:_id operadores_especiales:_operador expresion  {: 
 						tablaDeSimbolos.chequearEnTabla(_id);
-						nodoAsignacionEspecial = new Nodo(String.valueOf(_operador), new Hoja(_id), nodoExpresion);
+						nodoAsignacionEspecial = new Nodo(_operador, new Hoja(_id), nodoExpresion);
 					:}
 					;
 															
-operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=String.valueOf(_op); :}| OP_ASIG_RES:_op {: RESULT=String.valueOf(_op); :}| OP_ASIG_MUL:_op {: RESULT=String.valueOf(_op); :}| OP_ASIG_DIV:_op {: RESULT=String.valueOf(_op); :}
+operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=_op; :}| OP_ASIG_RES:_op {: RESULT=_op; :}| OP_ASIG_MUL:_op {: RESULT=_op; :}| OP_ASIG_DIV:_op {: RESULT=_op; :}
 						;
 
 		
@@ -167,7 +169,7 @@ factor	::= ID:_id {:
             nodoFactor = new Hoja(_intVal);
 
 		:}
-		| CONST_FLOAT:_floatVal {: System.out.println(_floatVal); tablaDeSimbolos.agregarEnTabla(null, _floatVal, null, null);:}
+		| CONST_FLOAT:_floatVal {: tablaDeSimbolos.agregarEnTabla(null, _floatVal, null, null);:}
 		;
 
 escritura	::= DISPLAY ID {: :}

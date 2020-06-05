@@ -5,4 +5,5 @@ ENDDEF
 
 ***/ES UN COMENTARIO REY /*** 
 
-d *= 5 /2 + 5 * (2-2)
+d *= a -3 *2 + 5
+c *= 5 + 2/3
