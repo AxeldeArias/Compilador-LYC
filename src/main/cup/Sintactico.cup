@@ -6,12 +6,14 @@ import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import Tabla.*;
 import Arbol.*;
+import java.util.Stack;
 
 //-------> Codigo para el parser, variables, metodos
 
 // ---------> Codigo para las acciones gramaticales
 action code
 {:
+    Stack<Nodo> pilaExpresionIgualAFactor = new Stack<Nodo>();
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public TipoDato tipoId;
     public Nodo nodoInicio, nodoPrograma, nodoBloque, nodoSentencia, 
@@ -51,13 +53,14 @@ terminal DISPLAY;
                               
 
 //----------> declaracion de no terminales
-non terminal inicio, programa;
-non terminal seccion_declaraciones, bloque_declaraciones, declaracion;
-non terminal tipo_dato, lista_ids, bloque, sentencia, bloque_if, bloque_if_unario ;
-non terminal bloque_while, op_booleano, expresion_logica, termino_logico, asignacion ;
+non terminal Symbol inicio, programa,
+             seccion_declaraciones, bloque_declaraciones, declaracion,
+             tipo_dato, lista_ids, bloque, sentencia, bloque_if, bloque_if_unario ,
+             bloque_while, op_booleano, expresion_logica, termino_logico, asignacion ,
+             asignacion_especial, expresion, termino,
+             factor, escritura, lectura ;
 non terminal String operadores_especiales;
-non terminal asignacion_especial, expresion, termino;
-non terminal factor, escritura, lectura ;
+
 
 //----------> precedencia de menor a mayor
 // precedence left OP_SUMA, OP_RESTA;
@@ -68,7 +71,7 @@ start with inicio;
 
 inicio   ::= programa {: nodoInicio = nodoPrograma; tablaDeSimbolos.recorrerTabla(); tablaDeSimbolos.guardarTabla(); System.out.println("Regla Compilacion OK");  nodoPrograma.recorrer();:};
 
-programa	::= seccion_declaraciones bloque {: nodoPrograma = nodoBloque; :};
+programa	::= seccion_declaraciones  bloque {: nodoPrograma = nodoBloque; :};
 
 seccion_declaraciones 	::= DEFVAR bloque_declaraciones ENDDEF {: :};
 
@@ -145,7 +148,7 @@ operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=_op; :}| OP_ASIG_RES:_op {
 						;
 
 		
-expresion	::= termino {: nodoExpresion = nodoTermino; ;:}
+expresion	::= termino {: nodoExpresion = nodoTermino; :}
 			| expresion OP_SUMA termino {: nodoExpresion = new Nodo("+",nodoExpresion, nodoTermino); :}
 			| expresion OP_RESTA termino {: nodoExpresion = new Nodo("-",nodoExpresion, nodoTermino); :}
 			| bloque_if_unario
@@ -157,7 +160,16 @@ termino	::= termino OP_MUL factor {: nodoTermino = new Nodo("*",nodoTermino, nod
 		| factor {: nodoTermino = nodoFactor; :}
 		;
 			
-factor	::= P_A expresion P_C {: nodoFactor = nodoExpresion; :}
+factor	::= P_A {:
+            pilaExpresionIgualAFactor.push(nodoExpresion);
+            pilaExpresionIgualAFactor.push(nodoTermino);
+            RESULT = new Symbol(-1);
+        :} expresion  P_C {:
+            nodoFactor = nodoExpresion;
+            nodoTermino = pilaExpresionIgualAFactor.pop();
+            nodoExpresion= pilaExpresionIgualAFactor.pop();
+            RESULT = new Symbol(-1);
+        :}
 		;
 
 factor	::= ID:_id {:
