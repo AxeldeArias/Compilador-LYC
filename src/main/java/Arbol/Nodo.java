@@ -46,4 +46,11 @@ public class Nodo {
             System.out.print(nodo.getDato() + " ");
         }
     }
+
+    @Override
+    public String toString() {
+        return "Nodo{" +
+                "dato='" + dato + '\'' +
+                '}';
+    }
 }

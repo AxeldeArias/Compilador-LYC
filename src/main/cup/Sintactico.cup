@@ -14,10 +14,13 @@ import java.util.Stack;
 action code
 {:
     Stack<Nodo> pilaExpresionIgualAFactor = new Stack<Nodo>();
+    Stack<Nodo> pilaExpresionExpresion = new Stack<Nodo>();
+    Stack<Nodo> pilaTerminoTermino = new Stack<Nodo>();
+
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public TipoDato tipoId;
     public Nodo nodoInicio, nodoPrograma, nodoBloque, nodoSentencia, 
-               nodoAsignacion, nodoAsignacionEspecial, 
+               nodoAsignacion, nodoAsignacionEspecial, nodoExpresionLogica, nodoTerminoLogico,
                nodoExpresion, nodoTermino, nodoFactor;
 :}
 
@@ -41,8 +44,8 @@ terminal OP_AND, OP_OR, OP_NOT;
 terminal OP_ASIG;
 terminal OP_SUMA, OP_RESTA;
 terminal OP_MUL, OP_DIV;
-terminal OP_IGUAL, OP_DISTINTO;
-terminal OP_MENOR, OP_MENOR_IGUAL, OP_MAYOR, OP_MAYOR_IGUAL;
+terminal String OP_IGUAL, OP_DISTINTO;
+terminal String OP_MENOR, OP_MENOR_IGUAL, OP_MAYOR, OP_MAYOR_IGUAL;
 terminal String OP_ASIG_SUM, OP_ASIG_RES, OP_ASIG_MUL, OP_ASIG_DIV;
 terminal LL_A, LL_C, P_A, P_C;
 terminal PUNTO_COMA;
@@ -56,10 +59,10 @@ terminal DISPLAY;
 non terminal Symbol inicio, programa,
              seccion_declaraciones, bloque_declaraciones, declaracion,
              tipo_dato, lista_ids, bloque, sentencia, bloque_if, bloque_if_unario ,
-             bloque_while, op_booleano, expresion_logica, termino_logico, asignacion ,
+             bloque_while, expresion_logica, termino_logico, asignacion ,
              asignacion_especial, expresion, termino,
              factor, escritura, lectura ;
-non terminal String operadores_especiales;
+non terminal String operadores_especiales, op_booleano;
 
 
 //----------> precedencia de menor a mayor
@@ -69,7 +72,14 @@ non terminal String operadores_especiales;
 start with inicio;
 
 
-inicio   ::= programa {: nodoInicio = nodoPrograma; tablaDeSimbolos.recorrerTabla(); tablaDeSimbolos.guardarTabla(); System.out.println("Regla Compilacion OK");  nodoPrograma.recorrer();:};
+inicio   ::= programa {:
+                            nodoInicio = nodoPrograma;
+                            tablaDeSimbolos.recorrerTabla();
+                            tablaDeSimbolos.guardarTabla();
+                            System.out.println("Regla Compilacion OK");
+                            if(nodoPrograma != null) nodoPrograma.recorrer();
+                            if(nodoExpresionLogica != null) nodoExpresionLogica.recorrer();
+                        :};
 
 programa	::= seccion_declaraciones  bloque {: nodoPrograma = nodoBloque; :};
 
@@ -114,28 +124,42 @@ bloque_if_unario	::= IF P_A expresion_logica COMA expresion COMA expresion P_C
 bloque_while    ::= WHILE P_A expresion_logica P_C LL_A bloque LL_C
 				;
 
-op_booleano 	::= OP_MENOR
-				| OP_MENOR_IGUAL
-				| OP_MAYOR
-				| OP_MAYOR_IGUAL
-				| OP_IGUAL   
-				| OP_DISTINTO
+op_booleano 	::=  OP_MENOR: _opB {:RESULT=_opB; :}
+				| OP_MENOR_IGUAL: _opB {:RESULT=_opB; :}
+				| OP_MAYOR: _opB {:RESULT=_opB; :}
+				| OP_MAYOR_IGUAL: _opB {:RESULT=_opB; :}
+				| OP_IGUAL: _opB {: RESULT=_opB; :}
+				| OP_DISTINTO: _opB {:RESULT=_opB; :}
 				;
 
-expresion_logica	::= expresion_logica OP_AND termino_logico
-					| expresion_logica OP_OR termino_logico
+expresion_logica	::= termino_logico {: pilaTerminoTermino.push(nodoTerminoLogico); RESULT = new Symbol(-1); :}
+                            OP_AND
+                            termino_logico {: Nodo termPila =  pilaTerminoTermino.pop();
+                                    nodoExpresionLogica = new Nodo("AND", termPila, nodoTerminoLogico) ;
+                                :}
+					| termino_logico OP_OR termino_logico
 					| termino_logico
+					|  OP_NOT termino_logico
 					;
 
-termino_logico	::= OP_NOT termino_logico
-				| expresion op_booleano expresion
-				;
+termino_logico	::= expresion {:
+                                System.out.println("\t\tExpresion1: " + nodoExpresion);
+                                pilaExpresionExpresion.push(nodoExpresion);
+                                RESULT = new Symbol(-1);
+                            :}
+                        op_booleano: _operadorB
+                        expresion {:
+                            System.out.println("\t\tExpresion2: " + nodoExpresion);
+                            Nodo expPila = pilaExpresionExpresion.pop();
+                            nodoTerminoLogico = new Nodo(_operadorB, expPila,  nodoExpresion);
+                        :}
+                    ;
 	
 
 asignacion 	::= ID:_id OP_ASIG expresion {: 
-					tablaDeSimbolos.chequearEnTabla(_id);
-                    nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresion);
-            :}
+					                tablaDeSimbolos.chequearEnTabla(_id);
+                                    nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresion);
+                                :}
 			;
 
 asignacion_especial ::= ID:_id operadores_especiales:_operador expresion  {: 
@@ -144,7 +168,10 @@ asignacion_especial ::= ID:_id operadores_especiales:_operador expresion  {:
 					:}
 					;
 															
-operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=_op; :}| OP_ASIG_RES:_op {: RESULT=_op; :}| OP_ASIG_MUL:_op {: RESULT=_op; :}| OP_ASIG_DIV:_op {: RESULT=_op; :}
+operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=_op; :}
+                        | OP_ASIG_RES:_op {: RESULT=_op; :}
+                        | OP_ASIG_MUL:_op {: RESULT=_op; :}
+                        | OP_ASIG_DIV:_op {: RESULT=_op; :}
 						;
 
 		

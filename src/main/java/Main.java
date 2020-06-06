@@ -17,9 +17,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        File archivo = new File("programa.txt");
+//        File archivo = new File("programa.txt");
         String basepath = ".\\src\\resources";
-//        File archivo = new File(basepath + "/test-ExpresionLogica1");
+        File archivo = new File(basepath + "/test-ExpresionLogica1");
 
         FileReader fr;
 
@@ -36,7 +36,8 @@ public class Main {
             e.printStackTrace();
         }
 
- /*       Nodo izq = new Nodo("<", new Hoja("a"), new Hoja("d"));
+ /*
+        Nodo izq = new Nodo("<", new Hoja("a"), new Hoja("d"));
         Nodo der = new Nodo(">", new Hoja("5"), new Hoja("c"));
         Nodo raiz = new Nodo("&&", izq, der);
 

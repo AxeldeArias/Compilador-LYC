@@ -1,6 +1,6 @@
 DEFVAR
-    Integer: i ; d ;f ;d ;a
+    Integer: a; b
 ENDDEF
-if ( a <= d AND (f > 5) OR d == 4 ){
+if ( a <= d AND b == 4  ){
     a
 }
