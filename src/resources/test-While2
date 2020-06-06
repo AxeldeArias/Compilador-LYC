@@ -1,0 +1,6 @@
+DEFVAR
+    Integer: a;c
+ENDDEF
+while ( a < 5) {
+    c + 2
+}

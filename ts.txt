@@ -1,4 +1,5 @@
 NOMBRE                        |TIPODATO                      |VALOR                         |LONGITUD                      
 a                             |-                             |Integer                       |-                             
 b                             |-                             |Integer                       |-                             
--                             |4                             |-                             |-                             
+-                             |2                             |-                             |-                             
+-                             |2                             |-                             |-                             

@@ -16,7 +16,7 @@ public class Main {
 
 //        File archivo = new File("programa.txt");
         String basepath = ".\\src\\resources";
-        File archivo = new File(basepath + "/test-ExpresionLogica1");
+        File archivo = new File(basepath + "/test-If3");
 
         FileReader fr;
 

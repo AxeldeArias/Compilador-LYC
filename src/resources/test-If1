@@ -1,0 +1,8 @@
+DEFVAR
+    Integer: a;b
+ENDDEF
+
+
+if(a!=b) {
+    a = b + 2
+}
