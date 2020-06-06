@@ -11,6 +11,11 @@ public class Nodo {
         this.der = der;
     }
 
+    public Nodo(String dato, Nodo izq) {
+        this.dato = dato;
+        this.izq = izq;
+    }
+
     public String getDato() {
         return dato;
     }
