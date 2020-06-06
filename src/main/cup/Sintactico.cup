@@ -137,9 +137,13 @@ expresion_logica	::= termino_logico {: pilaTerminoTermino.push(nodoTerminoLogico
                             termino_logico {: Nodo termPila =  pilaTerminoTermino.pop();
                                     nodoExpresionLogica = new Nodo("AND", termPila, nodoTerminoLogico) ;
                                 :}
-					| termino_logico OP_OR termino_logico
+					| termino_logico {: pilaTerminoTermino.push(nodoTerminoLogico); RESULT = new Symbol(-1); :}
+					        OP_OR
+					        termino_logico {: Nodo termPila =  pilaTerminoTermino.pop();
+                                    nodoExpresionLogica = new Nodo("OR", termPila, nodoTerminoLogico) ;
+                                :}
 					| termino_logico
-					|  OP_NOT termino_logico
+					|  OP_NOT termino_logico {: nodoExpresionLogica = new Nodo("AUX",new Hoja("NOT"), nodoTerminoLogico) ; :}
 					;
 
 termino_logico	::= expresion {:

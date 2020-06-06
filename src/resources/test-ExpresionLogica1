@@ -1,6 +1,6 @@
 DEFVAR
     Integer: a; b
 ENDDEF
-if ( a <= d AND b == 4  ){
+if ( NOT b == 4  ){
     a
 }
