@@ -24,9 +24,10 @@ action code
     public Nodo nodoInicio, nodoPrograma, nodoBloque, nodoSentencia, 
                nodoAsignacion, nodoAsignacionEspecial, nodoExpresionLogica, nodoTerminoLogico,
                nodoExpresion, nodoTermino, nodoFactor, nodoTerminoLogicoIzq,
-               nodoIf, nodoElse, nodoCuerpoIf,
+               nodoIf, nodoIfUnario, nodoElse, nodoCuerpoIf,
                nodoWhile,
-               nodoDisplay, nodoGet;
+               nodoDisplay, nodoGet,
+               nodoExpresionAsignacion;
 :}
 
 
@@ -42,8 +43,8 @@ parser code
 
         System.out.println("!!!!!!! Error Sintactico !!!!!!! ");
         System.out.println("\t\tLexema: "+lexema);
-        System.out.println("\t\tFila: "+fila);
-        System.out.println("\t\tColumna: "+columna);
+        System.out.println("\t\tFila: "+(fila+1));
+        System.out.println("\t\tColumna: "+(columna+1));
 
 
 
@@ -58,8 +59,8 @@ parser code
 
         System.out.println("!!!!!!! Error Sintactico !!!!!!! ");
         System.out.println("\t\tLexema: "+lexema);
-        System.out.println("\t\tFila: "+fila);
-        System.out.println("\t\tColumna: "+columna);
+        System.out.println("\t\tFila: "+(fila+1));
+        System.out.println("\t\tColumna: "+(columna+1));
 
 
     }
@@ -98,9 +99,9 @@ terminal DISPLAY;
 //----------> declaracion de no terminales
 non terminal Symbol inicio, programa, vacio,
              seccion_declaraciones, bloque_declaraciones, declaracion,
-             tipo_dato, lista_ids, bloque, sentencia, sentencia_if, sentencia_if_unario ,
-             sentencia_if_parte_else, sentencia_while, expresion_logica,
-             termino_logico, asignacion , asignacion_especial,
+             tipo_dato, lista_ids, bloque, sentencia, sentencia_if,
+             sentencia_if_unario ,expresion_asignacion, sentencia_if_parte_else, sentencia_while,
+             expresion_logica, termino_logico, asignacion , asignacion_especial,
              factor, escritura, lectura, expresion, termino ;
 non terminal String operadores_especiales, op_booleano;
 
@@ -184,8 +185,6 @@ sentencia_if_parte_else ::= ELSE LL_A bloque LL_C {:
 vacio ::= {: RESULT = new Symbol(-1); :};
 
 
-sentencia_if_unario	::= IF P_A expresion_logica COMA expresion COMA expresion P_C
-                    ;
 
 sentencia_while    ::= WHILE P_A expresion_logica {:
                                     nivel++;
@@ -194,7 +193,7 @@ sentencia_while    ::= WHILE P_A expresion_logica {:
                                   :} P_C LL_A bloque LL_C {:
                                                 Nodo _nodoBloque = listaBloquesPorNivel.get(nivel);
                                                 Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                                nodoWhile = new Nodo("WHILE", _nodoCondicion, _nodoBloque);;
+                                                nodoWhile = new Nodo("WHILE", _nodoCondicion, _nodoBloque);
                                                 nivel--;
                                                 RESULT = new Symbol(-1);
                                             :}
@@ -232,13 +231,25 @@ termino_logico	::= expresion {:
                         nodoTerminoLogico = new Nodo(_operadorB, nodoExpresionIzq,  nodoExpresion);
                     :}
                     ;
-	
 
-asignacion 	::= ID:_id OP_ASIG expresion {:
-					                tablaDeSimbolos.chequearEnTabla(_id);
-                                    nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresion);
-                                :}
-			;
+asignacion 	::= ID:_id OP_ASIG expresion_asignacion {:
+                tablaDeSimbolos.chequearEnTabla(_id);;
+                nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresionAsignacion);
+              :}
+              ;
+
+expresion_asignacion ::= expresion {: nodoExpresionAsignacion = nodoExpresion; :}
+                        | sentencia_if_unario{: nodoExpresionAsignacion = nodoIfUnario; :};
+
+sentencia_if_unario	::= IF P_A expresion_logica COMA expresion{: pilaMantenerEstadoPorNivel.push(nodoExpresion); RESULT = new Symbol(-1);:} COMA expresion P_C {:
+                                nodoIfUnario = new Nodo("IF-U",
+                                nodoExpresionLogica,
+                                new Nodo("CUERPO",
+                                    pilaMantenerEstadoPorNivel.pop(),
+                                    nodoExpresion)
+                                );
+                          :}
+                    ;
 
 asignacion_especial ::= ID:_id operadores_especiales:_operador expresion  {: 
 						    tablaDeSimbolos.chequearEnTabla(_id);
@@ -256,7 +267,6 @@ operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=_op; :}
 expresion	::= termino {: nodoExpresion = nodoTermino; :}
 			| expresion OP_SUMA termino {: nodoExpresion = new Nodo("+",nodoExpresion, nodoTermino); :}
 			| expresion OP_RESTA termino {: nodoExpresion = new Nodo("-",nodoExpresion, nodoTermino); :}
-			| sentencia_if_unario
 			;
 
 		

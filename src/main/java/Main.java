@@ -16,7 +16,7 @@ public class Main {
 
 //        File archivo = new File("programa.txt");
 
-        String nombreArchivo = ArchivosDePrueba.GET.nombre;
+        String nombreArchivo = ArchivosDePrueba.IF_UNARIO.nombre;
 
         File archivo = new File(nombreArchivo);
 
