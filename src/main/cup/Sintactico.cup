@@ -25,7 +25,8 @@ action code
                nodoAsignacion, nodoAsignacionEspecial, nodoExpresionLogica, nodoTerminoLogico,
                nodoExpresion, nodoTermino, nodoFactor, nodoTerminoLogicoIzq,
                nodoIf, nodoElse, nodoCuerpoIf,
-               nodoWhile;
+               nodoWhile,
+               nodoDisplay, nodoGet;
 :}
 
 
@@ -113,7 +114,7 @@ inicio   ::= programa {:
                     //tablaDeSimbolos.recorrerTabla();
                     tablaDeSimbolos.guardarTabla();
                     System.out.println("Regla Compilacion OK");
-                    //if(nodoPrograma != null) nodoPrograma.recorrer();
+                    if(nodoPrograma != null) nodoPrograma.recorrer();
                 :};
 
 programa	::= seccion_declaraciones  bloque {: nodoPrograma = listaBloquesPorNivel.get(nivel); :};
@@ -135,21 +136,18 @@ lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null);
 			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); :}
 			;
 
-bloque  ::= sentencia  {: listaBloquesPorNivel.put(nivel,nodoSentencia); :}
+bloque  ::= sentencia  {: listaBloquesPorNivel.put(nivel, nodoSentencia); :}
 		    | bloque sentencia {:
-		        listaBloquesPorNivel.put(
-		             nivel,
-		             new Nodo("DELIM",listaBloquesPorNivel.get(nivel), nodoSentencia)
-		        );:}
+		            listaBloquesPorNivel.put(nivel, new Nodo(";;", listaBloquesPorNivel.get(nivel), nodoSentencia));
+                :}
 		    ;
 
 sentencia ::= asignacion {: nodoSentencia = nodoAsignacion; :}
-			| asignacion_especial {: nodoSentencia = nodoAsignacionEspecial;:}
-			| sentencia_if {: nodoSentencia = nodoIf; nivel--;:}
-			| sentencia_while
-			| expresion
-			| escritura
-			| lectura
+			| asignacion_especial {: nodoSentencia = nodoAsignacionEspecial; :}
+			| sentencia_if {: nodoSentencia = nodoIf; nivel--; :}
+			| sentencia_while {: nodoSentencia = nodoWhile; :}
+			| escritura {: nodoSentencia = nodoDisplay; :}
+			| lectura {: nodoSentencia = nodoGet; :}
 			;
 
 sentencia_if ::= IF P_A expresion_logica {:
@@ -168,8 +166,8 @@ sentencia_if ::= IF P_A expresion_logica {:
 sentencia_if_parte_else ::= ELSE LL_A bloque LL_C {:
                                 /*Caso IF Con Else*/
                                 Nodo nodoCuerpoIf = new Nodo ("CUERPO",
-                                    /*parte verdadera*/pilaMantenerEstadoPorNivel.pop(),
-                                    /*parte falsa*/listaBloquesPorNivel.get(nivel)
+                                    pilaMantenerEstadoPorNivel.pop(),           // TRUE
+                                    listaBloquesPorNivel.get(nivel)             // FALSE
                                 );
                                 Nodo nodoCondicion = pilaMantenerEstadoPorNivel.pop();
                                 nodoIf = new Nodo("IF", nodoCondicion, nodoCuerpoIf );
@@ -179,7 +177,7 @@ sentencia_if_parte_else ::= ELSE LL_A bloque LL_C {:
                                 /*Caso IF Sin Else*/
                                 Nodo _nodoBloque = pilaMantenerEstadoPorNivel.pop();
                                 Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                nodoIf = new Nodo("IF", _nodoCondicion , _nodoBloque);
+                                nodoIf = new Nodo("IF", _nodoCondicion, _nodoBloque);
                                 RESULT = new Symbol(-1);
                             :}
                             ;
@@ -190,15 +188,14 @@ sentencia_if_unario	::= IF P_A expresion_logica COMA expresion COMA expresion P_
                     ;
 
 sentencia_while    ::= WHILE P_A expresion_logica {:
+                                    nivel++;
                                     pilaMantenerEstadoPorNivel.push(nodoExpresionLogica);
                                     RESULT = new Symbol(-1);
-                                  :} P_C LL_A bloque {:
-                                                pilaMantenerEstadoPorNivel.push(nodoBloque);
-                                                RESULT = new Symbol(-1);
-                                            :} LL_C {:
-                                                Nodo _nodoBloque = pilaMantenerEstadoPorNivel.pop();
+                                  :} P_C LL_A bloque LL_C {:
+                                                Nodo _nodoBloque = listaBloquesPorNivel.get(nivel);
                                                 Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
                                                 nodoWhile = new Nodo("WHILE", _nodoCondicion, _nodoBloque);;
+                                                nivel--;
                                                 RESULT = new Symbol(-1);
                                             :}
 				    ;
@@ -231,7 +228,8 @@ termino_logico	::= expresion {:
                         pilaMantenerEstadoPorNivel.push(nodoExpresion);
                         RESULT = new Symbol(-1);
                     :} op_booleano: _operadorB expresion {:
-                        nodoTerminoLogico = new Nodo(_operadorB, pilaMantenerEstadoPorNivel.pop(),  nodoExpresion);
+                        Nodo nodoExpresionIzq = pilaMantenerEstadoPorNivel.pop();
+                        nodoTerminoLogico = new Nodo(_operadorB, nodoExpresionIzq,  nodoExpresion);
                     :}
                     ;
 	
@@ -293,9 +291,18 @@ factor	::= ID:_id {:
             :}
 		;
 
-escritura	::= DISPLAY ID {::}
-			| DISPLAY CONST_STR:_strVal {: tablaDeSimbolos.agregarEnTabla(null, _strVal, null, _strVal.length());:}
+escritura	::= DISPLAY ID:_id {:
+                        tablaDeSimbolos.chequearEnTabla(_id);
+                        nodoDisplay = new Nodo("DISPLAY", new Hoja(_id));
+                    :}
+			| DISPLAY CONST_STR:_strVal {:
+			    tablaDeSimbolos.agregarEnTabla(null, _strVal, null, _strVal.length());
+			    nodoDisplay = new Nodo("DISPLAY", new Hoja(_strVal));
+            :}
 			;
 
-lectura	::= GET ID {::}
+lectura	::= GET ID:_id {:
+                tablaDeSimbolos.chequearEnTabla(_id);
+                nodoGet = new Nodo("GET", new Hoja(_id));
+            :}
 		;

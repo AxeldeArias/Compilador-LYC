@@ -1,0 +1,5 @@
+DEFVAR
+    Integer: a
+ENDDEF
+
+GET a

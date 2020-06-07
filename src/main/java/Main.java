@@ -16,9 +16,9 @@ public class Main {
 
 //        File archivo = new File("programa.txt");
 
-        String basepath = ".\\src\\resources";
-        String nombreArchivo = "/test-If3";
-        File archivo = new File(basepath + nombreArchivo);
+        String nombreArchivo = ArchivosDePrueba.GET.nombre;
+
+        File archivo = new File(nombreArchivo);
 
         FileReader fr;
 

@@ -14,6 +14,7 @@ public class Nodo {
     public Nodo(String dato, Nodo izq) {
         this.dato = dato;
         this.izq = izq;
+        this.der = null;
     }
 
     public String getDato() {

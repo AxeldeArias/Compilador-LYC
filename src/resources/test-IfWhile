@@ -1,0 +1,12 @@
+DEFVAR
+    Integer: a;b;c
+ENDDEF
+
+while(1>0){
+    c =54
+}
+
+if(a!=b) {
+    a = b + 2
+}
+

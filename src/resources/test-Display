@@ -1,0 +1,7 @@
+DEFVAR
+    Integer: a
+ENDDEF
+
+DISPLAY a
+
+DISPLAY "Hola display"

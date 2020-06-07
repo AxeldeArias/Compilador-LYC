@@ -1,0 +1,10 @@
+DEFVAR
+    Integer: a;b;c
+ENDDEF
+
+
+if(a!=b) {
+    a = b + 2
+    c= 3*25
+    b = 1 -4
+}

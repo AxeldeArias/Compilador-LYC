@@ -1,0 +1,16 @@
+DEFVAR
+    Integer: a;b;c
+ENDDEF
+
+
+if(a <4 ) {
+    a = 2
+    if(1<(5 * (c-b))){
+        c = 7
+    }
+}
+while(1<9){
+    a = 983
+}
+
+

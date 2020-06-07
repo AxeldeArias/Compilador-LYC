@@ -5,4 +5,11 @@ ENDDEF
 
 if(a!=b) {
     a = b + 2
-}else{ a= c -4}
+
+}
+else{
+    c = b*70
+}
+if(a==0){
+    a = b +15
+}
