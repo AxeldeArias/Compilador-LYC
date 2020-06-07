@@ -233,7 +233,7 @@ termino_logico	::= expresion {:
                     ;
 
 asignacion 	::= ID:_id OP_ASIG expresion_asignacion {:
-                tablaDeSimbolos.chequearEnTabla(_id);;
+                tablaDeSimbolos.chequearEnTabla(_id);
                 nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresionAsignacion);
               :}
               ;
