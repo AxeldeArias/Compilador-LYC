@@ -6,7 +6,9 @@ import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import Tabla.*;
 import Arbol.*;
+import java.util.HashMap;
 import java.util.Stack;
+import java.util.Map;
 
 
 // ---------> Codigo para las acciones gramaticales
@@ -14,7 +16,8 @@ action code
 {:
     Stack<Nodo> pilaExpresionFactor = new Stack<Nodo>();
     Stack<Nodo> pilaMantenerEstadoPorNivel = new Stack<Nodo>();
-    Stack<Nodo> pilaTerminoTermino = new Stack<Nodo>();
+    Map<Integer, Nodo> listaBloquesPorNivel = new HashMap<Integer, Nodo>();
+    Integer nivel = 0;
 
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public TipoDato tipoId;
@@ -25,6 +28,41 @@ action code
                nodoWhile;
 :}
 
+
+parser code
+{:
+
+    //Metodo al que se llama automaticamente ante algun error sintactico
+    public void syntax_error(Symbol s)
+    {
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+
+        System.out.println("!!!!!!! Error Sintactico !!!!!!! ");
+        System.out.println("\t\tLexema: "+lexema);
+        System.out.println("\t\tFila: "+fila);
+        System.out.println("\t\tColumna: "+columna);
+
+
+
+    }
+
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+
+        System.out.println("!!!!!!! Error Sintactico !!!!!!! ");
+        System.out.println("\t\tLexema: "+lexema);
+        System.out.println("\t\tFila: "+fila);
+        System.out.println("\t\tColumna: "+columna);
+
+
+    }
+:}
 
 /*2da Area: Código de Usuario*/
 //----------> declaracion de terminales
@@ -78,7 +116,7 @@ inicio   ::= programa {:
                     //if(nodoPrograma != null) nodoPrograma.recorrer();
                 :};
 
-programa	::= seccion_declaraciones  bloque {: nodoPrograma = nodoBloque; :};
+programa	::= seccion_declaraciones  bloque {: nodoPrograma = listaBloquesPorNivel.get(nivel); :};
 
 seccion_declaraciones 	::= DEFVAR bloque_declaraciones ENDDEF {: :};
 
@@ -97,51 +135,44 @@ lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null);
 			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); :}
 			;
 
-bloque  ::= sentencia  {:
-                nodoBloque = nodoSentencia;
-                System.out.println("\tSENTENCIA: ");
-                nodoSentencia.recorrer();
-                System.out.println("\tPRIMER BLOQUE: ");
-                nodoBloque.recorrer();
-            :}
+bloque  ::= sentencia  {: listaBloquesPorNivel.put(nivel,nodoSentencia); :}
 		    | bloque sentencia {:
-                System.out.println("\n\n\tSENTENCIA NUEVA: ");
-                nodoSentencia.recorrer();
-                System.out.println("\tBLOQUE ANTES: ");
-                nodoBloque.recorrer();
-		        nodoBloque = new Nodo(";;",nodoBloque, nodoSentencia);
-		        System.out.println("\tBLOQUE: ");
-                nodoBloque.recorrer();
-            :}
+		        listaBloquesPorNivel.put(
+		             nivel,
+		             new Nodo("DELIM",listaBloquesPorNivel.get(nivel), nodoSentencia)
+		        );:}
 		    ;
 
-sentencia ::= asignacion {: nodoSentencia = nodoAsignacion;System.out.println("\tASIGNACION: "); :}
+sentencia ::= asignacion {: nodoSentencia = nodoAsignacion; :}
 			| asignacion_especial {: nodoSentencia = nodoAsignacionEspecial;:}
-			| sentencia_if {: nodoSentencia = nodoIf;System.out.println("\tIF: "); :}
-			| sentencia_while {: nodoSentencia = nodoWhile;System.out.println("\tWHILE: "); :}
+			| sentencia_if {: nodoSentencia = nodoIf; nivel--;:}
+			| sentencia_while
+			| expresion
 			| escritura
 			| lectura
 			;
 
 sentencia_if ::= IF P_A expresion_logica {:
-                    /* Apilamos la expresion lógica por hay otra en el proximo bloque.
+                    nivel++;
+                    /* Apilamos la expresion lógica por si hay otra en el proximo bloque.
                      De esta manera no perdemos la referencia */
                     pilaMantenerEstadoPorNivel.push(nodoExpresionLogica);
                     RESULT = new Symbol(-1);
                 :} P_C LL_A bloque {:
                     /*Apilamos por si hay un else*/
-                    pilaMantenerEstadoPorNivel.push(nodoBloque);
+                    pilaMantenerEstadoPorNivel.push(listaBloquesPorNivel.get(nivel));
                     RESULT = new Symbol(-1);
                 :} LL_C sentencia_if_parte_else
                 ;
 
 sentencia_if_parte_else ::= ELSE LL_A bloque LL_C {:
+                                /*Caso IF Con Else*/
                                 Nodo nodoCuerpoIf = new Nodo ("CUERPO",
-                                    pilaMantenerEstadoPorNivel.pop(),       // TRUE
-                                    nodoBloque                              // FALSE
+                                    /*parte verdadera*/pilaMantenerEstadoPorNivel.pop(),
+                                    /*parte falsa*/listaBloquesPorNivel.get(nivel)
                                 );
-                                Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                nodoIf = new Nodo("IF", _nodoCondicion, nodoCuerpoIf );
+                                Nodo nodoCondicion = pilaMantenerEstadoPorNivel.pop();
+                                nodoIf = new Nodo("IF", nodoCondicion, nodoCuerpoIf );
                                 RESULT = new Symbol(-1);
                             :}
                             | vacio {:
@@ -205,7 +236,7 @@ termino_logico	::= expresion {:
                     ;
 	
 
-asignacion 	::= ID:_id OP_ASIG expresion {: 
+asignacion 	::= ID:_id OP_ASIG expresion {:
 					                tablaDeSimbolos.chequearEnTabla(_id);
                                     nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresion);
                                 :}
@@ -261,12 +292,6 @@ factor	::= ID:_id {:
 		        nodoFactor = new Hoja(_floatVal);
             :}
 		;
-
-
-
-
-
-
 
 escritura	::= DISPLAY ID {::}
 			| DISPLAY CONST_STR:_strVal {: tablaDeSimbolos.agregarEnTabla(null, _strVal, null, _strVal.length());:}
