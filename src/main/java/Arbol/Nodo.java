@@ -42,6 +42,7 @@ public class Nodo {
 
     public void recorrer() {
         recorrerPosorden(this);
+        System.out.println("");
     }
 
     public void recorrerPosorden(Nodo nodo) {

@@ -15,8 +15,10 @@ public class Main {
     public static void main(String[] args) {
 
 //        File archivo = new File("programa.txt");
+
         String basepath = ".\\src\\resources";
-        File archivo = new File(basepath + "/test-If3");
+        String nombreArchivo = "/test-If3";
+        File archivo = new File(basepath + nombreArchivo);
 
         FileReader fr;
 
@@ -25,6 +27,7 @@ public class Main {
             AnalizadorLexico lexico = new AnalizadorLexico(new BufferedReader(fr));
             AnalizadorSintactico sintactico = new AnalizadorSintactico(lexico);
             sintactico.parse();
+            LOGGER.info("Corrio " + nombreArchivo);
         } catch (FileNotFoundException e) {
             LOGGER.severe("El archivo no existe");
             e.printStackTrace();

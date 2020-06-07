@@ -72,10 +72,10 @@ start with inicio;
 
 inicio   ::= programa {:
                     nodoInicio = nodoPrograma;
-                    tablaDeSimbolos.recorrerTabla();
+                    //tablaDeSimbolos.recorrerTabla();
                     tablaDeSimbolos.guardarTabla();
                     System.out.println("Regla Compilacion OK");
-                    if(nodoPrograma != null) nodoPrograma.recorrer();
+                    //if(nodoPrograma != null) nodoPrograma.recorrer();
                 :};
 
 programa	::= seccion_declaraciones  bloque {: nodoPrograma = nodoBloque; :};
@@ -97,14 +97,28 @@ lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null);
 			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); :}
 			;
 
-bloque  ::= sentencia  {: nodoBloque = nodoSentencia; :}
-		    | bloque sentencia {: nodoBloque = new Nodo("DELIMITADOR",nodoBloque, nodoSentencia); :}
+bloque  ::= sentencia  {:
+                nodoBloque = nodoSentencia;
+                System.out.println("\tSENTENCIA: ");
+                nodoSentencia.recorrer();
+                System.out.println("\tPRIMER BLOQUE: ");
+                nodoBloque.recorrer();
+            :}
+		    | bloque sentencia {:
+                System.out.println("\tSENTENCIA NUEVA: ");
+                nodoSentencia.recorrer();
+                System.out.println("\tBLOQUE ANTES: ");
+                nodoBloque.recorrer();
+		        nodoBloque = new Nodo(";;",nodoBloque, nodoSentencia);
+		        System.out.println("\tBLOQUE: ");
+                nodoBloque.recorrer();
+            :}
 		    ;
 
-sentencia ::= asignacion {: nodoSentencia = nodoAsignacion; :}
+sentencia ::= asignacion {: nodoSentencia = nodoAsignacion;System.out.println("\tASIGNACION: "); :}
 			| asignacion_especial {: nodoSentencia = nodoAsignacionEspecial;:}
-			| sentencia_if {: nodoSentencia = nodoIf; :}
-			| sentencia_while {: nodoSentencia = nodoWhile; :}
+			| sentencia_if {: nodoSentencia = nodoIf;System.out.println("\tIF: "); :}
+			| sentencia_while {: nodoSentencia = nodoWhile;System.out.println("\tWHILE: "); :}
 			| escritura
 			| lectura
 			;
@@ -126,15 +140,15 @@ sentencia_if_parte_else ::= ELSE LL_A bloque LL_C {:
                                     pilaMantenerEstadoPorNivel.pop(),       // TRUE
                                     nodoBloque     // FALSE
                                 );
-                                Nodo nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                nodoIf = new Nodo("IF", nodoCondicion, nodoCuerpoIf );
+                                Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
+                                nodoIf = new Nodo("IF", _nodoCondicion, nodoCuerpoIf );
                                 RESULT = new Symbol(-1);
                             :}
                             | vacio {:
                                 /*Caso IF Sin Else*/
-                                Nodo nodoBloque = pilaMantenerEstadoPorNivel.pop();
-                                Nodo nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                nodoIf = new Nodo("IF", nodoCondicion , nodoBloque);
+                                Nodo _nodoBloque = pilaMantenerEstadoPorNivel.pop();
+                                Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
+                                nodoIf = new Nodo("IF", _nodoCondicion , _nodoBloque);
                                 RESULT = new Symbol(-1);
                             :}
                             ;
@@ -151,9 +165,9 @@ sentencia_while    ::= WHILE P_A expresion_logica {:
                                                 pilaMantenerEstadoPorNivel.push(nodoBloque);
                                                 RESULT = new Symbol(-1);
                                             :} LL_C {:
-                                                Nodo nodoBloque = pilaMantenerEstadoPorNivel.pop();
-                                                Nodo nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                                nodoWhile = new Nodo("WHILE", nodoCondicion, nodoBloque);
+                                                Nodo _nodoBloque = pilaMantenerEstadoPorNivel.pop();
+                                                Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
+                                                nodoWhile = new Nodo("WHILE", _nodoCondicion, _nodoBloque);;
                                                 RESULT = new Symbol(-1);
                                             :}
 				    ;
@@ -167,31 +181,31 @@ op_booleano 	::=  OP_MENOR: _opB {:RESULT=_opB; :}
 				;
 
 expresion_logica	::= termino_logico {:
-                            nodoTerminoLogicoIzq = nodoTerminoLogico; RESULT = new Symbol(-1);
+                            nodoTerminoLogicoIzq = nodoTerminoLogico;
+                            RESULT = new Symbol(-1);
                         :} OP_AND termino_logico {:
-                                    nodoExpresionLogica = new Nodo("AND", nodoTerminoLogicoIzq, nodoTerminoLogico) ;
-                                :}
+                            nodoExpresionLogica = new Nodo("AND", nodoTerminoLogicoIzq, nodoTerminoLogico);
+                        :}
 					| termino_logico {:
                             nodoTerminoLogicoIzq = nodoTerminoLogico; RESULT = new Symbol(-1);
                         :} OP_OR termino_logico {:
-                                    nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico) ;
-                                :}
+                            nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
+                        :}
 					| termino_logico {: nodoExpresionLogica = nodoTerminoLogico; :}
-					|  OP_NOT termino_logico {: nodoExpresionLogica = new Nodo("NOT",nodoTerminoLogico) ; :}
+					|  OP_NOT termino_logico {: nodoExpresionLogica = new Nodo("NOT", nodoTerminoLogico); :}
 					;
 
 termino_logico	::= expresion {:
                         pilaMantenerEstadoPorNivel.push(nodoExpresion);
                         RESULT = new Symbol(-1);
                     :} op_booleano: _operadorB expresion {:
-                            nodoTerminoLogico = new Nodo(_operadorB, pilaMantenerEstadoPorNivel.pop(),  nodoExpresion);
-                        :}
+                        nodoTerminoLogico = new Nodo(_operadorB, pilaMantenerEstadoPorNivel.pop(),  nodoExpresion);
+                    :}
                     ;
 	
 
 asignacion 	::= ID:_id OP_ASIG expresion {: 
 					                tablaDeSimbolos.chequearEnTabla(_id);
-					                System.out.println("id"+_id);
                                     nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresion);
                                 :}
 			;
@@ -240,9 +254,11 @@ factor	::= ID:_id {:
 		| CONST_INT:_intVal {:
             tablaDeSimbolos.agregarEnTabla(null, _intVal, null, null);
             nodoFactor = new Hoja(_intVal);
-
 		:}
-		| CONST_FLOAT:_floatVal {: tablaDeSimbolos.agregarEnTabla(null, _floatVal, null, null);:}
+		| CONST_FLOAT:_floatVal {:
+		    tablaDeSimbolos.agregarEnTabla(null, _floatVal, null, null);
+		    nodoFactor = new Hoja(_floatVal);
+        :}
 		;
 
 escritura	::= DISPLAY ID {: :}

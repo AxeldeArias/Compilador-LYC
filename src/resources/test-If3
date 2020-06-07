@@ -1,12 +1,12 @@
 DEFVAR
-    Integer: a;b
+    Integer: a;b;c;d
 ENDDEF
 
 
-if(a!=b) {
-    a = b + 2
+if(a != a) {
+    a = b + c
+    a = b - c
+    d = c * b
+    a = b + c
 }
-while( a==b){
- a = b *2
- }
 
