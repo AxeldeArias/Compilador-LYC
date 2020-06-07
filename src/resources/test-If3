@@ -9,4 +9,8 @@ if(a != a) {
     d = c * b
     a = b + c
 }
+while(b < c) {
+    a = b + c
+        a = b - c
+}
 

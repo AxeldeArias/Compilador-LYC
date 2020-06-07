@@ -12,7 +12,7 @@ import java.util.Stack;
 // ---------> Codigo para las acciones gramaticales
 action code
 {:
-    Stack<Nodo> pilaExpresionIgualAFactor = new Stack<Nodo>();
+    Stack<Nodo> pilaExpresionFactor = new Stack<Nodo>();
     Stack<Nodo> pilaMantenerEstadoPorNivel = new Stack<Nodo>();
     Stack<Nodo> pilaTerminoTermino = new Stack<Nodo>();
 
@@ -105,7 +105,7 @@ bloque  ::= sentencia  {:
                 nodoBloque.recorrer();
             :}
 		    | bloque sentencia {:
-                System.out.println("\tSENTENCIA NUEVA: ");
+                System.out.println("\n\n\tSENTENCIA NUEVA: ");
                 nodoSentencia.recorrer();
                 System.out.println("\tBLOQUE ANTES: ");
                 nodoBloque.recorrer();
@@ -138,7 +138,7 @@ sentencia_if ::= IF P_A expresion_logica {:
 sentencia_if_parte_else ::= ELSE LL_A bloque LL_C {:
                                 Nodo nodoCuerpoIf = new Nodo ("CUERPO",
                                     pilaMantenerEstadoPorNivel.pop(),       // TRUE
-                                    nodoBloque     // FALSE
+                                    nodoBloque                              // FALSE
                                 );
                                 Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
                                 nodoIf = new Nodo("IF", _nodoCondicion, nodoCuerpoIf );
@@ -187,7 +187,8 @@ expresion_logica	::= termino_logico {:
                             nodoExpresionLogica = new Nodo("AND", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         :}
 					| termino_logico {:
-                            nodoTerminoLogicoIzq = nodoTerminoLogico; RESULT = new Symbol(-1);
+                            nodoTerminoLogicoIzq = nodoTerminoLogico;
+                            RESULT = new Symbol(-1);
                         :} OP_OR termino_logico {:
                             nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         :}
@@ -236,34 +237,40 @@ termino	::= termino OP_MUL factor {: nodoTermino = new Nodo("*",nodoTermino, nod
 		;
 			
 factor	::= P_A {:
-            pilaExpresionIgualAFactor.push(nodoExpresion);
-            pilaExpresionIgualAFactor.push(nodoTermino);
-            RESULT = new Symbol(-1);
-        :} expresion  P_C {:
-            nodoFactor = nodoExpresion;
-            nodoTermino = pilaExpresionIgualAFactor.pop();
-            nodoExpresion= pilaExpresionIgualAFactor.pop();
-            RESULT = new Symbol(-1);
-        :}
+                pilaExpresionFactor.push(nodoExpresion);
+                pilaExpresionFactor.push(nodoTermino);
+                RESULT = new Symbol(-1);
+            :} expresion  P_C {:
+                nodoFactor = nodoExpresion;
+                nodoTermino = pilaExpresionFactor.pop();
+                nodoExpresion= pilaExpresionFactor.pop();
+                RESULT = new Symbol(-1);
+            :}
 		;
 
 factor	::= ID:_id {:
-            tablaDeSimbolos.chequearEnTabla(_id);
-            nodoFactor = new Hoja(_id);
-        :}
+                tablaDeSimbolos.chequearEnTabla(_id);
+                nodoFactor = new Hoja(_id);
+            :}
 		| CONST_INT:_intVal {:
-            tablaDeSimbolos.agregarEnTabla(null, _intVal, null, null);
-            nodoFactor = new Hoja(_intVal);
-		:}
+                tablaDeSimbolos.agregarEnTabla(null, _intVal, null, null);
+                nodoFactor = new Hoja(_intVal);
+		    :}
 		| CONST_FLOAT:_floatVal {:
-		    tablaDeSimbolos.agregarEnTabla(null, _floatVal, null, null);
-		    nodoFactor = new Hoja(_floatVal);
-        :}
+		        tablaDeSimbolos.agregarEnTabla(null, _floatVal, null, null);
+		        nodoFactor = new Hoja(_floatVal);
+            :}
 		;
 
-escritura	::= DISPLAY ID {: :}
+
+
+
+
+
+
+escritura	::= DISPLAY ID {::}
 			| DISPLAY CONST_STR:_strVal {: tablaDeSimbolos.agregarEnTabla(null, _strVal, null, _strVal.length());:}
 			;
 
-lectura	::= GET ID {: :}
+lectura	::= GET ID {::}
 		;
