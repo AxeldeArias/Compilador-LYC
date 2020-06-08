@@ -43,7 +43,7 @@ public class TablaDeSimbolos {
             });
 
         } catch (Exception e) {
-            LOGGER.severe("Ocurrio un error al guardar el a<rchivo");
+            LOGGER.severe("Ocurrio un error al guardar el archivo");
             e.printStackTrace();
         }
     }

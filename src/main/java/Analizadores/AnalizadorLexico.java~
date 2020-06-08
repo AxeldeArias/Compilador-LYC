@@ -721,14 +721,14 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
           case 2: 
             { Integer constInt = Integer.parseInt(yytext());
     if(constInt >= 0 && constInt <= 65535){
-        System.out.println("Token ENTERO("+constInt+")");
+        /*System.out.println("Token.*");*/
         return new Symbol(Simbolos.CONST_INT,yycolumn,yyline,yytext());
     }
     new TError(yytext(),yyline,yycolumn,"Error Lexico","La constante Integer esta fuera del limite.");
             }
           case 43: break;
           case 3: 
-            { System.out.println("Token ID("+yytext()+")");
+            { /*System.out.println("Token.*");*/
     return new Symbol(Simbolos.ID,yycolumn,yyline,yytext());
             }
           case 44: break;
@@ -737,65 +737,65 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
             }
           case 45: break;
           case 5: 
-            { System.out.println("Token *"); return new Symbol(Simbolos.OP_MUL,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_MUL,yycolumn,yyline,yytext());
             }
           case 46: break;
           case 6: 
-            { System.out.println("Token /"); return new Symbol(Simbolos.OP_DIV,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_DIV,yycolumn,yyline,yytext());
             }
           case 47: break;
           case 7: 
-            { System.out.println("Token ="); return new Symbol(Simbolos.OP_ASIG,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_ASIG,yycolumn,yyline,yytext());
             }
           case 48: break;
           case 8: 
-            { System.out.println("Token +"); return new Symbol(Simbolos.OP_SUMA,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_SUMA,yycolumn,yyline,yytext());
             }
           case 49: break;
           case 9: 
-            { System.out.println("Token -"); return new Symbol(Simbolos.OP_RESTA,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_RESTA,yycolumn,yyline,yytext());
             }
           case 50: break;
           case 10: 
-            { System.out.println("Token <"); return new Symbol(Simbolos.OP_MENOR,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_MENOR,yycolumn,yyline,yytext());
             }
           case 51: break;
           case 11: 
-            { System.out.println("Token >"); return new Symbol(Simbolos.OP_MAYOR,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_MAYOR,yycolumn,yyline,yytext());
             }
           case 52: break;
           case 12: 
-            { System.out.println("Token ("); return new Symbol(Simbolos.P_A,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.P_A,yycolumn,yyline,yytext());
             }
           case 53: break;
           case 13: 
-            { System.out.println("Token )"); return new Symbol(Simbolos.P_C,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.P_C,yycolumn,yyline,yytext());
             }
           case 54: break;
           case 14: 
-            { System.out.println("Token {"); return new Symbol(Simbolos.LL_A,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.LL_A,yycolumn,yyline,yytext());
             }
           case 55: break;
           case 15: 
-            { System.out.println("Token }"); return new Symbol(Simbolos.LL_C,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.LL_C,yycolumn,yyline,yytext());
             }
           case 56: break;
           case 16: 
-            { System.out.println("Token ,"); return new Symbol(Simbolos.COMA,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.COMA,yycolumn,yyline,yytext());
             }
           case 57: break;
           case 17: 
-            { System.out.println("Token ;"); return new Symbol(Simbolos.PUNTO_COMA,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.PUNTO_COMA,yycolumn,yyline,yytext());
             }
           case 58: break;
           case 18: 
-            { System.out.println("Token :"); return new Symbol(Simbolos.DOS_PUNTOS,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.DOS_PUNTOS,yycolumn,yyline,yytext());
             }
           case 59: break;
           case 19: 
             { Double constFloat = Double.parseDouble(yytext());
     if( constFloat >= 0 && constFloat <= 2147483647){
-        System.out.println("Token CONST_FLOAT("+constFloat+")");
+        /*System.out.println("Token.*");*/
         return new Symbol(Simbolos.CONST_FLOAT,yycolumn,yyline,yytext());
     }
     new TError(yytext(),yyline,yycolumn,"Error Lexico","La constante Float esta fuera del limite.");
@@ -804,92 +804,92 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
           case 20: 
             { String constStr = yytext();
     if(constStr.length() <= 32){
-        System.out.println("Token CADENA("+constStr+")");
+        /*System.out.println("Token.*");*/
         return new Symbol(Simbolos.CONST_STR,yycolumn,yyline,yytext());
     }
     new TError(yytext(),yyline,yycolumn,"Error Lexico","La constante String esta fuera del limite.");
             }
           case 61: break;
           case 21: 
-            { System.out.println("Token *="); return new Symbol(Simbolos.OP_ASIG_MUL,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_ASIG_MUL,yycolumn,yyline,yytext());
             }
           case 62: break;
           case 22: 
-            { System.out.println("Token /="); return new Symbol(Simbolos.OP_ASIG_DIV,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_ASIG_DIV,yycolumn,yyline,yytext());
             }
           case 63: break;
           case 23: 
-            { System.out.println("Token IF"); return new Symbol(Simbolos.IF,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.IF,yycolumn,yyline,yytext());
             }
           case 64: break;
           case 24: 
-            { System.out.println("Token OR");return new Symbol(Simbolos.OP_OR,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/return new Symbol(Simbolos.OP_OR,yycolumn,yyline,yytext());
             }
           case 65: break;
           case 25: 
-            { System.out.println("Token =="); return new Symbol(Simbolos.OP_IGUAL,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_IGUAL,yycolumn,yyline,yytext());
             }
           case 66: break;
           case 26: 
-            { System.out.println("Token +="); return new Symbol(Simbolos.OP_ASIG_SUM,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_ASIG_SUM,yycolumn,yyline,yytext());
             }
           case 67: break;
           case 27: 
-            { System.out.println("Token -="); return new Symbol(Simbolos.OP_ASIG_RES,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_ASIG_RES,yycolumn,yyline,yytext());
             }
           case 68: break;
           case 28: 
-            { System.out.println("Token <="); return new Symbol(Simbolos.OP_MENOR_IGUAL,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_MENOR_IGUAL,yycolumn,yyline,yytext());
             }
           case 69: break;
           case 29: 
-            { System.out.println("Token >="); return new Symbol(Simbolos.OP_MAYOR_IGUAL,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_MAYOR_IGUAL,yycolumn,yyline,yytext());
             }
           case 70: break;
           case 30: 
-            { System.out.println("Token !="); return new Symbol(Simbolos.OP_DISTINTO,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_DISTINTO,yycolumn,yyline,yytext());
             }
           case 71: break;
           case 31: 
-            { System.out.println("Token AND");return new Symbol(Simbolos.OP_AND,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/return new Symbol(Simbolos.OP_AND,yycolumn,yyline,yytext());
             }
           case 72: break;
           case 32: 
-            { System.out.println("Token NOT");return new Symbol(Simbolos.OP_NOT,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/return new Symbol(Simbolos.OP_NOT,yycolumn,yyline,yytext());
             }
           case 73: break;
           case 33: 
-            { System.out.println("Token GET"); return new Symbol(Simbolos.GET,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.GET,yycolumn,yyline,yytext());
             }
           case 74: break;
           case 34: 
-            { System.out.println("Token ELSE"); return new Symbol(Simbolos.ELSE,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.ELSE,yycolumn,yyline,yytext());
             }
           case 75: break;
           case 35: 
-            { System.out.println("Token Float");
+            { /*System.out.println("Token.*");*/
                             return new Symbol(Simbolos.TIPO_FLOAT,yycolumn,yyline,yytext());
             }
           case 76: break;
           case 36: 
-            { System.out.println("Token WHILE"); return new Symbol(Simbolos.WHILE,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.WHILE,yycolumn,yyline,yytext());
             }
           case 77: break;
           case 37: 
-            { System.out.println("Token ENDVAR"); return new Symbol(Simbolos.ENDDEF,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.ENDDEF,yycolumn,yyline,yytext());
             }
           case 78: break;
           case 38: 
-            { System.out.println("Token DEFVAR"); return new Symbol(Simbolos.DEFVAR,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.DEFVAR,yycolumn,yyline,yytext());
             }
           case 79: break;
           case 39: 
-            { System.out.println("Token Integer");
+            { /*System.out.println("Token.*");*/
                             return new Symbol(Simbolos.TIPO_INTEGER,yycolumn,yyline,yytext());
             }
           case 80: break;
           case 40: 
-            { System.out.println("Token DISPLAY"); return new Symbol(Simbolos.DISPLAY,yycolumn,yyline,yytext());
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.DISPLAY,yycolumn,yyline,yytext());
             }
           case 81: break;
           case 41: 

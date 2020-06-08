@@ -20,6 +20,8 @@ action code
     Integer nivel = 0;
 
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
+    public Graficador graficador = new Graficador();
+
     public TipoDato tipoId;
     public Nodo nodoInicio, nodoPrograma, nodoBloque, nodoSentencia, 
                nodoAsignacion, nodoAsignacionEspecial, nodoExpresionLogica, nodoTerminoLogico,
@@ -115,7 +117,8 @@ inicio   ::= programa {:
                     //tablaDeSimbolos.recorrerTabla();
                     tablaDeSimbolos.guardarTabla();
                     System.out.println("Regla Compilacion OK");
-                    if(nodoPrograma != null) nodoPrograma.recorrer();
+                    nodoPrograma.recorrer();
+                    graficador.graficarArbol(nodoInicio);
                 :};
 
 programa	::= seccion_declaraciones  bloque {: nodoPrograma = listaBloquesPorNivel.get(nivel); :};

@@ -4,17 +4,24 @@ public class Nodo {
     private String dato;
     private Nodo izq;
     private Nodo der;
+    private Integer id;
+
+    private static Integer ultimoNodo = 0;
 
     public Nodo(String dato, Nodo izq, Nodo der) {
         this.dato = dato;
         this.izq = izq;
         this.der = der;
+        this.id = ultimoNodo;
+        ultimoNodo++;
     }
 
     public Nodo(String dato, Nodo izq) {
         this.dato = dato;
         this.izq = izq;
         this.der = null;
+        this.id = ultimoNodo;
+        ultimoNodo++;
     }
 
     public String getDato() {
@@ -39,6 +46,10 @@ public class Nodo {
 
     public void setDer(Nodo der) {
         this.der = der;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void recorrer() {
