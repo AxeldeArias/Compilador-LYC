@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
 public class Graficador {
@@ -62,7 +61,10 @@ public class Graficador {
 
     public void escribirUrl(BufferedWriter br) throws IOException {
         try {
-            String s = "\n\n#Probar en https://dreampuf.github.io/GraphvizOnline/#" + URLEncoder.encode(codigo, String.valueOf(StandardCharsets.UTF_8));
+            String s = "\n\n#Probar en https://dreampuf.github.io/GraphvizOnline/#" + URLEncoder.encode(
+                    codigo.replaceAll(" ", "@space@"), "UTF-8")
+                    .replaceAll("%40space%40", "%20"
+                    );
             escribirEnArchivo(br, s);
         } catch (UnsupportedEncodingException e) {
             LOGGER.severe("Ocurrio un error al generar el link");

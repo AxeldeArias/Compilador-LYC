@@ -1,38 +1,14 @@
 digraph "arbol" {
 	label="arbol"
-	n16 [label=";;"] ;
-	n6 [label="WHILE"] ;
-	n2 [label=">"] ;
-	n0 [label="1"] ;
-	n1 [label="0"] ;
-	n5 [label=":="] ;
-	n4 [label="c"] ;
-	n3 [label="54"] ;
-	n15 [label="IF"] ;
-	n9 [label="!="] ;
-	n7 [label="a"] ;
-	n8 [label="b"] ;
-	n14 [label=":="] ;
-	n13 [label="a"] ;
-	n12 [label="+"] ;
-	n10 [label="b"] ;
-	n11 [label="2"] ;
-	n16 -> n6
-	n6 -> n2
-	n2 -> n0
-	n2 -> n1
-	n6 -> n5
-	n5 -> n4
-	n5 -> n3
-	n16 -> n15
-	n15 -> n9
-	n9 -> n7
-	n9 -> n8
-	n15 -> n14
-	n14 -> n13
-	n14 -> n12
-	n12 -> n10
-	n12 -> n11
+	n4 [label=";;"] ;
+	n1 [label="DISPLAY"] ;
+	n0 [label="a"] ;
+	n3 [label="DISPLAY"] ;
+	n2 [label="\"Hola display\""] ;
+	n4 -> n1
+	n1 -> n0
+	n4 -> n3
+	n3 -> n2
 }
 
-#Probar en https://dreampuf.github.io/GraphvizOnline/#digraph+%22arbol%22+%7B%0A%09label%3D%22arbol%22%0A%09n16+%5Blabel%3D%22%3B%3B%22%5D+%3B%0A%09n6+%5Blabel%3D%22WHILE%22%5D+%3B%0A%09n2+%5Blabel%3D%22%3E%22%5D+%3B%0A%09n0+%5Blabel%3D%221%22%5D+%3B%0A%09n1+%5Blabel%3D%220%22%5D+%3B%0A%09n5+%5Blabel%3D%22%3A%3D%22%5D+%3B%0A%09n4+%5Blabel%3D%22c%22%5D+%3B%0A%09n3+%5Blabel%3D%2254%22%5D+%3B%0A%09n15+%5Blabel%3D%22IF%22%5D+%3B%0A%09n9+%5Blabel%3D%22%21%3D%22%5D+%3B%0A%09n7+%5Blabel%3D%22a%22%5D+%3B%0A%09n8+%5Blabel%3D%22b%22%5D+%3B%0A%09n14+%5Blabel%3D%22%3A%3D%22%5D+%3B%0A%09n13+%5Blabel%3D%22a%22%5D+%3B%0A%09n12+%5Blabel%3D%22%2B%22%5D+%3B%0A%09n10+%5Blabel%3D%22b%22%5D+%3B%0A%09n11+%5Blabel%3D%222%22%5D+%3B%0A%09n16+-%3E+n6%0A%09n6+-%3E+n2%0A%09n2+-%3E+n0%0A%09n2+-%3E+n1%0A%09n6+-%3E+n5%0A%09n5+-%3E+n4%0A%09n5+-%3E+n3%0A%09n16+-%3E+n15%0A%09n15+-%3E+n9%0A%09n9+-%3E+n7%0A%09n9+-%3E+n8%0A%09n15+-%3E+n14%0A%09n14+-%3E+n13%0A%09n14+-%3E+n12%0A%09n12+-%3E+n10%0A%09n12+-%3E+n11%0A%7D
+#Probar en https://dreampuf.github.io/GraphvizOnline/#digraph%20%22arbol%22%20%7B%0A%09label%3D%22arbol%22%0A%09n4%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%09n1%20%5Blabel%3D%22DISPLAY%22%5D%20%3B%0A%09n0%20%5Blabel%3D%22a%22%5D%20%3B%0A%09n3%20%5Blabel%3D%22DISPLAY%22%5D%20%3B%0A%09n2%20%5Blabel%3D%22%5C%22Hola%20display%5C%22%22%5D%20%3B%0A%09n4%20-%3E%20n1%0A%09n1%20-%3E%20n0%0A%09n4%20-%3E%20n3%0A%09n3%20-%3E%20n2%0A%7D
