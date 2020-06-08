@@ -17,8 +17,8 @@ public class TablaDeSimbolos {
         this.listaDeSimbolos = new LinkedList<>();
     }
 
-    public void agregarEnTabla(String nombre, String valor, TipoDato tipo, Integer longitud) {
-        listaDeSimbolos.add(new Simbolo(nombre, valor, tipo, longitud));
+    public void agregarEnTabla(String nombre, TipoDato tipo, String valor, Integer longitud) {
+        listaDeSimbolos.add(new Simbolo(nombre, tipo, valor, longitud));
     }
 
     public Boolean chequearEnTabla(String nombre) {

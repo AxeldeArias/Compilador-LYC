@@ -136,8 +136,8 @@ tipo_dato 	::= TIPO_INTEGER {: tipoId = TipoDato.T_INTEGER; :}
 			| TIPO_FLOAT {: tipoId = TipoDato.T_FLOAT; :}
 			;
 
-lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); :}
-			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, null, tipoId, null); :}
+lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, tipoId, null, null); :}
+			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, tipoId, null, null); :}
 			;
 
 bloque  ::= sentencia  {: listaBloquesPorNivel.put(nivel, nodoSentencia); :}
@@ -295,11 +295,11 @@ factor	::= ID:_id {:
                 nodoFactor = new Hoja(_id);
             :}
 		| CONST_INT:_intVal {:
-                tablaDeSimbolos.agregarEnTabla(null, _intVal, null, null);
+                tablaDeSimbolos.agregarEnTabla("_"+_intVal, TipoDato.T_INTEGER, _intVal, null);
                 nodoFactor = new Hoja(_intVal);
 		    :}
 		| CONST_FLOAT:_floatVal {:
-		        tablaDeSimbolos.agregarEnTabla(null, _floatVal, null, null);
+		        tablaDeSimbolos.agregarEnTabla("_"+_floatVal, TipoDato.T_FLOAT, _floatVal, null);
 		        nodoFactor = new Hoja(_floatVal);
             :}
 		;
@@ -309,7 +309,7 @@ escritura	::= DISPLAY ID:_id {:
                         nodoDisplay = new Nodo("DISPLAY", new Hoja(_id));
                     :}
 			| DISPLAY CONST_STR:_strVal {:
-			    tablaDeSimbolos.agregarEnTabla(null, _strVal, null, _strVal.length());
+			    tablaDeSimbolos.agregarEnTabla(_strVal, null, null, _strVal.length()-2);
 			    nodoDisplay = new Nodo("DISPLAY", new Hoja(_strVal));
             :}
 			;

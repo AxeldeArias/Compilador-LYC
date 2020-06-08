@@ -6,7 +6,7 @@ public class Simbolo {
     private TipoDato tipo;
     private Integer longitud;
 
-    public Simbolo(String nombre, String valor, TipoDato tipo, Integer longitud) {
+    public Simbolo(String nombre, TipoDato tipo, String valor, Integer longitud) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.valor = valor;
@@ -52,7 +52,7 @@ public class Simbolo {
     @Override
     public String toString() {
         return String.format(
-                "%-30s|%-30s|%-30s|%-30s", orDash(nombre), orDash(valor), orDash(tipo), orDash(longitud)
+                "%-30s|%-30s|%-30s|%-30s", orDash(nombre), orDash(tipo), orDash(valor), orDash(longitud)
         );
     }
 }
