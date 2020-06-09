@@ -309,7 +309,7 @@ escritura	::= DISPLAY ID:_id {:
                         nodoDisplay = new Nodo("DISPLAY", new Hoja(_id));
                     :}
 			| DISPLAY CONST_STR:_strVal {:
-			    tablaDeSimbolos.agregarEnTabla(_strVal, null, null, _strVal.length()-2);
+			    tablaDeSimbolos.agregarEnTabla(_strVal, TipoDato.T_STRING, null, _strVal.length()-2);
 			    nodoDisplay = new Nodo("DISPLAY", new Hoja(_strVal));
             :}
 			;

@@ -14,9 +14,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        File archivo = new File("programa.txt");
+//        File archivo = new File("programa");
 
-        String nombreArchivo = ArchivosDePrueba.DISPLAY.nombre;
+        String nombreArchivo = ArchivosDePrueba.PROGRAMA.nombre;
 
         File archivo = new File(nombreArchivo);
 
