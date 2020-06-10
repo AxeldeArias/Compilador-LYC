@@ -10,7 +10,7 @@ public enum ArchivosDePrueba {
     IF_IN_IF("test-IfInIf"),
     IF_WHILE("test-IfWhile"),
     IF_FACTOR("test-IfFactor"),
-    IF_UNARIO("test-IfUnario"),
+    PROGRAMA("programa"),
 
     DISPLAY("test-Display"),
     GET("test-Get");

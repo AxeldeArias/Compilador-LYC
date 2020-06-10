@@ -18,6 +18,7 @@ action code
     Stack<Nodo> pilaMantenerEstadoPorNivel = new Stack<Nodo>();
     Map<Integer, Nodo> listaBloquesPorNivel = new HashMap<Integer, Nodo>();
     Integer nivel = 0;
+    Boolean notActivado = false;
 
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public Graficador graficador = new Graficador();
@@ -202,12 +203,12 @@ sentencia_while    ::= WHILE P_A expresion_logica {:
                                             :}
 				    ;
 
-op_booleano 	::=  OP_MENOR: _opB {:RESULT=_opB; :}
-				| OP_MENOR_IGUAL: _opB {:RESULT=_opB; :}
-				| OP_MAYOR: _opB {:RESULT=_opB; :}
-				| OP_MAYOR_IGUAL: _opB {:RESULT=_opB; :}
-				| OP_IGUAL: _opB {: RESULT=_opB; :}
-				| OP_DISTINTO: _opB {:RESULT=_opB; :}
+op_booleano 	::=  OP_MENOR: _opB {: RESULT = notActivado? ">" : "<"; :}
+				| OP_MENOR_IGUAL: _opB {: RESULT = notActivado? ">=" : "<="; :}
+				| OP_MAYOR: _opB {: RESULT = notActivado? "<" : ">"; :}
+				| OP_MAYOR_IGUAL: _opB {: RESULT = notActivado? ">=" : "<="; :}
+				| OP_IGUAL: _opB {: RESULT = notActivado? "!==" : "=="; :}
+				| OP_DISTINTO: _opB {:RESULT = notActivado? "==" : "!="; :}
 				;
 
 expresion_logica	::= termino_logico {:
@@ -223,7 +224,7 @@ expresion_logica	::= termino_logico {:
                             nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         :}
 					| termino_logico {: nodoExpresionLogica = nodoTerminoLogico; :}
-					|  OP_NOT termino_logico {: nodoExpresionLogica = new Nodo("NOT", nodoTerminoLogico); :}
+					|  OP_NOT {: notActivado = true;System.out.println("entree"); RESULT = new Symbol(-1); :} termino_logico {: notActivado = false; nodoExpresionLogica = nodoTerminoLogico; :}
 					;
 
 termino_logico	::= expresion {:
