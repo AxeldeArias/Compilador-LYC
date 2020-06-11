@@ -812,7 +812,7 @@ class CUP$AnalizadorSintactico$actions {
           case 38: // NT$5 ::= 
             {
               Symbol RESULT =null;
- notActivado = true;System.out.println("entree"); RESULT = new Symbol(-1); 
+ notActivado = true; RESULT = new Symbol(-1); 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("NT$5",31, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;

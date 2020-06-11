@@ -1,16 +1,15 @@
 package Arbol;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLEncoder;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class Graficador {
 
     public static Logger LOGGER = Logger.getLogger(Graficador.class.getName());
     private String codigo;
+    GraphViz graficador = new GraphViz();
 
     public void escribirEnArchivo(BufferedWriter br, String s) throws IOException {
         br.write(s);
@@ -24,9 +23,8 @@ public class Graficador {
             escribirLabels(arbol);
             escribirRelaciones(arbol);
             codigo += "}";
-            escribirEnArchivo(br, codigo);
             escribirUrl(br);
-
+            escribirEnArchivo(br, codigo);
 
         } catch (Exception e) {
             LOGGER.severe("Ocurrio un error al guardar el archivo");
@@ -34,6 +32,23 @@ public class Graficador {
         }
 
     }
+
+     public static void ejecutarCMD(String cmd){
+        Process p;
+        try {
+          p = Runtime.getRuntime().exec(cmd);
+          p.waitFor();
+          BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+          String line = "";
+          while ((line = reader.readLine())!= null) {
+            System.out.println(line);
+          }
+          reader.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+
 
     public void escribirLabels(Nodo nodo) {
         if (nodo == null)
@@ -61,10 +76,10 @@ public class Graficador {
 
     public void escribirUrl(BufferedWriter br) throws IOException {
         try {
-            String s = "\n\n#Probar en https://dreampuf.github.io/GraphvizOnline/#" + URLEncoder.encode(
+            String s = "#Probar en https://dreampuf.github.io/GraphvizOnline/#" + URLEncoder.encode(
                     codigo.replaceAll(" ", "@space@"), "UTF-8")
                     .replaceAll("%40space%40", "%20"
-                    );
+                    )+"\n";
             escribirEnArchivo(br, s);
         } catch (UnsupportedEncodingException e) {
             LOGGER.severe("Ocurrio un error al generar el link");

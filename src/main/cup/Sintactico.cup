@@ -224,7 +224,7 @@ expresion_logica	::= termino_logico {:
                             nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         :}
 					| termino_logico {: nodoExpresionLogica = nodoTerminoLogico; :}
-					|  OP_NOT {: notActivado = true;System.out.println("entree"); RESULT = new Symbol(-1); :} termino_logico {: notActivado = false; nodoExpresionLogica = nodoTerminoLogico; :}
+					|  OP_NOT {: notActivado = true; RESULT = new Symbol(-1); :} termino_logico {: notActivado = false; nodoExpresionLogica = nodoTerminoLogico; :}
 					;
 
 termino_logico	::= expresion {:
