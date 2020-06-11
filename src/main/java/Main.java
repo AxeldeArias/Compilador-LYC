@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        File archivo = new File("programa");
+//        File archivo = new File("prueba");
 
         String nombreArchivo = ArchivosDePrueba.PROGRAMA.nombre;
 
