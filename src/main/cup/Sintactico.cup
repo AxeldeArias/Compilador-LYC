@@ -20,17 +20,18 @@ action code
     Integer nivel = 0;
     Boolean notActivado = false;
 
+
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public Graficador graficador = new Graficador();
-
+    public String primerIDAsignacion = null;
     public TipoDato tipoId;
-    public Nodo nodoInicio, nodoPrograma, nodoBloque, nodoSentencia, 
+    public Nodo nodoMult, nodoLista, nodoInicio, nodoPrograma, nodoBloque, nodoSentencia,
                nodoAsignacion, nodoAsignacionEspecial, nodoExpresionLogica, nodoTerminoLogico,
                nodoExpresion, nodoTermino, nodoFactor, nodoTerminoLogicoIzq,
                nodoIf, nodoIfUnario, nodoElse, nodoCuerpoIf,
                nodoWhile,
                nodoDisplay, nodoGet,
-               nodoExpresionAsignacion;
+               nodoExpresionAsignacion, nodoValorAux, nodoStart;
 :}
 
 
@@ -76,247 +77,54 @@ parser code
 terminal String ID;
 terminal String CONST_INT;
 terminal String CONST_FLOAT;
-terminal String CONST_STR;
 
-terminal DEFVAR, ENDDEF;
-terminal TIPO_INTEGER, TIPO_FLOAT;
-
-terminal WHILE;
-terminal IF, ELSE;
-terminal OP_AND, OP_OR, OP_NOT;
 
 terminal OP_ASIG;
-terminal OP_SUMA, OP_RESTA;
-terminal OP_MUL, OP_DIV;
-terminal String OP_IGUAL, OP_DISTINTO;
-terminal String OP_MENOR, OP_MENOR_IGUAL, OP_MAYOR, OP_MAYOR_IGUAL;
-terminal String OP_ASIG_SUM, OP_ASIG_RES, OP_ASIG_MUL, OP_ASIG_DIV;
-terminal LL_A, LL_C, P_A, P_C;
-terminal PUNTO_COMA;
-terminal DOS_PUNTOS;
-terminal COMA;
-terminal GET;
-terminal DISPLAY;
+terminal OP_SUMA;
+terminal OP_MUL;
                               
 
 //----------> declaracion de no terminales
-non terminal Symbol inicio, programa, vacio,
-             seccion_declaraciones, bloque_declaraciones, declaracion,
-             tipo_dato, lista_ids, bloque, sentencia, sentencia_if,
-             sentencia_if_unario ,expresion_asignacion, sentencia_if_parte_else, sentencia_while,
-             expresion_logica, termino_logico, asignacion , asignacion_especial,
-             factor, escritura, lectura, expresion, termino ;
-non terminal String operadores_especiales, op_booleano;
+non terminal Symbol s, mult,
+             factor, expresion, termino, lista ;
 
 
 
-start with inicio;
+start with s;
 
 
-inicio   ::= programa {:
-                    nodoInicio = nodoPrograma;
-                    //tablaDeSimbolos.recorrerTabla();
-                    tablaDeSimbolos.guardarTabla();
+s   ::=  mult  {:
+                    nodoStart = nodoMult;
                     System.out.println("Regla Compilacion OK");
-                    nodoPrograma.recorrer();
-                    graficador.graficarArbol(nodoInicio);
+                    nodoStart.recorrer();
+                    graficador.graficarArbol(nodoStart);
                 :};
+mult ::= lista expresion {: nodoMult = nodoLista;nodoValorAux.setDer(nodoExpresion); :};
 
-programa	::= seccion_declaraciones  bloque {: nodoPrograma = listaBloquesPorNivel.get(nivel); :};
+lista ::= lista ID:_id OP_ASIG {: nodoLista = new Nodo(";",nodoLista,new Nodo(":=",new Hoja(_id),new Hoja(primerIDAsignacion)));:};
 
-seccion_declaraciones 	::= DEFVAR bloque_declaraciones ENDDEF {: :};
+lista ::= ID:_id OP_ASIG {:
+            primerIDAsignacion = _id;
+            nodoLista = new Nodo(":=", new Hoja(primerIDAsignacion));
+            nodoValorAux = nodoLista;
+          :};
 
-bloque_declaraciones	::= declaracion
-						| bloque_declaraciones declaracion  {: :}
-						;
-
-declaracion ::= tipo_dato DOS_PUNTOS lista_ids  {: :}
-			;
-
-tipo_dato 	::= TIPO_INTEGER {: tipoId = TipoDato.T_INTEGER; :}
-			| TIPO_FLOAT {: tipoId = TipoDato.T_FLOAT; :}
-			;
-
-lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, tipoId, null, null); :}
-			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, tipoId, null, null); :}
-			;
-
-bloque  ::= sentencia  {: listaBloquesPorNivel.put(nivel, nodoSentencia); :}
-		    | bloque sentencia {:
-		            listaBloquesPorNivel.put(nivel, new Nodo(";;", listaBloquesPorNivel.get(nivel), nodoSentencia));
-                :}
-		    ;
-
-sentencia ::= asignacion {: nodoSentencia = nodoAsignacion; :}
-			| asignacion_especial {: nodoSentencia = nodoAsignacionEspecial; :}
-			| sentencia_if {: nodoSentencia = nodoIf; nivel--; :}
-			| sentencia_while {: nodoSentencia = nodoWhile; :}
-			| escritura {: nodoSentencia = nodoDisplay; :}
-			| lectura {: nodoSentencia = nodoGet; :}
-			;
-
-sentencia_if ::= IF P_A expresion_logica {:
-                    nivel++;
-                    /* Apilamos la expresion lógica por si hay otra en el proximo bloque.
-                     De esta manera no perdemos la referencia */
-                    pilaMantenerEstadoPorNivel.push(nodoExpresionLogica);
-                    RESULT = new Symbol(-1);
-                :} P_C LL_A bloque {:
-                    /*Apilamos por si hay un else*/
-                    pilaMantenerEstadoPorNivel.push(listaBloquesPorNivel.get(nivel));
-                    RESULT = new Symbol(-1);
-                :} LL_C sentencia_if_parte_else
-                ;
-
-sentencia_if_parte_else ::= ELSE LL_A bloque LL_C {:
-                                /*Caso IF Con Else*/
-                                Nodo nodoCuerpoIf = new Nodo ("CUERPO",
-                                    pilaMantenerEstadoPorNivel.pop(),           // TRUE
-                                    listaBloquesPorNivel.get(nivel)             // FALSE
-                                );
-                                Nodo nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                nodoIf = new Nodo("IF", nodoCondicion, nodoCuerpoIf );
-                                RESULT = new Symbol(-1);
-                            :}
-                            | vacio {:
-                                /*Caso IF Sin Else*/
-                                Nodo _nodoBloque = pilaMantenerEstadoPorNivel.pop();
-                                Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                nodoIf = new Nodo("IF", _nodoCondicion, _nodoBloque);
-                                RESULT = new Symbol(-1);
-                            :}
-                            ;
-vacio ::= {: RESULT = new Symbol(-1); :};
-
-
-
-sentencia_while    ::= WHILE P_A expresion_logica {:
-                                    nivel++;
-                                    pilaMantenerEstadoPorNivel.push(nodoExpresionLogica);
-                                    RESULT = new Symbol(-1);
-                                  :} P_C LL_A bloque LL_C {:
-                                                Nodo _nodoBloque = listaBloquesPorNivel.get(nivel);
-                                                Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                                nodoWhile = new Nodo("WHILE", _nodoCondicion, _nodoBloque);
-                                                nivel--;
-                                                RESULT = new Symbol(-1);
-                                            :}
-				    ;
-
-op_booleano 	::=  OP_MENOR: _opB {: RESULT = notActivado? ">" : "<"; :}
-				| OP_MENOR_IGUAL: _opB {: RESULT = notActivado? ">=" : "<="; :}
-				| OP_MAYOR: _opB {: RESULT = notActivado? "<" : ">"; :}
-				| OP_MAYOR_IGUAL: _opB {: RESULT = notActivado? ">=" : "<="; :}
-				| OP_IGUAL: _opB {: RESULT = notActivado? "!==" : "=="; :}
-				| OP_DISTINTO: _opB {:RESULT = notActivado? "==" : "!="; :}
-				;
-
-expresion_logica	::= termino_logico {:
-                            nodoTerminoLogicoIzq = nodoTerminoLogico;
-                            RESULT = new Symbol(-1);
-                        :} OP_AND termino_logico {:
-                            nodoExpresionLogica = new Nodo("AND", nodoTerminoLogicoIzq, nodoTerminoLogico);
-                        :}
-					| termino_logico {:
-                            nodoTerminoLogicoIzq = nodoTerminoLogico;
-                            RESULT = new Symbol(-1);
-                        :} OP_OR termino_logico {:
-                            nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
-                        :}
-					| termino_logico {: nodoExpresionLogica = nodoTerminoLogico; :}
-					|  OP_NOT {: notActivado = true; RESULT = new Symbol(-1); :} termino_logico {: notActivado = false; nodoExpresionLogica = nodoTerminoLogico; :}
-					;
-
-termino_logico	::= expresion {:
-                        pilaMantenerEstadoPorNivel.push(nodoExpresion);
-                        RESULT = new Symbol(-1);
-                    :} op_booleano: _operadorB expresion {:
-                        Nodo nodoExpresionIzq = pilaMantenerEstadoPorNivel.pop();
-                        nodoTerminoLogico = new Nodo(_operadorB, nodoExpresionIzq,  nodoExpresion);
-                    :}
-                    ;
-
-asignacion 	::= ID:_id OP_ASIG expresion_asignacion {:
-                tablaDeSimbolos.chequearEnTabla(_id);
-                nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresionAsignacion);
-              :}
-              ;
-
-expresion_asignacion ::= expresion {: nodoExpresionAsignacion = nodoExpresion; :}
-                        | sentencia_if_unario{: nodoExpresionAsignacion = nodoIfUnario; :};
-
-sentencia_if_unario	::= IF P_A expresion_logica COMA expresion{: pilaMantenerEstadoPorNivel.push(nodoExpresion); RESULT = new Symbol(-1);:} COMA expresion P_C {:
-                                nodoIfUnario = new Nodo("IF-U",
-                                nodoExpresionLogica,
-                                new Nodo("CUERPO",
-                                    pilaMantenerEstadoPorNivel.pop(),
-                                    nodoExpresion)
-                                );
-                          :}
-                    ;
-
-asignacion_especial ::= ID:_id operadores_especiales:_operador expresion  {: 
-						    tablaDeSimbolos.chequearEnTabla(_id);
-						    nodoAsignacionEspecial = new Nodo(_operador, new Hoja(_id), nodoExpresion);
-					    :}
-					;
-															
-operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=_op; :}
-                        | OP_ASIG_RES:_op {: RESULT=_op; :}
-                        | OP_ASIG_MUL:_op {: RESULT=_op; :}
-                        | OP_ASIG_DIV:_op {: RESULT=_op; :}
-						;
-
-		
 expresion	::= termino {: nodoExpresion = nodoTermino; :}
-			| expresion OP_SUMA termino {: nodoExpresion = new Nodo("+",nodoExpresion, nodoTermino); :}
-			| expresion OP_RESTA termino {: nodoExpresion = new Nodo("-",nodoExpresion, nodoTermino); :}
+			| expresion OP_SUMA termino {: nodoExpresion = new Nodo("-",nodoExpresion, nodoTermino); :}
 			;
 
 		
 termino	::= termino OP_MUL factor {: nodoTermino = new Nodo("*",nodoTermino, nodoFactor); :}
-		| termino OP_DIV factor  {: nodoTermino = new Nodo("/",nodoTermino, nodoFactor); :}
 		| factor {: nodoTermino = nodoFactor; :}
 		;
 			
-factor	::= P_A {:
-                pilaExpresionFactor.push(nodoExpresion);
-                pilaExpresionFactor.push(nodoTermino);
-                RESULT = new Symbol(-1);
-            :} expresion  P_C {:
-                nodoFactor = nodoExpresion;
-                nodoTermino = pilaExpresionFactor.pop();
-                nodoExpresion= pilaExpresionFactor.pop();
-                RESULT = new Symbol(-1);
-            :}
-		;
-
 factor	::= ID:_id {:
-                tablaDeSimbolos.chequearEnTabla(_id);
                 nodoFactor = new Hoja(_id);
             :}
 		| CONST_INT:_intVal {:
-                tablaDeSimbolos.agregarEnTabla("_"+_intVal, TipoDato.T_INTEGER, _intVal, null);
                 nodoFactor = new Hoja(_intVal);
 		    :}
 		| CONST_FLOAT:_floatVal {:
-		        tablaDeSimbolos.agregarEnTabla("_"+_floatVal, TipoDato.T_FLOAT, _floatVal, null);
 		        nodoFactor = new Hoja(_floatVal);
-            :}
-		;
-
-escritura	::= DISPLAY ID:_id {:
-                        tablaDeSimbolos.chequearEnTabla(_id);
-                        nodoDisplay = new Nodo("DISPLAY", new Hoja(_id));
-                    :}
-			| DISPLAY CONST_STR:_strVal {:
-			    tablaDeSimbolos.agregarEnTabla(_strVal, TipoDato.T_STRING, null, _strVal.length()-2);
-			    nodoDisplay = new Nodo("DISPLAY", new Hoja(_strVal));
-            :}
-			;
-
-lectura	::= GET ID:_id {:
-                tablaDeSimbolos.chequearEnTabla(_id);
-                nodoGet = new Nodo("GET", new Hoja(_id));
             :}
 		;
