@@ -48,11 +48,17 @@ COMENTARIO = "***/"{CADENA}*"/***"
 <YYINITIAL> "="	        {/*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_ASIG,yycolumn,yyline,yytext());}
 <YYINITIAL> "+"			{/*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_SUMA,yycolumn,yyline,yytext());}
 <YYINITIAL> "*"			{/*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_MUL,yycolumn,yyline,yytext());}
+<YYINITIAL> "("			{/*System.out.println("Token.*");*/ return new Symbol(Simbolos.PAR_A,yycolumn,yyline,yytext());}
+<YYINITIAL> ")"			{/*System.out.println("Token.*");*/ return new Symbol(Simbolos.PAR_C,yycolumn,yyline,yytext());}
+<YYINITIAL> "["			{/*System.out.println("Token.*");*/ return new Symbol(Simbolos.CORCH_A,yycolumn,yyline,yytext());}
+<YYINITIAL> "]"			{/*System.out.println("Token.*");*/ return new Symbol(Simbolos.CORCH_C,yycolumn,yyline,yytext());}
+<YYINITIAL> ";"			{/*System.out.println("Token.*");*/ return new Symbol(Simbolos.PYC,yycolumn,yyline,yytext());}
+<YYINITIAL> "TAKE"		{System.out.println("TAKE.*"); return new Symbol(Simbolos.TAKE,yycolumn,yyline,yytext());}
 
 
 
 <YYINITIAL> {ID} {
-    /*System.out.println("Token.*");*/
+    System.out.println("Token.ID");
     return new Symbol(Simbolos.ID,yycolumn,yyline,yytext());
 }
 

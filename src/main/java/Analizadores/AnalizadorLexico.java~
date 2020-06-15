@@ -36,10 +36,12 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\4\1\13\1\14\1\13\1\13\22\0\1\4\3\3\2\3"+
-    "\1\0\3\3\1\7\1\12\1\3\1\3\1\5\1\10\12\1\3\3"+
-    "\1\11\2\3\1\3\32\2\1\3\1\3\2\3\1\6\1\0\32\2"+
-    "\3\3\1\3\6\0\1\14\u1fa2\0\1\14\1\14\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
+    "\11\0\1\4\1\25\1\26\1\25\1\25\22\0\1\4\3\3\2\3"+
+    "\1\0\1\3\1\13\1\14\1\7\1\12\1\3\1\3\1\5\1\10"+
+    "\12\1\1\3\1\17\1\3\1\11\2\3\1\3\1\21\3\2\1\24"+
+    "\5\2\1\23\10\2\1\20\6\2\1\15\1\3\1\16\1\3\1\6"+
+    "\1\0\1\21\3\2\1\24\5\2\1\23\10\2\1\20\6\2\3\3"+
+    "\1\3\6\0\1\26\u1fa2\0\1\26\1\26\u0100\0\1\22\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udee5\0";
 
   /** 
    * Translates characters to character classes
@@ -53,10 +55,11 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\6\0\1\11";
+    "\1\10\1\11\1\12\1\13\1\14\1\3\1\15\1\0"+
+    "\1\3\2\0\1\3\1\0\2\16\3\0\1\17";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[16];
+    int [] result = new int[27];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -81,11 +84,13 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\15\0\32\0\47\0\15\0\64\0\15\0\15"+
-    "\0\101\0\116\0\133\0\150\0\165\0\202\0\217\0\150";
+    "\0\0\0\27\0\56\0\105\0\27\0\134\0\27\0\27"+
+    "\0\27\0\27\0\27\0\27\0\27\0\163\0\212\0\241"+
+    "\0\270\0\317\0\346\0\375\0\u0114\0\27\0\105\0\u012b"+
+    "\0\u0142\0\u0159\0\u0114";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[16];
+    int [] result = new int[27];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -109,14 +114,21 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\4\1\2\1\5\2\2\1\6\1\2"+
-    "\1\7\1\10\1\5\17\0\1\3\3\0\1\11\10\0"+
-    "\2\4\3\0\1\4\15\0\1\12\6\0\1\11\22\0"+
-    "\1\13\15\0\1\14\5\0\7\14\1\15\2\14\3\0"+
-    "\6\14\1\16\1\15\2\14\3\0\6\14\1\17\1\15"+
-    "\2\14\3\0\6\14\1\20\1\15\2\14\2\0";
+    "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\1\4\1\2\2\4\1\5\31\0\1\3\3\0\1\17"+
+    "\22\0\2\4\3\0\1\4\11\0\2\4\1\0\2\4"+
+    "\11\0\1\20\20\0\2\4\3\0\1\4\11\0\1\4"+
+    "\1\21\1\0\2\4\3\0\1\17\34\0\1\22\20\0"+
+    "\2\4\3\0\1\4\11\0\2\4\1\23\1\24\1\4"+
+    "\12\0\1\25\42\0\1\26\3\0\2\4\3\0\1\4"+
+    "\11\0\2\4\1\0\1\4\1\27\3\0\7\25\1\30"+
+    "\11\25\1\0\2\25\3\0\6\25\1\31\1\30\11\25"+
+    "\1\0\2\25\3\0\6\25\1\32\1\30\11\25\1\0"+
+    "\2\25\3\0\6\25\1\33\1\30\11\25\1\0\2\25"+
+    "\2\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[156];
+    int [] result = new int[368];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -154,11 +166,11 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\2\1\1\11\1\1\2\11\1\1\6\0"+
-    "\1\1";
+    "\1\0\1\11\2\1\1\11\1\1\7\11\2\1\1\0"+
+    "\1\1\2\0\1\1\1\0\1\11\1\1\3\0\1\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[16];
+    int [] result = new int[27];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -258,7 +270,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 108) {
+    while (i < 150) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -627,7 +639,7 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
                         TablaEL.add(datos);
                         System.exit(0);
             }
-          case 10: break;
+          case 16: break;
           case 2: 
             { Integer constInt = Integer.parseInt(yytext());
     if(constInt >= 0 && constInt <= 65535){
@@ -636,29 +648,49 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
     }
     new TError(yytext(),yyline,yycolumn,"Error Lexico","La constante Integer esta fuera del limite.");
             }
-          case 11: break;
+          case 17: break;
           case 3: 
-            { /*System.out.println("Token.*");*/
+            { System.out.println("Token.ID");
     return new Symbol(Simbolos.ID,yycolumn,yyline,yytext());
             }
-          case 12: break;
+          case 18: break;
           case 4: 
             { /*Espacios en blanco, se ignoran*/
             }
-          case 13: break;
+          case 19: break;
           case 5: 
             { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_MUL,yycolumn,yyline,yytext());
             }
-          case 14: break;
+          case 20: break;
           case 6: 
             { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_ASIG,yycolumn,yyline,yytext());
             }
-          case 15: break;
+          case 21: break;
           case 7: 
             { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.OP_SUMA,yycolumn,yyline,yytext());
             }
-          case 16: break;
+          case 22: break;
           case 8: 
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.PAR_A,yycolumn,yyline,yytext());
+            }
+          case 23: break;
+          case 9: 
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.PAR_C,yycolumn,yyline,yytext());
+            }
+          case 24: break;
+          case 10: 
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.CORCH_A,yycolumn,yyline,yytext());
+            }
+          case 25: break;
+          case 11: 
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.CORCH_C,yycolumn,yyline,yytext());
+            }
+          case 26: break;
+          case 12: 
+            { /*System.out.println("Token.*");*/ return new Symbol(Simbolos.PYC,yycolumn,yyline,yytext());
+            }
+          case 27: break;
+          case 13: 
             { Double constFloat = Double.parseDouble(yytext());
     if( constFloat >= 0 && constFloat <= 2147483647){
         /*System.out.println("Token.*");*/
@@ -666,11 +698,15 @@ public class AnalizadorLexico implements java_cup.runtime.Scanner {
     }
     new TError(yytext(),yyline,yycolumn,"Error Lexico","La constante Float esta fuera del limite.");
             }
-          case 17: break;
-          case 9: 
+          case 28: break;
+          case 14: 
+            { System.out.println("TAKE.*"); return new Symbol(Simbolos.TAKE,yycolumn,yyline,yytext());
+            }
+          case 29: break;
+          case 15: 
             { /*Comentarios, se ignoran*/
             }
-          case 18: break;
+          case 30: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

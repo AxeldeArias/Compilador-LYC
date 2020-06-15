@@ -10,9 +10,7 @@ import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import Tabla.*;
 import Arbol.*;
-import java.util.HashMap;
-import java.util.Stack;
-import java.util.Map;
+import java.util.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -38,10 +36,12 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\014\000\002\002\004\000\002\002\003\000\002\003" +
-    "\004\000\002\007\005\000\002\007\004\000\002\005\003" +
-    "\000\002\005\005\000\002\006\005\000\002\006\003\000" +
-    "\002\004\003\000\002\004\003\000\002\004\003" });
+    "\000\022\000\002\002\004\000\002\002\003\000\002\011" +
+    "\003\000\002\011\003\000\002\012\005\000\002\014\002" +
+    "\000\002\015\002\000\002\007\016\000\002\013\003\000" +
+    "\002\013\003\000\002\010\004\000\002\010\003\000\002" +
+    "\004\003\000\002\004\005\000\002\005\003\000\002\005" +
+    "\005\000\002\003\003\000\002\003\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -49,20 +49,25 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\023\000\004\004\004\001\002\000\004\007\025\001" +
-    "\002\000\004\002\024\001\002\000\010\004\010\005\013" +
-    "\006\012\001\002\000\004\002\000\001\002\000\012\002" +
-    "\ufff8\007\023\010\ufff8\011\ufff8\001\002\000\010\002\ufff9" +
-    "\010\ufff9\011\ufff9\001\002\000\010\002\ufff6\010\ufff6\011" +
-    "\ufff6\001\002\000\010\002\ufff7\010\ufff7\011\ufff7\001\002" +
-    "\000\010\002\ufffc\010\ufffc\011\021\001\002\000\006\002" +
-    "\uffff\010\016\001\002\000\010\004\017\005\013\006\012" +
-    "\001\002\000\010\002\ufff8\010\ufff8\011\ufff8\001\002\000" +
-    "\010\002\ufffb\010\ufffb\011\021\001\002\000\010\004\017" +
-    "\005\013\006\012\001\002\000\010\002\ufffa\010\ufffa\011" +
-    "\ufffa\001\002\000\010\004\ufffe\005\ufffe\006\ufffe\001\002" +
-    "\000\004\002\001\001\002\000\010\004\ufffd\005\ufffd\006" +
-    "\ufffd\001\002" });
+    "\000\041\000\006\004\004\014\010\001\002\000\004\015" +
+    "\032\001\002\000\004\002\031\001\002\000\004\002\000" +
+    "\001\002\000\004\002\ufffe\001\002\000\004\007\012\001" +
+    "\002\000\004\002\uffff\001\002\000\006\016\015\017\014" +
+    "\001\002\000\004\013\016\001\002\000\004\013\ufff8\001" +
+    "\002\000\004\013\ufff9\001\002\000\004\005\017\001\002" +
+    "\000\004\013\ufffc\001\002\000\004\013\021\001\002\000" +
+    "\004\011\022\001\002\000\004\004\023\001\002\000\006" +
+    "\004\ufff6\012\ufff6\001\002\000\006\004\025\012\ufffb\001" +
+    "\002\000\006\004\ufff7\012\ufff7\001\002\000\004\012\027" +
+    "\001\002\000\004\010\030\001\002\000\010\002\ufffa\016" +
+    "\ufffa\017\ufffa\001\002\000\004\002\001\001\002\000\006" +
+    "\005\034\014\010\001\002\000\010\002\ufff3\016\ufff3\017" +
+    "\ufff3\001\002\000\010\002\ufff1\016\ufff1\017\ufff1\001\002" +
+    "\000\010\002\ufff0\016\ufff0\017\ufff0\001\002\000\010\002" +
+    "\ufff5\016\ufff5\017\042\001\002\000\006\002\ufffd\016\040" +
+    "\001\002\000\006\005\034\014\010\001\002\000\010\002" +
+    "\ufff4\016\ufff4\017\042\001\002\000\006\005\034\014\010" +
+    "\001\002\000\010\002\ufff2\016\ufff2\017\ufff2\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -70,14 +75,19 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\023\000\010\002\004\003\006\007\005\001\001\000" +
-    "\002\001\001\000\002\001\001\000\010\004\010\005\014" +
-    "\006\013\001\001\000\002\001\001\000\002\001\001\000" +
+    "\000\041\000\012\002\004\007\006\011\005\012\010\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\004\013\012\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\004\014\017\001" +
+    "\001\000\002\001\001\000\002\001\001\000\004\010\023" +
+    "\001\001\000\002\001\001\000\004\015\025\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\006\004\010\006\017\001" +
-    "\001\000\002\001\001\000\002\001\001\000\004\004\021" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001" });
+    "\001\001\000\002\001\001\000\012\003\032\004\036\005" +
+    "\035\007\034\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\010\003\032\005\040\007\034\001\001\000\002\001\001" +
+    "\000\006\003\042\007\034\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -157,10 +167,14 @@ class CUP$AnalizadorSintactico$actions {
     Stack<Nodo> pilaExpresionFactor = new Stack<Nodo>();
     Stack<Nodo> pilaMantenerEstadoPorNivel = new Stack<Nodo>();
     Map<Integer, Nodo> listaBloquesPorNivel = new HashMap<Integer, Nodo>();
+    Integer indexLista = 0, indexSentenciaTake = 0;
+    Integer cantidadDeOperacionRealizadas = 0;
+    Integer cantidadDeOperacionARealizar = 0;
     Integer nivel = 0;
     Boolean notActivado = false;
+    String operador = null;
 
-
+    ListaTercetos listaTercetos = new ListaTercetos();
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public Graficador graficador = new Graficador();
     public String primerIDAsignacion = null;
@@ -172,6 +186,8 @@ class CUP$AnalizadorSintactico$actions {
                nodoWhile,
                nodoDisplay, nodoGet,
                nodoExpresionAsignacion, nodoValorAux, nodoStart;
+
+    Integer indexFactor= null, indexTermino=null,indexExpresion=null;
 
   private final AnalizadorSintactico parser;
 
@@ -209,131 +225,200 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // s ::= mult 
+          case 1: // s ::= sentencia 
             {
               Symbol RESULT =null;
 		
-                    nodoStart = nodoMult;
-                    System.out.println("Regla Compilacion OK");
-                    nodoStart.recorrer();
-                    graficador.graficarArbol(nodoStart);
+            listaTercetos.show();
                 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("s",0, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // mult ::= lista expresion 
+          case 2: // sentencia ::= asignacion 
             {
               Symbol RESULT =null;
-		 nodoMult = nodoLista;nodoValorAux.setDer(nodoExpresion); 
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("mult",1, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia",7, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // lista ::= lista ID OP_ASIG 
+          case 3: // sentencia ::= sentencia_take 
             {
               Symbol RESULT =null;
-		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).left;
-		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).right;
-		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).value;
-		 nodoLista = new Nodo(";",nodoLista,new Nodo(":=",new Hoja(_id),new Hoja(primerIDAsignacion)));
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("lista",5, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia",7, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // lista ::= ID OP_ASIG 
+          case 4: // asignacion ::= ID OP_ASIG expresion 
             {
               Symbol RESULT =null;
-		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).left;
-		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).right;
-		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).value;
-		
-            primerIDAsignacion = _id;
-            nodoLista = new Nodo(":=", new Hoja(primerIDAsignacion));
-            nodoValorAux = nodoLista;
-          
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("lista",5, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).left;
+		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).right;
+		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
+		 listaTercetos.add(new Terceto("=",_id, indexExpresion )); 
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("asignacion",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // expresion ::= termino 
+          case 5: // NT$0 ::= 
             {
               Symbol RESULT =null;
-		 nodoExpresion = nodoTermino; 
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion",3, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+		int _cantleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int _cantright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		String _cant = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
+
+                        cantidadDeOperacionARealizar = Integer.valueOf(_cant) ;
+                        RESULT = new Symbol(-1);
+                 
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("NT$0",10, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // expresion ::= expresion OP_SUMA termino 
+          case 6: // NT$1 ::= 
             {
-              Symbol RESULT =null;
-		 nodoExpresion = new Nodo("-",nodoExpresion, nodoTermino); 
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion",3, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+              Symbol RESULT =(Symbol) ((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).value;
+		int _cantleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).left;
+		int _cantright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).right;
+		String _cant = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-4)).value;
+
+                     if(cantidadDeOperacionARealizar > 0){
+                        System.err.println("ERROR semántico, la lista tiene menos de "+ _cant +" valores");
+                        System.exit(1);
+                     }
+                     RESULT = new Symbol(-1);
+                 
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("NT$1",11, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // termino ::= termino OP_MUL factor 
+          case 7: // sentencia_take ::= TAKE PAR_A operador PYC CONST_INT NT$0 PYC CORCH_A listaIDs NT$1 CORCH_C PAR_C 
             {
               Symbol RESULT =null;
-		 nodoTermino = new Nodo("*",nodoTermino, nodoFactor); 
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino",4, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+              // propagate RESULT from NT$1
+                RESULT = (Symbol) ((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
+		int _cantleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-7)).left;
+		int _cantright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-7)).right;
+		String _cant = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-7)).value;
+		 indexSentenciaTake = indexLista; 
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("sentencia_take",5, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-11)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // termino ::= factor 
+          case 8: // operador ::= OP_SUMA 
             {
-              Symbol RESULT =null;
-		 nodoTermino = nodoFactor; 
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino",4, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+              String RESULT =null;
+		 operador = "+"; 
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operador",9, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // factor ::= ID 
+          case 9: // operador ::= OP_MUL 
+            {
+              String RESULT =null;
+		 operador = "*"; 
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operador",9, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 10: // listaIDs ::= listaIDs ID 
             {
               Symbol RESULT =null;
 		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-                nodoFactor = new Hoja(_id);
-            
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("factor",2, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+                  if(cantidadDeOperacionARealizar > 0){
+                      indexLista = listaTercetos.add(new Terceto(operador, _id , indexLista ));
+                      cantidadDeOperacionARealizar--;
+                  }
+    
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("listaIDs",6, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // factor ::= CONST_INT 
+          case 11: // listaIDs ::= ID 
+            {
+              Symbol RESULT =null;
+		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
+		
+                if(cantidadDeOperacionARealizar > 0 ){
+                   indexLista = listaTercetos.add(new Terceto(_id)); cantidadDeOperacionRealizadas ++;
+                   cantidadDeOperacionARealizar--;
+                }
+
+            
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("listaIDs",6, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 12: // expresion ::= termino 
+            {
+              Symbol RESULT =null;
+		indexExpresion = indexTermino;
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion",2, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 13: // expresion ::= expresion OP_SUMA termino 
+            {
+              Symbol RESULT =null;
+		indexExpresion = listaTercetos.add(new Terceto("+",indexExpresion, indexTermino));
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion",2, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 14: // termino ::= factor 
+            {
+              Symbol RESULT =null;
+		indexTermino = indexFactor;
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino",3, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // termino ::= termino OP_MUL factor 
+            {
+              Symbol RESULT =null;
+		indexTermino = listaTercetos.add(new Terceto("*",indexTermino, indexFactor));
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino",3, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 16: // factor ::= CONST_INT 
             {
               Symbol RESULT =null;
 		int _intValleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _intValright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _intVal = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		
-                nodoFactor = new Hoja(_intVal);
-		    
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("factor",2, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+		indexFactor = listaTercetos.add(new Terceto(_intVal));
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("factor",1, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // factor ::= CONST_FLOAT 
+          case 17: // factor ::= sentencia_take 
             {
               Symbol RESULT =null;
-		int _floatValleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
-		int _floatValright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
-		String _floatVal = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		
-		        nodoFactor = new Hoja(_floatVal);
-            
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("factor",2, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+		 indexFactor = indexSentenciaTake; 
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("factor",1, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 

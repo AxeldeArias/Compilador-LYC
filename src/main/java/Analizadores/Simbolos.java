@@ -8,20 +8,32 @@ package Analizadores;
 /** CUP generated class containing symbol constants. */
 public class Simbolos {
   /* terminals */
-  public static final int ID = 2;
-  public static final int OP_MUL = 7;
-  public static final int error = 1;
-  public static final int OP_SUMA = 6;
-  public static final int CONST_FLOAT = 4;
-  public static final int CONST_INT = 3;
-  public static final int OP_ASIG = 5;
+  public static final int PAR_A = 5;
+  public static final int TAKE = 10;
+  public static final int OP_SUMA = 12;
+  public static final int OP_MUL = 13;
   public static final int EOF = 0;
+  public static final int CONST_FLOAT = 4;
+  public static final int PYC = 9;
+  public static final int CORCH_C = 8;
+  public static final int OP_ASIG = 11;
+  public static final int CONST_INT = 3;
+  public static final int CORCH_A = 7;
+  public static final int ID = 2;
+  public static final int error = 1;
+  public static final int PAR_C = 6;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "ID",
   "CONST_INT",
   "CONST_FLOAT",
+  "PAR_A",
+  "PAR_C",
+  "CORCH_A",
+  "CORCH_C",
+  "PYC",
+  "TAKE",
   "OP_ASIG",
   "OP_SUMA",
   "OP_MUL"

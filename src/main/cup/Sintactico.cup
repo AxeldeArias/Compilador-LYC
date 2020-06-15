@@ -6,9 +6,7 @@ import java_cup.runtime.Symbol;
 import java.util.LinkedList;
 import Tabla.*;
 import Arbol.*;
-import java.util.HashMap;
-import java.util.Stack;
-import java.util.Map;
+import java.util.*;
 
 
 // ---------> Codigo para las acciones gramaticales
@@ -17,10 +15,14 @@ action code
     Stack<Nodo> pilaExpresionFactor = new Stack<Nodo>();
     Stack<Nodo> pilaMantenerEstadoPorNivel = new Stack<Nodo>();
     Map<Integer, Nodo> listaBloquesPorNivel = new HashMap<Integer, Nodo>();
+    Integer indexLista = 0, indexSentenciaTake = 0;
+    Integer cantidadDeOperacionRealizadas = 0;
+    Integer cantidadDeOperacionARealizar = 0;
     Integer nivel = 0;
     Boolean notActivado = false;
+    String operador = null;
 
-
+    ListaTercetos listaTercetos = new ListaTercetos();
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public Graficador graficador = new Graficador();
     public String primerIDAsignacion = null;
@@ -32,6 +34,8 @@ action code
                nodoWhile,
                nodoDisplay, nodoGet,
                nodoExpresionAsignacion, nodoValorAux, nodoStart;
+
+    Integer indexFactor= null, indexTermino=null,indexExpresion=null;
 :}
 
 
@@ -73,10 +77,10 @@ parser code
 /*2da Area: Código de Usuario*/
 //----------> declaracion de terminales
 
-
 terminal String ID;
 terminal String CONST_INT;
 terminal String CONST_FLOAT;
+terminal Symbol PAR_A,PAR_C,CORCH_A,CORCH_C,PYC,TAKE;
 
 
 terminal OP_ASIG;
@@ -85,46 +89,57 @@ terminal OP_MUL;
                               
 
 //----------> declaracion de no terminales
-non terminal Symbol s, mult,
-             factor, expresion, termino, lista ;
+non terminal Symbol s,
+             factor, expresion, termino, lista,sentencia_take , listaIDs,sentencia,asignacion;
+non terminal String operador;
 
 
 
 start with s;
 
-
-s   ::=  mult  {:
-                    nodoStart = nodoMult;
-                    System.out.println("Regla Compilacion OK");
-                    nodoStart.recorrer();
-                    graficador.graficarArbol(nodoStart);
+s   ::= sentencia {:
+            listaTercetos.show();
                 :};
-mult ::= lista expresion {: nodoMult = nodoLista;nodoValorAux.setDer(nodoExpresion); :};
+sentencia ::= asignacion;
+sentencia ::= sentencia_take;
 
-lista ::= lista ID:_id OP_ASIG {: nodoLista = new Nodo(";",nodoLista,new Nodo(":=",new Hoja(_id),new Hoja(primerIDAsignacion)));:};
+asignacion ::= ID:_id OP_ASIG expresion {: listaTercetos.add(new Terceto("=",_id, indexExpresion )); :} ;
 
-lista ::= ID:_id OP_ASIG {:
-            primerIDAsignacion = _id;
-            nodoLista = new Nodo(":=", new Hoja(primerIDAsignacion));
-            nodoValorAux = nodoLista;
-          :};
+sentencia_take ::= TAKE PAR_A operador PYC CONST_INT:_cant {:
+                        cantidadDeOperacionARealizar = Integer.valueOf(_cant) ;
+                        RESULT = new Symbol(-1);
+                 :} PYC CORCH_A listaIDs {:
+                     if(cantidadDeOperacionARealizar > 0){
+                        System.err.println("ERROR semántico, la lista tiene menos de "+ _cant +" valores");
+                        System.exit(1);
+                     }
+                     RESULT = new Symbol(-1);
+                 :}CORCH_C PAR_C {: indexSentenciaTake = indexLista; :};
 
-expresion	::= termino {: nodoExpresion = nodoTermino; :}
-			| expresion OP_SUMA termino {: nodoExpresion = new Nodo("-",nodoExpresion, nodoTermino); :}
-			;
+operador ::= OP_SUMA {: operador = "+"; :};
+operador ::= OP_MUL {: operador = "*"; :};
 
-		
-termino	::= termino OP_MUL factor {: nodoTermino = new Nodo("*",nodoTermino, nodoFactor); :}
-		| factor {: nodoTermino = nodoFactor; :}
-		;
-			
-factor	::= ID:_id {:
-                nodoFactor = new Hoja(_id);
-            :}
-		| CONST_INT:_intVal {:
-                nodoFactor = new Hoja(_intVal);
-		    :}
-		| CONST_FLOAT:_floatVal {:
-		        nodoFactor = new Hoja(_floatVal);
-            :}
-		;
+listaIDs ::= listaIDs ID:_id {:
+                  if(cantidadDeOperacionARealizar > 0){
+                      indexLista = listaTercetos.add(new Terceto(operador, _id , indexLista ));
+                      cantidadDeOperacionARealizar--;
+                  }
+    :};
+
+listaIDs ::= ID:_id {:
+                if(cantidadDeOperacionARealizar > 0 ){
+                   indexLista = listaTercetos.add(new Terceto(_id)); cantidadDeOperacionRealizadas ++;
+                   cantidadDeOperacionARealizar--;
+                }
+
+            :};
+
+expresion ::= termino {:indexExpresion = indexTermino;:};
+expresion ::= expresion OP_SUMA termino {:indexExpresion = listaTercetos.add(new Terceto("+",indexExpresion, indexTermino));:};
+
+termino ::= factor {:indexTermino = indexFactor;:};
+termino ::= termino OP_MUL factor {:indexTermino = listaTercetos.add(new Terceto("*",indexTermino, indexFactor));:};
+
+factor ::= CONST_INT:_intVal {:indexFactor = listaTercetos.add(new Terceto(_intVal));:};
+factor ::= sentencia_take  {: indexFactor = indexSentenciaTake; :};
+
