@@ -36,14 +36,5 @@ public class Main {
             e.printStackTrace();
         }
 
- /*
-        Nodo izq = new Nodo("<", new Hoja("a"), new Hoja("d"));
-        Nodo der = new Nodo(">", new Hoja("5"), new Hoja("c"));
-        Nodo raiz = new Nodo("&&", izq, der);
-
-        der = new Nodo("<", new Hoja("b"), new Hoja("c"));
-        raiz = new Nodo("||", raiz, der);
-
-        raiz.recorrer();*/
     }
 }

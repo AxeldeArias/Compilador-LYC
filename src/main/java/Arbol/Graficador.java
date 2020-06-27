@@ -9,7 +9,6 @@ public class Graficador {
 
     public static Logger LOGGER = Logger.getLogger(Graficador.class.getName());
     private String codigo;
-    GraphViz graficador = new GraphViz();
 
     public void escribirEnArchivo(BufferedWriter br, String s) throws IOException {
         br.write(s);
@@ -33,21 +32,7 @@ public class Graficador {
 
     }
 
-     public static void ejecutarCMD(String cmd){
-        Process p;
-        try {
-          p = Runtime.getRuntime().exec(cmd);
-          p.waitFor();
-          BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-          String line = "";
-          while ((line = reader.readLine())!= null) {
-            System.out.println(line);
-          }
-          reader.close();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
+
 
 
     public void escribirLabels(Nodo nodo) {
