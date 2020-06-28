@@ -16,7 +16,7 @@ public class Main {
 
 //        File archivo = new File("prueba");
 
-        String nombreArchivo = ArchivosDePrueba.PROGRAMA.nombre;
+        String nombreArchivo = ArchivosDePrueba.TEST_ASSEMBLER.nombre;
 
         File archivo = new File(nombreArchivo);
 

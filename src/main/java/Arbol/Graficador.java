@@ -9,13 +9,33 @@ public class Graficador {
 
     public static Logger LOGGER = Logger.getLogger(Graficador.class.getName());
     private String codigo;
+    private String intermediaArbol;
 
     public void escribirEnArchivo(BufferedWriter br, String s) throws IOException {
         br.write(s);
     }
 
     public void graficarArbol(Nodo arbol) {
+        escribirIntermedia(arbol);
+        graficarArbolGraphviz(arbol);
+    }
+
+    private void escribirIntermedia(Nodo arbol) {
         try (BufferedWriter br = new BufferedWriter(new FileWriter("intermedia.txt"))) {
+            intermediaArbol = "";
+            //magia de asembler
+            //nodo.recorrerIntermedia();
+            escribirEnArchivo(br, intermediaArbol);
+        } catch (IOException e) {
+            LOGGER.severe("Ocurrio un error al guardar el archivo de intermedia");
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public void graficarArbolGraphviz(Nodo arbol) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter("intermedia-graphviz.txt"))) {
 
             codigo = "digraph \"arbol\" {\n" +
                     "\tlabel=\"arbol\"\n";
@@ -26,14 +46,11 @@ public class Graficador {
             escribirEnArchivo(br, codigo);
 
         } catch (Exception e) {
-            LOGGER.severe("Ocurrio un error al guardar el archivo");
+            LOGGER.severe("Ocurrio un error al guardar el archivo  de graphviz");
             e.printStackTrace();
         }
 
     }
-
-
-
 
     public void escribirLabels(Nodo nodo) {
         if (nodo == null)
@@ -64,7 +81,7 @@ public class Graficador {
             String s = "#Probar en https://dreampuf.github.io/GraphvizOnline/#" + URLEncoder.encode(
                     codigo.replaceAll(" ", "@space@"), "UTF-8")
                     .replaceAll("%40space%40", "%20"
-                    )+"\n";
+                    ) + "\n\n";
             escribirEnArchivo(br, s);
         } catch (UnsupportedEncodingException e) {
             LOGGER.severe("Ocurrio un error al generar el link");

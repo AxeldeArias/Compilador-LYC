@@ -11,6 +11,7 @@ public enum ArchivosDePrueba {
     IF_WHILE("test-IfWhile"),
     IF_FACTOR("test-IfFactor"),
     PROGRAMA("..\\..\\prueba"),
+    TEST_ASSEMBLER("test-Assembler"),
 
     DISPLAY("test-Display"),
     GET("test-Get");
