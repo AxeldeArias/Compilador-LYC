@@ -4,6 +4,7 @@ public enum ArchivosDePrueba {
     WHILE_IN_WHILE("test-WhileInWhile"),
 
     IF("test-If"),
+    IF_CORTO("test-IfCorto"),
     IF_ELSE("test-IfElse"),
     IF_IF("test-IfIf"),
     IF_ELSE_IF("test-IfElseIf"),

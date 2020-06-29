@@ -31,6 +31,23 @@ public class Nodo {
         ultimoNodo++;
     }
 
+    public void recorrer() {
+        recorrerPosorden(this);
+        System.out.println("");
+    }
+
+    public void recorrerPosorden(Nodo nodo) {
+        if (nodo == null)
+            return;
+        recorrerPosorden(nodo.izq);
+        recorrerPosorden(nodo.der);
+        System.out.print(nodo.dato + " ");
+    }
+
+    public Boolean esHoja() {
+        return this.getIzq() == null && this.getDer() == null;
+    }
+
     public String getDato() {
         return dato;
     }
@@ -57,39 +74,6 @@ public class Nodo {
 
     public Integer getId() {
         return id;
-    }
-
-    public void recorrer() {
-        recorrerPosorden(this);
-        System.out.println("");
-    }
-
-    public void recorrerPosorden(Nodo nodo) {
-        if (nodo == null)
-            return;
-        recorrerPosorden(nodo.getIzq());
-        recorrerPosorden(nodo.getDer());
-        System.out.print(nodo.getDato() + " ");
-    }
-
-    public void recorrerIntermedia() {
-        Nodo aux = new Nodo(this);
-        escribirIntermedia(aux);
-    }
-
-    public void escribirIntermedia(Nodo nodo) {
-        if (nodo == null)
-            return;
-        if(!nodo.izq.esHoja())
-            escribirIntermedia(nodo.izq);
-        if (!nodo.der.esHoja())
-            escribirIntermedia(nodo.der);
-        nodo.dato = nodo.izq.dato + " " + nodo.der.dato + " " + nodo.dato;
-        //Hacer magia de assembler
-    }
-
-    public Boolean esHoja() {
-        return this.getIzq() == null && this.getDer() == null;
     }
 
     @Override
