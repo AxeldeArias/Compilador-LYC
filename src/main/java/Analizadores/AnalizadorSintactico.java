@@ -399,7 +399,7 @@ class CUP$AnalizadorSintactico$actions {
                     tablaDeSimbolos.guardarTabla();
                     System.out.println("Regla Compilacion OK");
                     nodoPrograma.recorrer();
-                    graficador.graficarArbol(nodoInicio);
+                    graficador.graficarArbol(nodoInicio, tablaDeSimbolos.getListaDeSimbolos());
                 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }

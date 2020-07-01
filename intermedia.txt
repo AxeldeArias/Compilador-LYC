@@ -1,0 +1,77 @@
+include number.asm
+include macros2.asm
+
+.MODEL LARGE ;Modelo de Memoria
+.386 ;Tipo de Procesador
+.STACK 200h ;Bytes en el Stack
+
+.DATA
+	z	dd	?
+	a	dd	?
+	b	dd	?
+	c	dd	?
+	d	dd	?
+	e	dd	?
+	f	dd	?
+	_20	dd	20
+
+	@aux1	dd	?
+	@aux2	dd	?
+	@aux3	dd	?
+	@aux4	dd	?
+	@aux5	dd	?
+	@aux6	dd	?
+
+
+.CODE
+
+start:
+	MOV EAX,@DATA
+	MOV DS,EAX
+	MOV ES,EAX
+
+	FLD b
+	FLD c
+	FMUL
+	FSTP @aux1
+	FFREE
+
+	FLD a
+	FLD @aux1
+	FADD
+	FSTP @aux2
+	FFREE
+
+	FLD e
+	FLD f
+	FADD
+	FSTP @aux3
+	FFREE
+
+	FLD d
+	FLD @aux3
+	FXCH
+	FDIV
+	FSTP @aux4
+	FFREE
+
+	FLD @aux2
+	FLD @aux4
+	FXCH
+	FSUB
+	FSTP @aux5
+	FFREE
+
+	FLD @aux5
+	FLD 20
+	FADD
+	FSTP @aux6
+	FFREE
+
+	FLD @aux6
+	FSTP z
+
+	MOV EAX, 4C00h
+	INT 21h
+
+	END start

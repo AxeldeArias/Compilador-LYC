@@ -9,7 +9,9 @@ import java.util.logging.Logger;
 
 public class TablaDeSimbolos {
 
-    public static Logger LOGGER = Logger.getLogger(TablaDeSimbolos.class.getName());
+    public static final String TABLA_SIMBOLOS_ARCHIVO = "ts.txt";
+
+    private static Logger LOGGER = Logger.getLogger(TablaDeSimbolos.class.getName());
 
     private List<Simbolo> listaDeSimbolos;
 
@@ -30,7 +32,7 @@ public class TablaDeSimbolos {
     }
 
     public void guardarTabla() {
-        try (BufferedWriter br = new BufferedWriter(new FileWriter("ts.txt"))) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(TABLA_SIMBOLOS_ARCHIVO))) {
 
             br.write(String.format("%-30s|%-30s|%-30s|%-30s\n", "NOMBRE", "TIPODATO", "VALOR", "LONGITUD"));
             listaDeSimbolos.forEach(simbolo -> {
@@ -46,5 +48,9 @@ public class TablaDeSimbolos {
             LOGGER.severe("Ocurrio un error al guardar el archivo");
             e.printStackTrace();
         }
+    }
+
+    public List<Simbolo> getListaDeSimbolos() {
+        return listaDeSimbolos;
     }
 }

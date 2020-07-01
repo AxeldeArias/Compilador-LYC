@@ -119,7 +119,7 @@ inicio   ::= programa {:
                     tablaDeSimbolos.guardarTabla();
                     System.out.println("Regla Compilacion OK");
                     nodoPrograma.recorrer();
-                    graficador.graficarArbol(nodoInicio);
+                    graficador.graficarArbol(nodoInicio, tablaDeSimbolos.getListaDeSimbolos());
                 :};
 
 programa	::= seccion_declaraciones  bloque {: nodoPrograma = listaBloquesPorNivel.get(nivel); :};

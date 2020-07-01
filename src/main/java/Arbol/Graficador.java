@@ -1,7 +1,10 @@
 package Arbol;
 
+import Tabla.Simbolo;
+
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class Graficador {
@@ -14,23 +17,27 @@ public class Graficador {
     private static final String INTERMEDIA_GRAPHVIZ = "intermedia-graphviz.txt";
     private static final String INTERMEDIA = "intermedia.txt";
 
-    public void graficarArbol(Nodo arbol) {
+    public void graficarArbol(Nodo arbol, List<Simbolo> listaDeSimbolos) {
         try {
             escribirArbolGraphviz(arbol);
-            escribirArbolIntermedia(arbol);
+            escribirArbolIntermedia(arbol, listaDeSimbolos);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void escribirArbolIntermedia(Nodo arbol) throws IOException {
+    private void escribirArbolIntermedia(Nodo arbol, List<Simbolo> listaDeSimbolos) throws IOException {
         try {
             setupWriter(INTERMEDIA);
 
             Nodo nodo = new Nodo(arbol);
             escribirIntermedia(nodo);
             String assembler = constructorAssembler.getAssembler();
-            this.br.write(assembler);
+            String header = constructorAssembler.generarHeader(listaDeSimbolos);
+            String codigo = constructorAssembler.generarCodigo(assembler);
+
+            this.br.write(header);
+            this.br.write(codigo);
 
         } catch (IOException e) {
             LOGGER.severe("Ocurrio un error al guardar el archivo de intermedia");
@@ -52,7 +59,7 @@ public class Graficador {
         if (!der.esHoja())
             escribirIntermedia(der);
 
-        String datoSubarbol = constructorAssembler.escribirAssembler(nodo);
+        String datoSubarbol = constructorAssembler.generarAssembler(nodo);
         nodo.setDato(datoSubarbol);
     }
 
