@@ -1,0 +1,34 @@
+
+	FLD a
+	FLD 3
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta0
+	FLD a
+	FLD 4
+	FCOM
+	FSTSW AX
+	SAHF
+	JA etiqueta0
+	FLD 1
+	FSTP a
+	etiqueta0
+	FLD a
+	FLD 3
+	FCOM
+	FSTSW AX
+	SAHF
+	JE etiqueta1
+	FLD a
+	FLD 4
+	FCOM
+	FSTSW AX
+	SAHF
+	JA etiqueta2
+	etiqueta1
+	FLD 1
+	FSTP a
+	etiqueta2
+	FLD 2
+	FSTP b

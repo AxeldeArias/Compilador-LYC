@@ -47,13 +47,27 @@ public class Graficador {
         Nodo izq = nodo.getIzq();
         Nodo der = nodo.getDer();
 
-        if(!izq.esHoja())
-            escribirIntermedia(izq);
-        if (!der.esHoja())
-            escribirIntermedia(der);
 
+        if(izq != null && !izq.esHoja()){
+            escribirIntermedia(izq);
+        }
+        if(nodo.getDato() == "IF"){
+            if( der.getDato() != "CUERPO"){
+                constructorAssembler.escribirAssembler("IF");
+            }
+
+        }
+        if(nodo.getDato() == "CUERPO"){
+            constructorAssembler.escribirAssembler("CUERPO");
+        }
+
+        if(nodo.getDato() == "OR"){
+            constructorAssembler.escribirAssembler("OR");
+        }
+
+        if (der != null && !der.esHoja())
+            escribirIntermedia(der);
         String datoSubarbol = constructorAssembler.escribirAssembler(nodo);
-        nodo.setDato(datoSubarbol);
     }
 
 

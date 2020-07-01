@@ -3,21 +3,13 @@ DEFVAR
     Float: c
 ENDDEF
 
-if(z<3){
-a = IF ( 5<3*(4+2), 8*a,5-6)
+
+if(a == 3 AND a < 4){
+   a=1
 }
-while( a < 3 AND z>0) {
-    DISPLAY "HOLA"
-    if(NOT a<2){
-        b = 4
-    }else{
-      if(NOT b==c){
-        GET c
-      }else{
-        c *= 2
-      }
-    }
-     GET z
-    ***/"CADENA***"/***
+
+if(a == 3 OR a < 4){
+   a=1
+}else{
+ b = 2
 }
-a-=z

@@ -18,11 +18,9 @@ action code
     Stack<Nodo> pilaMantenerEstadoPorNivel = new Stack<Nodo>();
     Map<Integer, Nodo> listaBloquesPorNivel = new HashMap<Integer, Nodo>();
     Integer nivel = 0;
-    Boolean notActivado = false;
-
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public Graficador graficador = new Graficador();
-
+    GestorOperadoresLogicos gestorOperadoresLogicos = new GestorOperadoresLogicos(false);
     public TipoDato tipoId;
     public Nodo nodoInicio, nodoPrograma, nodoBloque, nodoSentencia, 
                nodoAsignacion, nodoAsignacionEspecial, nodoExpresionLogica, nodoTerminoLogico,
@@ -203,28 +201,46 @@ sentencia_while    ::= WHILE P_A expresion_logica {:
                                             :}
 				    ;
 
-op_booleano 	::=  OP_MENOR: _opB {: RESULT = notActivado? ">" : "<"; :}
-				| OP_MENOR_IGUAL: _opB {: RESULT = notActivado? ">=" : "<="; :}
-				| OP_MAYOR: _opB {: RESULT = notActivado? "<" : ">"; :}
-				| OP_MAYOR_IGUAL: _opB {: RESULT = notActivado? ">=" : "<="; :}
-				| OP_IGUAL: _opB {: RESULT = notActivado? "!==" : "=="; :}
-				| OP_DISTINTO: _opB {:RESULT = notActivado? "==" : "!="; :}
+op_booleano 	::=  OP_MENOR: _opB {: RESULT = _opB; :}
+				| OP_MENOR_IGUAL: _opB {: RESULT = _opB; :}
+				| OP_MAYOR: _opB {: RESULT = _opB; :}
+				| OP_MAYOR_IGUAL: _opB {: RESULT = _opB; :}
+				| OP_IGUAL: _opB {: RESULT = _opB; :}
+				| OP_DISTINTO: _opB {: RESULT = _opB; :}
 				;
 
 expresion_logica	::= termino_logico {:
                             nodoTerminoLogicoIzq = nodoTerminoLogico;
                             RESULT = new Symbol(-1);
                         :} OP_AND termino_logico {:
+
+                            //negamos el lado izq para facilitar el assembler
+                            String operadorIzq = nodoTerminoLogicoIzq.getDato();
+                            String operadorIzqNegado = gestorOperadoresLogicos.negarOperador(operadorIzq);
+                            nodoTerminoLogicoIzq.setDato(operadorIzqNegado);
+
+                            //negamos el lado der para facilitar el assembler
+                            String operadorDer = nodoTerminoLogico.getDato();
+                            String operadorDerNegado = gestorOperadoresLogicos.negarOperador(operadorDer);
+                            nodoTerminoLogico.setDato(operadorDerNegado);
+
                             nodoExpresionLogica = new Nodo("AND", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         :}
 					| termino_logico {:
                             nodoTerminoLogicoIzq = nodoTerminoLogico;
                             RESULT = new Symbol(-1);
                         :} OP_OR termino_logico {:
+
+                            //negamos el lado der para facilitar el assembler
+                            String operadorDer = nodoTerminoLogico.getDato();
+                            String operadorDerNegado = gestorOperadoresLogicos.negarOperador(operadorDer);
+                            nodoTerminoLogico.setDato(operadorDerNegado);
+
+
                             nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         :}
 					| termino_logico {: nodoExpresionLogica = nodoTerminoLogico; :}
-					|  OP_NOT {: notActivado = true; RESULT = new Symbol(-1); :} termino_logico {: notActivado = false; nodoExpresionLogica = nodoTerminoLogico; :}
+					|  OP_NOT {: gestorOperadoresLogicos.negarProximosOperadores(true); RESULT = new Symbol(-1); :} termino_logico {: gestorOperadoresLogicos.negarProximosOperadores(false); nodoExpresionLogica = nodoTerminoLogico; :}
 					;
 
 termino_logico	::= expresion {:
@@ -232,7 +248,7 @@ termino_logico	::= expresion {:
                         RESULT = new Symbol(-1);
                     :} op_booleano: _operadorB expresion {:
                         Nodo nodoExpresionIzq = pilaMantenerEstadoPorNivel.pop();
-                        nodoTerminoLogico = new Nodo(_operadorB, nodoExpresionIzq,  nodoExpresion);
+                        nodoTerminoLogico = new Nodo(gestorOperadoresLogicos.getOperador(_operadorB), nodoExpresionIzq,  nodoExpresion);
                     :}
                     ;
 

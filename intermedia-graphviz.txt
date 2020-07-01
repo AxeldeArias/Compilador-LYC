@@ -1,34 +1,58 @@
-#Probar en https://dreampuf.github.io/GraphvizOnline/#digraph%20%22arbol%22%20%7B%0A%09label%3D%22arbol%22%0A%09n14%20%5Blabel%3D%22%3A%3D%22%5D%20%3B%0A%20%09n13%20%5Blabel%3D%22z%22%5D%20%3B%0A%20%09n12%20%5Blabel%3D%22%2B%22%5D%20%3B%0A%20%09n10%20%5Blabel%3D%22-%22%5D%20%3B%0A%20%09n4%20%5Blabel%3D%22%2B%22%5D%20%3B%0A%20%09n0%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n3%20%5Blabel%3D%22*%22%5D%20%3B%0A%20%09n1%20%5Blabel%3D%22b%22%5D%20%3B%0A%20%09n2%20%5Blabel%3D%22c%22%5D%20%3B%0A%20%09n9%20%5Blabel%3D%22%2F%22%5D%20%3B%0A%20%09n5%20%5Blabel%3D%22d%22%5D%20%3B%0A%20%09n8%20%5Blabel%3D%22%2B%22%5D%20%3B%0A%20%09n6%20%5Blabel%3D%22e%22%5D%20%3B%0A%20%09n7%20%5Blabel%3D%22f%22%5D%20%3B%0A%20%09n11%20%5Blabel%3D%2220%22%5D%20%3B%0A%09n14%20-%3E%20n13%0A%09n14%20-%3E%20n12%0A%09n12%20-%3E%20n10%0A%09n10%20-%3E%20n4%0A%09n4%20-%3E%20n0%0A%09n4%20-%3E%20n3%0A%09n3%20-%3E%20n1%0A%09n3%20-%3E%20n2%0A%09n10%20-%3E%20n9%0A%09n9%20-%3E%20n5%0A%09n9%20-%3E%20n8%0A%09n8%20-%3E%20n6%0A%09n8%20-%3E%20n7%0A%09n12%20-%3E%20n11%0A%7D
+#Probar en https://dreampuf.github.io/GraphvizOnline/#digraph%20%22arbol%22%20%7B%0A%09label%3D%22arbol%22%0A%09n26%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n10%20%5Blabel%3D%22IF%22%5D%20%3B%0A%20%09n6%20%5Blabel%3D%22AND%22%5D%20%3B%0A%20%09n2%20%5Blabel%3D%22%21%3D%22%5D%20%3B%0A%20%09n0%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n1%20%5Blabel%3D%223%22%5D%20%3B%0A%20%09n5%20%5Blabel%3D%22%3E%22%5D%20%3B%0A%20%09n3%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n4%20%5Blabel%3D%224%22%5D%20%3B%0A%20%09n9%20%5Blabel%3D%22%3A%3D%22%5D%20%3B%0A%20%09n8%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n7%20%5Blabel%3D%221%22%5D%20%3B%0A%20%09n25%20%5Blabel%3D%22IF%22%5D%20%3B%0A%20%09n17%20%5Blabel%3D%22OR%22%5D%20%3B%0A%20%09n13%20%5Blabel%3D%22%3D%3D%22%5D%20%3B%0A%20%09n11%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n12%20%5Blabel%3D%223%22%5D%20%3B%0A%20%09n16%20%5Blabel%3D%22%3E%22%5D%20%3B%0A%20%09n14%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n15%20%5Blabel%3D%224%22%5D%20%3B%0A%20%09n24%20%5Blabel%3D%22CUERPO%22%5D%20%3B%0A%20%09n20%20%5Blabel%3D%22%3A%3D%22%5D%20%3B%0A%20%09n19%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n18%20%5Blabel%3D%221%22%5D%20%3B%0A%20%09n23%20%5Blabel%3D%22%3A%3D%22%5D%20%3B%0A%20%09n22%20%5Blabel%3D%22b%22%5D%20%3B%0A%20%09n21%20%5Blabel%3D%222%22%5D%20%3B%0A%09n26%20-%3E%20n10%0A%09n10%20-%3E%20n6%0A%09n6%20-%3E%20n2%0A%09n2%20-%3E%20n0%0A%09n2%20-%3E%20n1%0A%09n6%20-%3E%20n5%0A%09n5%20-%3E%20n3%0A%09n5%20-%3E%20n4%0A%09n10%20-%3E%20n9%0A%09n9%20-%3E%20n8%0A%09n9%20-%3E%20n7%0A%09n26%20-%3E%20n25%0A%09n25%20-%3E%20n17%0A%09n17%20-%3E%20n13%0A%09n13%20-%3E%20n11%0A%09n13%20-%3E%20n12%0A%09n17%20-%3E%20n16%0A%09n16%20-%3E%20n14%0A%09n16%20-%3E%20n15%0A%09n25%20-%3E%20n24%0A%09n24%20-%3E%20n20%0A%09n20%20-%3E%20n19%0A%09n20%20-%3E%20n18%0A%09n24%20-%3E%20n23%0A%09n23%20-%3E%20n22%0A%09n23%20-%3E%20n21%0A%7D
 
 digraph "arbol" {
 	label="arbol"
-	n14 [label=":="] ;
- 	n13 [label="z"] ;
- 	n12 [label="+"] ;
- 	n10 [label="-"] ;
- 	n4 [label="+"] ;
+	n26 [label=";;"] ;
+ 	n10 [label="IF"] ;
+ 	n6 [label="AND"] ;
+ 	n2 [label="!="] ;
  	n0 [label="a"] ;
- 	n3 [label="*"] ;
- 	n1 [label="b"] ;
- 	n2 [label="c"] ;
- 	n9 [label="/"] ;
- 	n5 [label="d"] ;
- 	n8 [label="+"] ;
- 	n6 [label="e"] ;
- 	n7 [label="f"] ;
- 	n11 [label="20"] ;
-	n14 -> n13
-	n14 -> n12
-	n12 -> n10
-	n10 -> n4
-	n4 -> n0
-	n4 -> n3
-	n3 -> n1
-	n3 -> n2
+ 	n1 [label="3"] ;
+ 	n5 [label=">"] ;
+ 	n3 [label="a"] ;
+ 	n4 [label="4"] ;
+ 	n9 [label=":="] ;
+ 	n8 [label="a"] ;
+ 	n7 [label="1"] ;
+ 	n25 [label="IF"] ;
+ 	n17 [label="OR"] ;
+ 	n13 [label="=="] ;
+ 	n11 [label="a"] ;
+ 	n12 [label="3"] ;
+ 	n16 [label=">"] ;
+ 	n14 [label="a"] ;
+ 	n15 [label="4"] ;
+ 	n24 [label="CUERPO"] ;
+ 	n20 [label=":="] ;
+ 	n19 [label="a"] ;
+ 	n18 [label="1"] ;
+ 	n23 [label=":="] ;
+ 	n22 [label="b"] ;
+ 	n21 [label="2"] ;
+	n26 -> n10
+	n10 -> n6
+	n6 -> n2
+	n2 -> n0
+	n2 -> n1
+	n6 -> n5
+	n5 -> n3
+	n5 -> n4
 	n10 -> n9
-	n9 -> n5
 	n9 -> n8
-	n8 -> n6
-	n8 -> n7
-	n12 -> n11
+	n9 -> n7
+	n26 -> n25
+	n25 -> n17
+	n17 -> n13
+	n13 -> n11
+	n13 -> n12
+	n17 -> n16
+	n16 -> n14
+	n16 -> n15
+	n25 -> n24
+	n24 -> n20
+	n20 -> n19
+	n20 -> n18
+	n24 -> n23
+	n23 -> n22
+	n23 -> n21
 }

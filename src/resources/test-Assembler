@@ -3,4 +3,8 @@ DEFVAR
 
 ENDDEF
 
-z = a + b * c - d / ( e + f ) + 20
+if(a<3){
+a=1
+}else{
+a=1
+}

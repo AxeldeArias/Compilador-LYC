@@ -1,1 +1,1 @@
-dot -Tpng intermedia.txt -o intermedia.png
+dot -Tpng intermedia-graphviz.txt -o intermedia.png
