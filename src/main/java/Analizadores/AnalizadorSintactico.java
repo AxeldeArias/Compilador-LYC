@@ -340,11 +340,9 @@ class CUP$AnalizadorSintactico$actions {
     Stack<Nodo> pilaMantenerEstadoPorNivel = new Stack<Nodo>();
     Map<Integer, Nodo> listaBloquesPorNivel = new HashMap<Integer, Nodo>();
     Integer nivel = 0;
-    Boolean notActivado = false;
-
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public Graficador graficador = new Graficador();
-
+    GestorOperadoresLogicos gestorOperadoresLogicos = new GestorOperadoresLogicos(false);
     public TipoDato tipoId;
     public Nodo nodoInicio, nodoPrograma, nodoBloque, nodoSentencia, 
                nodoAsignacion, nodoAsignacionEspecial, nodoExpresionLogica, nodoTerminoLogico,
@@ -684,7 +682,7 @@ class CUP$AnalizadorSintactico$actions {
 		int _opBleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _opBright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _opB = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT = notActivado? ">" : "<"; 
+		 RESULT = _opB; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",25, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -696,7 +694,7 @@ class CUP$AnalizadorSintactico$actions {
 		int _opBleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _opBright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _opB = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT = notActivado? ">=" : "<="; 
+		 RESULT = _opB; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",25, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -708,7 +706,7 @@ class CUP$AnalizadorSintactico$actions {
 		int _opBleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _opBright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _opB = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT = notActivado? "<" : ">"; 
+		 RESULT = _opB; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",25, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -720,7 +718,7 @@ class CUP$AnalizadorSintactico$actions {
 		int _opBleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _opBright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _opB = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT = notActivado? ">=" : "<="; 
+		 RESULT = _opB; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",25, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -732,7 +730,7 @@ class CUP$AnalizadorSintactico$actions {
 		int _opBleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _opBright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _opB = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT = notActivado? "!==" : "=="; 
+		 RESULT = _opB; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",25, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -744,7 +742,7 @@ class CUP$AnalizadorSintactico$actions {
 		int _opBleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _opBright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _opB = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		RESULT = notActivado? "==" : "!="; 
+		 RESULT = _opB; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("op_booleano",25, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -793,6 +791,14 @@ class CUP$AnalizadorSintactico$actions {
               // propagate RESULT from NT$4
                 RESULT = (Symbol) ((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
 		
+
+                             //negamos el lado der para facilitar el assembler
+                            String operadorIzq = nodoTerminoLogicoIzq.getDato();
+                            System.out.println(operadorIzq);
+                            String operadorIzqNegado = gestorOperadoresLogicos.negarOperador(operadorIzq);
+                            System.out.println(operadorIzqNegado);
+                            nodoTerminoLogicoIzq.setDato(operadorIzqNegado);
+
                             nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion_logica",15, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
@@ -812,7 +818,7 @@ class CUP$AnalizadorSintactico$actions {
           case 38: // NT$5 ::= 
             {
               Symbol RESULT =null;
- notActivado = true; RESULT = new Symbol(-1); 
+ gestorOperadoresLogicos.negarProximosOperadores(true); RESULT = new Symbol(-1); 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("NT$5",31, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -823,7 +829,7 @@ class CUP$AnalizadorSintactico$actions {
               Symbol RESULT =null;
               // propagate RESULT from NT$5
                 RESULT = (Symbol) ((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).value;
-		 notActivado = false; nodoExpresionLogica = nodoTerminoLogico; 
+		 gestorOperadoresLogicos.negarProximosOperadores(false); nodoExpresionLogica = nodoTerminoLogico; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion_logica",15, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -851,7 +857,7 @@ class CUP$AnalizadorSintactico$actions {
 		String _operadorB = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).value;
 		
                         Nodo nodoExpresionIzq = pilaMantenerEstadoPorNivel.pop();
-                        nodoTerminoLogico = new Nodo(_operadorB, nodoExpresionIzq,  nodoExpresion);
+                        nodoTerminoLogico = new Nodo(gestorOperadoresLogicos.getOperador(_operadorB), nodoExpresionIzq,  nodoExpresion);
                     
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("termino_logico",16, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }

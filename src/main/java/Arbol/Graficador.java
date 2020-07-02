@@ -54,8 +54,13 @@ public class Graficador {
         Nodo izq = nodo.getIzq();
         Nodo der = nodo.getDer();
 
-        if (izq != null && !izq.esHoja())
+        constructorAssembler.escribirAssemblerAntesDeEscribirHijos(nodo);
+
+        if(izq != null && !izq.esHoja())
             escribirIntermedia(izq);
+
+        constructorAssembler.escribirAssemblerAntesDeEscribirHijoDer(nodo);
+
         if (der != null && !der.esHoja())
             escribirIntermedia(der);
 

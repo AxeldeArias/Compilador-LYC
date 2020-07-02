@@ -5,6 +5,7 @@ import Tabla.TablaDeSimbolos;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
@@ -12,9 +13,36 @@ import static java.util.Arrays.asList;
 
 public class ConstructorAssembler {
 
-    private static Logger LOGGER = Logger.getLogger(TablaDeSimbolos.class.getName());
     private static Integer CANT_AUXILIARES = 0;
     private String assembler = "";
+    private String etiquetas = "";
+    private Integer NRO_ETIQUETA = 0;
+    private Boolean segundaCondicion = true;
+    Stack<String> pilaEtiquetas = new Stack<>();
+
+    public String escribirAssemblerAntesDeEscribirHijos(Nodo nodo) {
+        String accion = nodo.getDato();
+        switch (accion) {
+            case "WHILE":
+                return generarSubarbolWhile();
+            default:
+                return null;
+        }
+    }
+
+    public String escribirAssemblerAntesDeEscribirHijoDer(Nodo nodo) {
+        String accion = nodo.getDato();
+        switch (accion) {
+            case "CUERPO":
+                return generaEtiquetaInicioCuerpo();
+            case "OR":
+                return incrementarNroEtiqueta();
+            case "AND":
+                return desapilarUltimoParaEvitarDuplicidad();
+            default:
+                return null;
+        }
+    }
 
     public String generarHeader(List<Simbolo> listaDeSimbolos) {
         String includes =
@@ -65,28 +93,76 @@ public class ConstructorAssembler {
     }
 
     public String generarAssembler(Nodo nodo) {
+        String dato = nodo.getDato();
+        if (dato.matches(">|<|==|!=|<=|>=")) {
+            return generarSubarbolCondicionSimple(nodo);
+        } else {
+            switch (dato) {
+                case "+":
+                    return generarSubarbolOperacion(nodo, Collections.singletonList("FADD"));
+                case "-":
+                    return generarSubarbolOperacion(nodo, Collections.singletonList("FSUB"));
+                case "*":
+                    return generarSubarbolOperacion(nodo, Collections.singletonList("FMUL"));
+                case "/":
+                    return generarSubarbolOperacion(nodo, asList("FXCH", "FDIV"));
+                case ":=":
+                    generarSubarbolAsignacion(nodo);
+                    return null;
+                case "GET":
+                    generarSubarbolGet(nodo);
+                    return null;
+                case "DISPLAY":
+                    generarSubarbolDisplay(nodo);
+                    return null;
+                case "IF":
+                    return generarSubarbolIF(nodo);
+                case "OR":
+                    return generarSubarbolOR();
+                case "AND":
+                    return incrementarNroEtiqueta();
+                case "WHILE":
+                    return generarSubarbolWhile();
 
-        switch (nodo.getDato()) {
-            case "+":
-                return generarSubarbolOperacion(nodo, Collections.singletonList("FADD"));
-            case "-":
-                return generarSubarbolOperacion(nodo, Collections.singletonList("FSUB"));
-            case "*":
-                return generarSubarbolOperacion(nodo, Collections.singletonList("FMUL"));
-            case "/":
-                return generarSubarbolOperacion(nodo, asList("FXCH", "FDIV"));
-            case ":=":
-                generarSubarbolAsignacion(nodo);
-                return null;
-            case "GET":
-                generarSubarbolGet(nodo);
-                return null;
-            case "DISPLAY":
-                generarSubarbolDisplay(nodo);
-                return null;
-            default:
-                return null;
+            }
         }
+        return null;
+    }
+
+    private String generarSubarbolWhile() {
+        return assembler += formatAssembler("JMP", crearEtiqueta());
+
+    }
+
+    private String generarSubarbolOR() {
+        String etiqueta = obtenerAnteUltimaEtiquetaCreada();
+        return assembler += formatAssembler(etiqueta);
+    }
+
+    private String generarSubarbolCondicionSimple(Nodo nodo) {
+        Nodo izq = nodo.getIzq();
+        Nodo der = nodo.getDer();
+        String etiqueta = crearEtiqueta();
+        assembler += formatAssembler("FLD", izq.getDato()) + formatAssembler("FLD", der.getDato());
+        assembler += formatAssembler("FCOM");
+        assembler += formatAssembler("FSTSW AX");
+        assembler += formatAssembler("SAHF");
+        assembler += formatAssembler(getSalto(nodo.getDato()) + " " + etiqueta);
+        return assembler;
+    }
+
+    private String generaEtiquetaInicioCuerpo() {
+        return assembler += formatAssembler(obtenerUltimaEtiquetaCreada());
+    }
+
+    private String generarSubarbolIF(Nodo nodo) {
+        Nodo izq = nodo.getIzq();
+        Nodo der = nodo.getDer();
+        if (der.getDato() != "CUERPO") {
+            String aux = formatAssembler(obtenerUltimaEtiquetaCreada());
+            return assembler += aux;
+        }
+        return null;
     }
 
     private String generarSubarbolOperacion(Nodo nodo, List<String> commands) {
@@ -100,9 +176,7 @@ public class ConstructorAssembler {
         String asmCommands = commands.stream().reduce("", (subtotal, command) -> subtotal + formatAssembler(command));
         String asmStore = formatAssembler("FSTP", aux);
         String asmFree = formatAssembler("FFREE");
-
         String subarbolActual = asmFields + asmCommands + asmStore + asmFree + "\n";
-
         assembler += subarbolActual;
 
         return aux;
@@ -135,7 +209,6 @@ public class ConstructorAssembler {
 
         String asmFields = formatAssembler("FLD", der.getDato());
         String asmStore = formatAssembler("FSTP", izq.getDato());
-
         String subarbolActual = asmFields + asmStore + "\n";
 
         assembler += subarbolActual;
@@ -158,4 +231,52 @@ public class ConstructorAssembler {
     public String getAssembler() {
         return assembler;
     }
+
+
+    private String getSalto(String operador) {
+        switch (operador) {
+            case "==":
+                return "JNE";
+            case "!=":
+                return "JE";
+            case "<":
+                return "JAE";
+            case "<=":
+                return "JA";
+            case ">":
+                return "JBE";
+            case ">=":
+                return "JB";
+            default:
+                return null;
+        }
+    }
+
+    private String incrementarNroEtiqueta() {
+        return String.valueOf(NRO_ETIQUETA++);
+    }
+
+    private String crearEtiqueta() {
+        String etiqueta = "etiqueta" + NRO_ETIQUETA;
+        pilaEtiquetas.push(etiqueta);
+        return etiqueta;
+    }
+
+    private String obtenerUltimaEtiquetaCreada() {
+        incrementarNroEtiqueta();
+        return pilaEtiquetas.pop();
+    }
+
+    private String desapilarUltimoParaEvitarDuplicidad() {
+        return pilaEtiquetas.pop();
+    }
+
+    private String obtenerAnteUltimaEtiquetaCreada() {
+        incrementarNroEtiqueta();
+        String aux = pilaEtiquetas.pop();
+        String etiqueta = pilaEtiquetas.pop();
+        pilaEtiquetas.push(aux);
+        return etiqueta;
+    }
+
 }
