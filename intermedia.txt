@@ -25,14 +25,17 @@ start:
 	GetFloat a
 
 	DisplayFloat a,1
+	newline 1
 
 	GetFloat b
 
 	DisplayFloat b,1
+	newline 1
 
 	GetFloat c
 
 	DisplayFloat c,1
+	newline 1
 
 	FLD a
 	FLD b
@@ -50,6 +53,7 @@ start:
 	FSTP z
 
 	DisplayFloat z,1
+	newline 1
 
 
 	MOV EAX, 4C00h

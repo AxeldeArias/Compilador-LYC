@@ -108,7 +108,7 @@ public class ConstructorAssembler {
         return aux;
     }
 
-    private void generarSubarbolGet(Nodo nodo){
+    private void generarSubarbolGet(Nodo nodo) {
         Nodo izq = nodo.getIzq();
 
         String asmFields = formatAssembler("GetFloat", izq.getDato());
@@ -118,12 +118,13 @@ public class ConstructorAssembler {
         assembler += subarbolActual;
     }
 
-    private void generarSubarbolDisplay(Nodo nodo){
+    private void generarSubarbolDisplay(Nodo nodo) {
         Nodo izq = nodo.getIzq();
 
-        String asmFields = formatAssembler("DisplayFloat", izq.getDato()+",1");
+        String asmFields = formatAssembler("DisplayFloat", izq.getDato() + ",1");
+        String asmNewLine = "\tnewline 1\n";
 
-        String subarbolActual = asmFields + "\n";
+        String subarbolActual = asmFields + asmNewLine + "\n";
 
         assembler += subarbolActual;
     }
