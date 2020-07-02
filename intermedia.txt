@@ -10,23 +10,9 @@ include macros2.asm
 	a	dd	?
 	b	dd	?
 	c	dd	?
-	d	dd	?
-	e	dd	?
-	f	dd	?
-	_1	dd	1.0
-	_2	dd	2.0
-	_3	dd	3.0
-	_11	dd	11.0
-	_5	dd	5.0
-	_6	dd	6.0
-	_20	dd	20.0
 
 	@aux1	dd	?
 	@aux2	dd	?
-	@aux3	dd	?
-	@aux4	dd	?
-	@aux5	dd	?
-	@aux6	dd	?
 
 
 .CODE
@@ -35,63 +21,35 @@ start:
 	MOV EAX,@DATA
 	MOV DS,EAX
 	MOV ES,EAX
-	FLD _1
-	FSTP a
 
-	FLD _2
-	FSTP b
+	GetFloat a
 
-	FLD _3
-	FSTP c
+	DisplayFloat a,1
 
-	FLD _11
-	FSTP d
+	GetFloat b
 
-	FLD _5
-	FSTP e
+	DisplayFloat b,1
 
-	FLD _6
-	FSTP f
+	GetFloat c
 
+	DisplayFloat c,1
+
+	FLD a
 	FLD b
-	FLD c
-	FMUL
+	FADD
 	FSTP @aux1
 	FFREE
 
-	FLD a
 	FLD @aux1
+	FLD c
 	FADD
 	FSTP @aux2
 	FFREE
 
-	FLD e
-	FLD f
-	FADD
-	FSTP @aux3
-	FFREE
-
-	FLD d
-	FLD @aux3
-	FXCH
-	FDIV
-	FSTP @aux4
-	FFREE
-
 	FLD @aux2
-	FLD @aux4
-	FSUB
-	FSTP @aux5
-	FFREE
-
-	FLD @aux5
-	FLD _20
-	FADD
-	FSTP @aux6
-	FFREE
-
-	FLD @aux6
 	FSTP z
+
+	DisplayFloat z,1
 
 
 	MOV EAX, 4C00h

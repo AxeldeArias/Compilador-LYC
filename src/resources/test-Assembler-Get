@@ -1,0 +1,13 @@
+DEFVAR
+    Integer: z;a;b;c;d;e;f
+
+ENDDEF
+
+GET a
+GET b
+GET c
+GET d
+GET e
+GET f
+
+z = a + b * c - d / ( e + f ) + 20

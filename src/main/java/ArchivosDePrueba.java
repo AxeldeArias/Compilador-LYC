@@ -13,6 +13,8 @@ public enum ArchivosDePrueba {
     IF_FACTOR("test-IfFactor"),
     PROGRAMA("..\\..\\prueba"),
     TEST_ASSEMBLER("test-Assembler"),
+    TEST_ASSEMBLER_GET("test-Assembler-Get"),
+    TEST_ASSEMBLER_DISPLAY("test-Assembler-Display"),
 
     DISPLAY("test-Display"),
     GET("test-Get");

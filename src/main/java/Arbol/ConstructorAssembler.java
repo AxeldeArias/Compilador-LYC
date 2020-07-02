@@ -56,7 +56,7 @@ public class ConstructorAssembler {
                         "start:\n" +
                         "\tMOV EAX,@DATA\n" +
                         "\tMOV DS,EAX\n" +
-                        "\tMOV ES,EAX\n" +
+                        "\tMOV ES,EAX\n\n" +
                         "%s\n" +
                         "\tMOV EAX, 4C00h\n" +
                         "\tINT 21h\n\n" +
@@ -77,6 +77,12 @@ public class ConstructorAssembler {
                 return generarSubarbolOperacion(nodo, asList("FXCH", "FDIV"));
             case ":=":
                 generarSubarbolAsignacion(nodo);
+                return null;
+            case "GET":
+                generarSubarbolGet(nodo);
+                return null;
+            case "DISPLAY":
+                generarSubarbolDisplay(nodo);
                 return null;
             default:
                 return null;
@@ -102,6 +108,26 @@ public class ConstructorAssembler {
         return aux;
     }
 
+    private void generarSubarbolGet(Nodo nodo){
+        Nodo izq = nodo.getIzq();
+
+        String asmFields = formatAssembler("GetFloat", izq.getDato());
+
+        String subarbolActual = asmFields + "\n";
+
+        assembler += subarbolActual;
+    }
+
+    private void generarSubarbolDisplay(Nodo nodo){
+        Nodo izq = nodo.getIzq();
+
+        String asmFields = formatAssembler("DisplayFloat", izq.getDato()+",1");
+
+        String subarbolActual = asmFields + "\n";
+
+        assembler += subarbolActual;
+    }
+
     private void generarSubarbolAsignacion(Nodo nodo) {
         Nodo izq = nodo.getIzq();
         Nodo der = nodo.getDer();
@@ -113,7 +139,6 @@ public class ConstructorAssembler {
 
         assembler += subarbolActual;
     }
-
 
     private String incrementarCantAuxiliares() {
         CANT_AUXILIARES++;

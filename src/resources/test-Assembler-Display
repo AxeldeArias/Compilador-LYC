@@ -1,0 +1,15 @@
+DEFVAR
+    Integer: z;a;b;c
+
+ENDDEF
+
+GET a
+DISPLAY a
+GET b
+DISPLAY b
+GET c
+DISPLAY c
+
+z = a + b + c
+
+DISPLAY z

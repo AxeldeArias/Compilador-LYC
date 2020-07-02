@@ -3,13 +3,3 @@ z                             |Integer                       |-                 
 a                             |Integer                       |-                             |-                             
 b                             |Integer                       |-                             |-                             
 c                             |Integer                       |-                             |-                             
-d                             |Integer                       |-                             |-                             
-e                             |Integer                       |-                             |-                             
-f                             |Integer                       |-                             |-                             
-_1                            |Integer                       |1                             |-                             
-_2                            |Integer                       |2                             |-                             
-_3                            |Integer                       |3                             |-                             
-_11                           |Integer                       |11                            |-                             
-_5                            |Integer                       |5                             |-                             
-_6                            |Integer                       |6                             |-                             
-_20                           |Integer                       |20                            |-                             
