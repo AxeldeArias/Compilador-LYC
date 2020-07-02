@@ -20,7 +20,9 @@ public class TablaDeSimbolos {
     }
 
     public void agregarEnTabla(String nombre, TipoDato tipo, String valor, Integer longitud) {
-        listaDeSimbolos.add(new Simbolo(nombre, tipo, valor, longitud));
+        boolean existe = listaDeSimbolos.stream().anyMatch(s -> s.getNombre().equals(nombre));
+        if (!existe)
+            listaDeSimbolos.add(new Simbolo(nombre, tipo, valor, longitud));
     }
 
     public Boolean chequearEnTabla(String nombre) {
