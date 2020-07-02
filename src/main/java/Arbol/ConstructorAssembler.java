@@ -44,8 +44,10 @@ public class ConstructorAssembler {
     }
 
     private String formatTs(Simbolo linea) {
-        String valor = linea.getValor();
-        return String.format("\t%s\tdd\t%s\n", linea.getNombre(), valor != null ? valor : "?");
+        String valor = linea.getValor() != null ? Double.valueOf(linea.getValor()).toString() : "?";
+        //String nombre = (linea.getNombre().matches("_[0-9]+") ? "_" : "") + linea.getNombre(); //TODO Ver caso de CONST_STR
+        String nombre = linea.getNombre();
+        return String.format("\t%s\tdd\t%s\n", nombre, valor);
     }
 
     public String generarCodigo(String codigoPrograma) {
@@ -55,7 +57,7 @@ public class ConstructorAssembler {
                         "\tMOV EAX,@DATA\n" +
                         "\tMOV DS,EAX\n" +
                         "\tMOV ES,EAX\n" +
-                        "%s\n\n" +
+                        "%s\n" +
                         "\tMOV EAX, 4C00h\n" +
                         "\tINT 21h\n\n" +
                         "\tEND start";
@@ -68,7 +70,7 @@ public class ConstructorAssembler {
             case "+":
                 return generarSubarbolOperacion(nodo, Collections.singletonList("FADD"));
             case "-":
-                return generarSubarbolOperacion(nodo, asList("FXCH", "FSUB"));
+                return generarSubarbolOperacion(nodo, Collections.singletonList("FSUB"));
             case "*":
                 return generarSubarbolOperacion(nodo, Collections.singletonList("FMUL"));
             case "/":
@@ -91,9 +93,9 @@ public class ConstructorAssembler {
         String asmFields = formatAssembler("FLD", izq.getDato()) + formatAssembler("FLD", der.getDato());
         String asmCommands = commands.stream().reduce("", (subtotal, command) -> subtotal + formatAssembler(command));
         String asmStore = formatAssembler("FSTP", aux);
-        String asmFree = formatAssembler("FFREE") + "\n";
+        String asmFree = formatAssembler("FFREE");
 
-        String subarbolActual = asmFields + asmCommands + asmStore + asmFree;
+        String subarbolActual = asmFields + asmCommands + asmStore + asmFree + "\n";
 
         assembler += subarbolActual;
 
@@ -107,7 +109,7 @@ public class ConstructorAssembler {
         String asmFields = formatAssembler("FLD", der.getDato());
         String asmStore = formatAssembler("FSTP", izq.getDato());
 
-        String subarbolActual = asmFields + asmStore;
+        String subarbolActual = asmFields + asmStore + "\n";
 
         assembler += subarbolActual;
     }
@@ -119,11 +121,12 @@ public class ConstructorAssembler {
     }
 
     private String formatAssembler(String command, String value) {
-        return String.format("\n\t%s %s", command, value);
+        String _value = (value.matches("[0-9]+") ? "_" : "") + value; //TODO Ver caso de CONST_STR
+        return String.format("\t%s %s\n", command, _value);
     }
 
     private String formatAssembler(String command) {
-        return String.format("\n\t%s", command);
+        return String.format("\t%s\n", command);
     }
 
     public String getAssembler() {

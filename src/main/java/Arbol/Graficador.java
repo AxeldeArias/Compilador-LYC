@@ -54,9 +54,9 @@ public class Graficador {
         Nodo izq = nodo.getIzq();
         Nodo der = nodo.getDer();
 
-        if(!izq.esHoja())
+        if (izq != null && !izq.esHoja())
             escribirIntermedia(izq);
-        if (!der.esHoja())
+        if (der != null && !der.esHoja())
             escribirIntermedia(der);
 
         String datoSubarbol = constructorAssembler.generarAssembler(nodo);
