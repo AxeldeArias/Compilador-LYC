@@ -24,17 +24,20 @@ public class ConstructorAssembler {
         String accion = nodo.getDato();
         switch (accion) {
             case "WHILE":
-                return generarSubarbolWhile();
+                generarSubarbolWhile();
+                break;
             default:
                 return null;
         }
+        return null;
     }
 
     public String escribirAssemblerAntesDeEscribirHijoDer(Nodo nodo) {
         String accion = nodo.getDato();
         switch (accion) {
             case "CUERPO":
-                return generaEtiquetaInicioCuerpo();
+                generaEtiquetaInicioCuerpo();
+                break;
             case "OR":
                 return incrementarNroEtiqueta();
             case "AND":
@@ -42,6 +45,7 @@ public class ConstructorAssembler {
             default:
                 return null;
         }
+        return null;
     }
 
     public String generarHeader(List<Simbolo> listaDeSimbolos) {
@@ -95,7 +99,7 @@ public class ConstructorAssembler {
     public String generarAssembler(Nodo nodo) {
         String dato = nodo.getDato();
         if (dato.matches(">|<|==|!=|<=|>=")) {
-            return generarSubarbolCondicionSimple(nodo);
+            generarSubarbolCondicionSimple(nodo);
         } else {
             switch (dato) {
                 case "+":
@@ -116,30 +120,34 @@ public class ConstructorAssembler {
                     generarSubarbolDisplay(nodo);
                     return null;
                 case "IF":
-                    return generarSubarbolIF(nodo);
+                    generarSubarbolIF(nodo);
+                    break;
                 case "OR":
-                    return generarSubarbolOR();
+                    generarSubarbolOR();
+                    break;
                 case "AND":
-                    return incrementarNroEtiqueta();
+                    incrementarNroEtiqueta();
+                    break;
                 case "WHILE":
-                    return generarSubarbolWhile();
+                    generarSubarbolWhile();
+                    break;
 
             }
         }
         return null;
     }
 
-    private String generarSubarbolWhile() {
-        return assembler += formatAssembler("JMP", crearEtiqueta());
+    private void generarSubarbolWhile() {
+        assembler += formatAssembler("JMP", crearEtiqueta());
 
     }
 
-    private String generarSubarbolOR() {
+    private void generarSubarbolOR() {
         String etiqueta = obtenerAnteUltimaEtiquetaCreada();
-        return assembler += formatAssembler(etiqueta);
+        assembler += formatAssembler(etiqueta);
     }
 
-    private String generarSubarbolCondicionSimple(Nodo nodo) {
+    private void generarSubarbolCondicionSimple(Nodo nodo) {
         Nodo izq = nodo.getIzq();
         Nodo der = nodo.getDer();
         String etiqueta = crearEtiqueta();
@@ -148,21 +156,19 @@ public class ConstructorAssembler {
         assembler += formatAssembler("FSTSW AX");
         assembler += formatAssembler("SAHF");
         assembler += formatAssembler(getSalto(nodo.getDato()) + " " + etiqueta);
-        return assembler;
+
     }
 
-    private String generaEtiquetaInicioCuerpo() {
-        return assembler += formatAssembler(obtenerUltimaEtiquetaCreada());
+    private void generaEtiquetaInicioCuerpo() {
+        assembler += formatAssembler(obtenerUltimaEtiquetaCreada());
     }
 
-    private String generarSubarbolIF(Nodo nodo) {
+    private void generarSubarbolIF(Nodo nodo) {
         Nodo izq = nodo.getIzq();
         Nodo der = nodo.getDer();
         if (der.getDato() != "CUERPO") {
-            String aux = formatAssembler(obtenerUltimaEtiquetaCreada());
-            return assembler += aux;
+            assembler += formatAssembler(obtenerUltimaEtiquetaCreada());
         }
-        return null;
     }
 
     private String generarSubarbolOperacion(Nodo nodo, List<String> commands) {

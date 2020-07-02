@@ -15,6 +15,7 @@ public enum ArchivosDePrueba {
     TEST_ASSEMBLER("test-Assembler"),
     TEST_ASSEMBLER_GET("test-Assembler-Get"),
     TEST_ASSEMBLER_DISPLAY("test-Assembler-Display"),
+    TEST_ASSEMBLER_IF("test-Assembler-If"),
 
     DISPLAY("test-Display"),
     GET("test-Get");

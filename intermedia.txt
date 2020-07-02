@@ -6,13 +6,18 @@ include macros2.asm
 .STACK 200h ;Bytes en el Stack
 
 .DATA
-	z	dd	?
 	a	dd	?
 	b	dd	?
 	c	dd	?
+	_2	dd	2.0
+	_3	dd	3.0
+	_25	dd	25.0
+	_1	dd	1.0
+	_4	dd	4.0
 
 	@aux1	dd	?
 	@aux2	dd	?
+	@aux3	dd	?
 
 
 .CODE
@@ -22,39 +27,41 @@ start:
 	MOV DS,EAX
 	MOV ES,EAX
 
-	GetFloat a
-
-	DisplayFloat a,1
-	newline 1
-
-	GetFloat b
-
-	DisplayFloat b,1
-	newline 1
-
-	GetFloat c
-
-	DisplayFloat c,1
-	newline 1
-
 	FLD a
 	FLD b
+	FCOM
+	FSTSW AX
+	SAHF
+	JE etiqueta0
+
+	FLD b
+	FLD _2
 	FADD
 	FSTP @aux1
 	FFREE
 
 	FLD @aux1
-	FLD c
-	FADD
+	FSTP a
+
+	FLD _3
+	FLD _25
+	FMUL
 	FSTP @aux2
 	FFREE
 
 	FLD @aux2
-	FSTP z
+	FSTP c
 
-	DisplayFloat z,1
-	newline 1
+	FLD _1
+	FLD _4
+	FSUB
+	FSTP @aux3
+	FFREE
 
+	FLD @aux3
+	FSTP b
+
+	etiqueta0
 
 	MOV EAX, 4C00h
 	INT 21h

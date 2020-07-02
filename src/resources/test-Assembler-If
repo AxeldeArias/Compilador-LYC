@@ -1,0 +1,19 @@
+DEFVAR
+    Integer: a;b;c
+ENDDEF
+
+GET a
+GET b
+GET c
+
+if(a!=b or c!=a) {
+
+    a = b + 2
+    DISPLAY a
+
+    c= 3*25
+    DISPLAY c
+
+    b = 1 -4
+    DISPLAY b
+}

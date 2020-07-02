@@ -65,7 +65,9 @@ public class Graficador {
             escribirIntermedia(der);
 
         String datoSubarbol = constructorAssembler.generarAssembler(nodo);
-        nodo.setDato(datoSubarbol);
+        if(datoSubarbol != null && datoSubarbol.contains("@aux")){
+            nodo.setDato(datoSubarbol);
+        }
     }
 
 

@@ -1,60 +1,46 @@
-#Probar en https://dreampuf.github.io/GraphvizOnline/#digraph%20%22arbol%22%20%7B%0A%09label%3D%22arbol%22%0A%09n27%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n24%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n16%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n13%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n10%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n7%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n4%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n1%20%5Blabel%3D%22GET%22%5D%20%3B%0A%20%09n0%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n3%20%5Blabel%3D%22DISPLAY%22%5D%20%3B%0A%20%09n2%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n6%20%5Blabel%3D%22GET%22%5D%20%3B%0A%20%09n5%20%5Blabel%3D%22b%22%5D%20%3B%0A%20%09n9%20%5Blabel%3D%22DISPLAY%22%5D%20%3B%0A%20%09n8%20%5Blabel%3D%22b%22%5D%20%3B%0A%20%09n12%20%5Blabel%3D%22GET%22%5D%20%3B%0A%20%09n11%20%5Blabel%3D%22c%22%5D%20%3B%0A%20%09n15%20%5Blabel%3D%22DISPLAY%22%5D%20%3B%0A%20%09n14%20%5Blabel%3D%22c%22%5D%20%3B%0A%20%09n23%20%5Blabel%3D%22%3A%3D%22%5D%20%3B%0A%20%09n22%20%5Blabel%3D%22z%22%5D%20%3B%0A%20%09n21%20%5Blabel%3D%22%2B%22%5D%20%3B%0A%20%09n19%20%5Blabel%3D%22%2B%22%5D%20%3B%0A%20%09n17%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n18%20%5Blabel%3D%22b%22%5D%20%3B%0A%20%09n20%20%5Blabel%3D%22c%22%5D%20%3B%0A%20%09n26%20%5Blabel%3D%22DISPLAY%22%5D%20%3B%0A%20%09n25%20%5Blabel%3D%22z%22%5D%20%3B%0A%09n27%20-%3E%20n24%0A%09n24%20-%3E%20n16%0A%09n16%20-%3E%20n13%0A%09n13%20-%3E%20n10%0A%09n10%20-%3E%20n7%0A%09n7%20-%3E%20n4%0A%09n4%20-%3E%20n1%0A%09n1%20-%3E%20n0%0A%09n4%20-%3E%20n3%0A%09n3%20-%3E%20n2%0A%09n7%20-%3E%20n6%0A%09n6%20-%3E%20n5%0A%09n10%20-%3E%20n9%0A%09n9%20-%3E%20n8%0A%09n13%20-%3E%20n12%0A%09n12%20-%3E%20n11%0A%09n16%20-%3E%20n15%0A%09n15%20-%3E%20n14%0A%09n24%20-%3E%20n23%0A%09n23%20-%3E%20n22%0A%09n23%20-%3E%20n21%0A%09n21%20-%3E%20n19%0A%09n19%20-%3E%20n17%0A%09n19%20-%3E%20n18%0A%09n21%20-%3E%20n20%0A%09n27%20-%3E%20n26%0A%09n26%20-%3E%20n25%0A%7D
+#Probar en https://dreampuf.github.io/GraphvizOnline/#digraph%20%22arbol%22%20%7B%0A%09label%3D%22arbol%22%0A%09n20%20%5Blabel%3D%22IF%22%5D%20%3B%0A%20%09n2%20%5Blabel%3D%22%21%3D%22%5D%20%3B%0A%20%09n0%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n1%20%5Blabel%3D%22b%22%5D%20%3B%0A%20%09n19%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n13%20%5Blabel%3D%22%3B%3B%22%5D%20%3B%0A%20%09n7%20%5Blabel%3D%22%3A%3D%22%5D%20%3B%0A%20%09n6%20%5Blabel%3D%22a%22%5D%20%3B%0A%20%09n5%20%5Blabel%3D%22%2B%22%5D%20%3B%0A%20%09n3%20%5Blabel%3D%22b%22%5D%20%3B%0A%20%09n4%20%5Blabel%3D%222%22%5D%20%3B%0A%20%09n12%20%5Blabel%3D%22%3A%3D%22%5D%20%3B%0A%20%09n11%20%5Blabel%3D%22c%22%5D%20%3B%0A%20%09n10%20%5Blabel%3D%22*%22%5D%20%3B%0A%20%09n8%20%5Blabel%3D%223%22%5D%20%3B%0A%20%09n9%20%5Blabel%3D%2225%22%5D%20%3B%0A%20%09n18%20%5Blabel%3D%22%3A%3D%22%5D%20%3B%0A%20%09n17%20%5Blabel%3D%22b%22%5D%20%3B%0A%20%09n16%20%5Blabel%3D%22-%22%5D%20%3B%0A%20%09n14%20%5Blabel%3D%221%22%5D%20%3B%0A%20%09n15%20%5Blabel%3D%224%22%5D%20%3B%0A%09n20%20-%3E%20n2%0A%09n2%20-%3E%20n0%0A%09n2%20-%3E%20n1%0A%09n20%20-%3E%20n19%0A%09n19%20-%3E%20n13%0A%09n13%20-%3E%20n7%0A%09n7%20-%3E%20n6%0A%09n7%20-%3E%20n5%0A%09n5%20-%3E%20n3%0A%09n5%20-%3E%20n4%0A%09n13%20-%3E%20n12%0A%09n12%20-%3E%20n11%0A%09n12%20-%3E%20n10%0A%09n10%20-%3E%20n8%0A%09n10%20-%3E%20n9%0A%09n19%20-%3E%20n18%0A%09n18%20-%3E%20n17%0A%09n18%20-%3E%20n16%0A%09n16%20-%3E%20n14%0A%09n16%20-%3E%20n15%0A%7D
 
 digraph "arbol" {
 	label="arbol"
-	n27 [label=";;"] ;
- 	n24 [label=";;"] ;
- 	n16 [label=";;"] ;
- 	n13 [label=";;"] ;
- 	n10 [label=";;"] ;
- 	n7 [label=";;"] ;
- 	n4 [label=";;"] ;
- 	n1 [label="GET"] ;
+	n20 [label="IF"] ;
+ 	n2 [label="!="] ;
  	n0 [label="a"] ;
- 	n3 [label="DISPLAY"] ;
- 	n2 [label="a"] ;
- 	n6 [label="GET"] ;
- 	n5 [label="b"] ;
- 	n9 [label="DISPLAY"] ;
- 	n8 [label="b"] ;
- 	n12 [label="GET"] ;
+ 	n1 [label="b"] ;
+ 	n19 [label=";;"] ;
+ 	n13 [label=";;"] ;
+ 	n7 [label=":="] ;
+ 	n6 [label="a"] ;
+ 	n5 [label="+"] ;
+ 	n3 [label="b"] ;
+ 	n4 [label="2"] ;
+ 	n12 [label=":="] ;
  	n11 [label="c"] ;
- 	n15 [label="DISPLAY"] ;
- 	n14 [label="c"] ;
- 	n23 [label=":="] ;
- 	n22 [label="z"] ;
- 	n21 [label="+"] ;
- 	n19 [label="+"] ;
- 	n17 [label="a"] ;
- 	n18 [label="b"] ;
- 	n20 [label="c"] ;
- 	n26 [label="DISPLAY"] ;
- 	n25 [label="z"] ;
-	n27 -> n24
-	n24 -> n16
-	n16 -> n13
-	n13 -> n10
-	n10 -> n7
-	n7 -> n4
-	n4 -> n1
-	n1 -> n0
-	n4 -> n3
-	n3 -> n2
+ 	n10 [label="*"] ;
+ 	n8 [label="3"] ;
+ 	n9 [label="25"] ;
+ 	n18 [label=":="] ;
+ 	n17 [label="b"] ;
+ 	n16 [label="-"] ;
+ 	n14 [label="1"] ;
+ 	n15 [label="4"] ;
+	n20 -> n2
+	n2 -> n0
+	n2 -> n1
+	n20 -> n19
+	n19 -> n13
+	n13 -> n7
 	n7 -> n6
-	n6 -> n5
-	n10 -> n9
-	n9 -> n8
+	n7 -> n5
+	n5 -> n3
+	n5 -> n4
 	n13 -> n12
 	n12 -> n11
-	n16 -> n15
-	n15 -> n14
-	n24 -> n23
-	n23 -> n22
-	n23 -> n21
-	n21 -> n19
-	n19 -> n17
+	n12 -> n10
+	n10 -> n8
+	n10 -> n9
 	n19 -> n18
-	n21 -> n20
-	n27 -> n26
-	n26 -> n25
+	n18 -> n17
+	n18 -> n16
+	n16 -> n14
+	n16 -> n15
 }
