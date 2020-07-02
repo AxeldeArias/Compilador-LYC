@@ -10,25 +10,41 @@
 	FCOM
 	FSTSW AX
 	SAHF
-	JA etiqueta0
+	JAE etiqueta0
 	FLD 1
 	FSTP a
-	etiqueta0
-	FLD a
+	FLD b
+	FLD 6
+	FCOM
+	FSTSW AX
+	SAHF
+	JBE etiqueta1
+	FLD 6
+	FSTP b
+	etiqueta1
+	FLD z
+	FLD 1
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta2
+	FLD z
+	FLD 2
+	FCOM
+	FSTSW AX
+	SAHF
+	JA etiqueta3
+	etiqueta2
+	FLD z
 	FLD 3
 	FCOM
 	FSTSW AX
 	SAHF
-	JE etiqueta1
-	FLD a
-	FLD 4
-	FCOM
-	FSTSW AX
-	SAHF
-	JA etiqueta2
-	etiqueta1
-	FLD 1
+	JA etiqueta4
+	FLD 11
+	FSTP z
+	etiqueta4
+	etiqueta3
+	etiqueta0
+	FLD z
 	FSTP a
-	etiqueta2
-	FLD 2
-	FSTP b

@@ -766,17 +766,6 @@ class CUP$AnalizadorSintactico$actions {
               // propagate RESULT from NT$3
                 RESULT = (Symbol) ((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
 		
-
-                            //negamos el lado izq para facilitar el assembler
-                            String operadorIzq = nodoTerminoLogicoIzq.getDato();
-                            String operadorIzqNegado = gestorOperadoresLogicos.negarOperador(operadorIzq);
-                            nodoTerminoLogicoIzq.setDato(operadorIzqNegado);
-
-                            //negamos el lado der para facilitar el assembler
-                            String operadorDer = nodoTerminoLogico.getDato();
-                            String operadorDerNegado = gestorOperadoresLogicos.negarOperador(operadorDer);
-                            nodoTerminoLogico.setDato(operadorDerNegado);
-
                             nodoExpresionLogica = new Nodo("AND", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("expresion_logica",15, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
@@ -803,11 +792,12 @@ class CUP$AnalizadorSintactico$actions {
                 RESULT = (Symbol) ((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
 		
 
-                            //negamos el lado der para facilitar el assembler
-                            String operadorDer = nodoTerminoLogico.getDato();
-                            String operadorDerNegado = gestorOperadoresLogicos.negarOperador(operadorDer);
-                            nodoTerminoLogico.setDato(operadorDerNegado);
-
+                             //negamos el lado der para facilitar el assembler
+                            String operadorIzq = nodoTerminoLogicoIzq.getDato();
+                            System.out.println(operadorIzq);
+                            String operadorIzqNegado = gestorOperadoresLogicos.negarOperador(operadorIzq);
+                            System.out.println(operadorIzqNegado);
+                            nodoTerminoLogicoIzq.setDato(operadorIzqNegado);
 
                             nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         

@@ -9,8 +9,6 @@ public class GestorOperadoresLogicos {
     }
 
     public String getOperador(String operador) {
-
-        System.out.println(operador);
         if (negarOperadores == true) {
            return negarOperador(operador);
         }else{

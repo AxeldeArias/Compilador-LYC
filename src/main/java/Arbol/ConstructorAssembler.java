@@ -15,13 +15,25 @@ public class ConstructorAssembler {
     private Boolean segundaCondicion = true;
     Stack<String> pilaEtiquetas = new Stack<String>();
 
-     public String escribirAssembler(String accion) {
+    public String escribirAssemblerAntesDeEscribirHijos(Nodo nodo) {
+        String accion = nodo.getDato();
+        switch (accion) {
+           case "WHILE":
+                    return generarSubarbolWhile();
+            default:
+                return null;
+        }
+    }
+
+    public String escribirAssemblerAntesDeEscribirHijoDer(Nodo nodo) {
+        String accion = nodo.getDato();
         switch (accion) {
            case "CUERPO":
-                generaEtiquetaInicioCuerpo();
-                return null;
+                    return generaEtiquetaInicioCuerpo();
             case "OR":
-                   incrementarNroEtiqueta();
+                    return incrementarNroEtiqueta();
+            case "AND":
+                    return desapilarUltimoParaEvitarDuplicidad();
             default:
                 return null;
         }
@@ -29,7 +41,7 @@ public class ConstructorAssembler {
 
     public String escribirAssembler(Nodo nodo) {
          String dato = nodo.getDato();
-         if(dato.matches(">|<|==|!=")){
+         if(dato.matches(">|<|==|!=|<=|>=")){
              return generarSubarbolCondicionSimple(nodo);
          }else {
              switch (dato) {
@@ -47,15 +59,22 @@ public class ConstructorAssembler {
                      return generarSubarbolCondicionSimple(nodo);
                  case "IF":
                      return generarSubarbolIF(nodo);
+                 case "OR":
+                     return generarSubarbolOR();
                  case "AND":
                      return incrementarNroEtiqueta();
-                 case "OR":
-                     generarSubarbolOR();
+                 case "WHILE":
+                     return generarSubarbolWhile();
+
              }
          }
          return null;
     }
 
+    private String generarSubarbolWhile(){
+        return  assembler += formatAssembler("JMP", crearEtiqueta());
+
+    }
     private String generarSubarbolOR() {
         String etiqueta = obtenerAnteUltimaEtiquetaCreada();
         return assembler += formatAssembler(etiqueta);
@@ -81,7 +100,8 @@ public class ConstructorAssembler {
        Nodo izq = nodo.getIzq();
        Nodo der = nodo.getDer();
        if ( der.getDato() != "CUERPO" ) {
-          return assembler += formatAssembler(obtenerUltimaEtiquetaCreada());
+          String aux = formatAssembler(obtenerUltimaEtiquetaCreada());
+          return assembler += aux;
        }
        return null;
     }
@@ -134,21 +154,21 @@ public class ConstructorAssembler {
 
     private String getSalto(String operador){
          switch (operador) {
-                 case "==":
-                     return "JE";
-                 case "!=":
-                     return "JNE";
-                 case "<":
-                     return "JB";
-                 case "<=":
-                     return "JBE";
-                 case ">":
-                     return "JA";
-                 case ">=":
-                     return "JAE";
-                 default:
-                    return null;
-             }
+            case "==":
+                return "JNE";
+            case "!=":
+                return "JE";
+            case "<":
+                return "JAE";
+            case "<=":
+                return "JA";
+            case ">":
+                return "JBE";
+            case ">=":
+                return "JB";
+            default:
+               return null;
+         }
     }
 
     private String incrementarNroEtiqueta(){
@@ -158,16 +178,23 @@ public class ConstructorAssembler {
     private String crearEtiqueta(){
          String etiqueta = "etiqueta" + NRO_ETIQUETA;
          pilaEtiquetas.push(etiqueta);
-         System.out.println("push" +etiqueta);
          return etiqueta;
     }
 
     private String obtenerUltimaEtiquetaCreada(){
+         incrementarNroEtiqueta();
+         return pilaEtiquetas.pop();
+    }
+    private String desapilarUltimoParaEvitarDuplicidad(){
         return pilaEtiquetas.pop();
     }
 
     private String obtenerAnteUltimaEtiquetaCreada(){
-        return pilaEtiquetas.get(1);
+         incrementarNroEtiqueta();
+         String aux = pilaEtiquetas.pop();
+         String etiqueta = pilaEtiquetas.pop();
+         pilaEtiquetas.push(aux);
+         return etiqueta;
     }
 
 }

@@ -213,17 +213,6 @@ expresion_logica	::= termino_logico {:
                             nodoTerminoLogicoIzq = nodoTerminoLogico;
                             RESULT = new Symbol(-1);
                         :} OP_AND termino_logico {:
-
-                            //negamos el lado izq para facilitar el assembler
-                            String operadorIzq = nodoTerminoLogicoIzq.getDato();
-                            String operadorIzqNegado = gestorOperadoresLogicos.negarOperador(operadorIzq);
-                            nodoTerminoLogicoIzq.setDato(operadorIzqNegado);
-
-                            //negamos el lado der para facilitar el assembler
-                            String operadorDer = nodoTerminoLogico.getDato();
-                            String operadorDerNegado = gestorOperadoresLogicos.negarOperador(operadorDer);
-                            nodoTerminoLogico.setDato(operadorDerNegado);
-
                             nodoExpresionLogica = new Nodo("AND", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         :}
 					| termino_logico {:
@@ -231,11 +220,12 @@ expresion_logica	::= termino_logico {:
                             RESULT = new Symbol(-1);
                         :} OP_OR termino_logico {:
 
-                            //negamos el lado der para facilitar el assembler
-                            String operadorDer = nodoTerminoLogico.getDato();
-                            String operadorDerNegado = gestorOperadoresLogicos.negarOperador(operadorDer);
-                            nodoTerminoLogico.setDato(operadorDerNegado);
-
+                             //negamos el lado der para facilitar el assembler
+                            String operadorIzq = nodoTerminoLogicoIzq.getDato();
+                            System.out.println(operadorIzq);
+                            String operadorIzqNegado = gestorOperadoresLogicos.negarOperador(operadorIzq);
+                            System.out.println(operadorIzqNegado);
+                            nodoTerminoLogicoIzq.setDato(operadorIzqNegado);
 
                             nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
                         :}

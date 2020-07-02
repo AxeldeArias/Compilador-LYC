@@ -6,10 +6,16 @@ ENDDEF
 
 if(a == 3 AND a < 4){
    a=1
+   if( b > 6 ) {
+    b=6
+   }
+   if( z != 1 OR z <=2){
+
+        if(NOT z>=3){
+            z=11
+        }
+   }
+}else{
+  a=z
 }
 
-if(a == 3 OR a < 4){
-   a=1
-}else{
- b = 2
-}

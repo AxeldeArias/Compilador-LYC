@@ -6,7 +6,9 @@ c                             |Float                         |-                 
 _3                            |Integer                       |3                             |-                             
 _4                            |Integer                       |4                             |-                             
 _1                            |Integer                       |1                             |-                             
-_3                            |Integer                       |3                             |-                             
-_4                            |Integer                       |4                             |-                             
+_6                            |Integer                       |6                             |-                             
+_6                            |Integer                       |6                             |-                             
 _1                            |Integer                       |1                             |-                             
 _2                            |Integer                       |2                             |-                             
+_3                            |Integer                       |3                             |-                             
+_11                           |Integer                       |11                            |-                             
