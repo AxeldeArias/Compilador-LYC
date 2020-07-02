@@ -15,7 +15,6 @@ public class ConstructorAssembler {
 
     private static Integer CANT_AUXILIARES = 0;
     private String assembler = "";
-    private String etiquetas = "";
     private Integer NRO_ETIQUETA = 0;
     private Boolean segundaCondicion = true;
     Stack<String> pilaEtiquetas = new Stack<>();
@@ -112,13 +111,13 @@ public class ConstructorAssembler {
                     return generarSubarbolOperacion(nodo, asList("FXCH", "FDIV"));
                 case ":=":
                     generarSubarbolAsignacion(nodo);
-                    return null;
+                    break;
                 case "GET":
                     generarSubarbolGet(nodo);
-                    return null;
+                    break;
                 case "DISPLAY":
                     generarSubarbolDisplay(nodo);
-                    return null;
+                    break;
                 case "IF":
                     generarSubarbolIF(nodo);
                     break;
@@ -131,7 +130,11 @@ public class ConstructorAssembler {
                 case "WHILE":
                     generarSubarbolWhile();
                     break;
-
+                case "CUERPO":
+                    generarSubarbolCuerpo();
+                    break;
+                default:
+                    return null;
             }
         }
         return null;
@@ -140,6 +143,11 @@ public class ConstructorAssembler {
     private void generarSubarbolWhile() {
         assembler += formatAssembler("JMP", crearEtiqueta());
 
+    }
+
+    private void generarSubarbolCuerpo(){
+        String etiqueta = obtenerUltimaEtiquetaCreada();
+        assembler += formatAssembler(etiqueta);
     }
 
     private void generarSubarbolOR() {
@@ -156,11 +164,11 @@ public class ConstructorAssembler {
         assembler += formatAssembler("FSTSW AX");
         assembler += formatAssembler("SAHF");
         assembler += formatAssembler(getSalto(nodo.getDato()) + " " + etiqueta);
-
     }
 
     private void generaEtiquetaInicioCuerpo() {
-        assembler += formatAssembler(obtenerUltimaEtiquetaCreada());
+        assembler += formatAssembler("JMP",crearEtiqueta());
+        incrementarNroEtiqueta();
     }
 
     private void generarSubarbolIF(Nodo nodo) {
@@ -270,11 +278,11 @@ public class ConstructorAssembler {
 
     private String obtenerUltimaEtiquetaCreada() {
         incrementarNroEtiqueta();
-        return pilaEtiquetas.pop();
+        return pilaEtiquetas.pop()+":";
     }
 
     private String desapilarUltimoParaEvitarDuplicidad() {
-        return pilaEtiquetas.pop();
+        return pilaEtiquetas.pop()+":";
     }
 
     private String obtenerAnteUltimaEtiquetaCreada() {
@@ -282,7 +290,7 @@ public class ConstructorAssembler {
         String aux = pilaEtiquetas.pop();
         String etiqueta = pilaEtiquetas.pop();
         pilaEtiquetas.push(aux);
-        return etiqueta;
+        return etiqueta+":";
     }
 
 }

@@ -23,13 +23,13 @@ public class GestorOperadoresLogicos {
     public String negarOperador(String operador){
          switch (operador) {
                 case ">":
-                    return "<";
-                case "<":
-                    return ">";
-                case "<=":
-                    return ">=";
-                case ">=":
                     return "<=";
+                case "<":
+                    return ">=";
+                case "<=":
+                    return ">";
+                case ">=":
+                    return "<";
                 case "==":
                     return "!=";
                 case "!=":

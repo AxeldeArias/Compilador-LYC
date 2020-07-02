@@ -8,16 +8,26 @@ include macros2.asm
 .DATA
 	a	dd	?
 	b	dd	?
+	z	dd	?
 	c	dd	?
+	_3	dd	3.0
+	_4	dd	4.0
+	_1	dd	1.0
+	_2	dd	2.0
+	_6	dd	6.0
+	_6	dd	6.0
+	_2	dd	2.0
+	_1	dd	1.0
 	_2	dd	2.0
 	_3	dd	3.0
-	_25	dd	25.0
+	_11	dd	11.0
+	_5	dd	5.0
 	_1	dd	1.0
-	_4	dd	4.0
 
 	@aux1	dd	?
 	@aux2	dd	?
 	@aux3	dd	?
+	@aux4	dd	?
 
 
 .CODE
@@ -28,13 +38,18 @@ start:
 	MOV ES,EAX
 
 	FLD a
-	FLD b
+	FLD _3
 	FCOM
 	FSTSW AX
 	SAHF
-	JE etiqueta0
-
-	FLD b
+	JNE etiqueta0
+	FLD a
+	FLD _4
+	FCOM
+	FSTSW AX
+	SAHF
+	JAE etiqueta0
+	FLD _1
 	FLD _2
 	FADD
 	FSTP @aux1
@@ -43,25 +58,64 @@ start:
 	FLD @aux1
 	FSTP a
 
-	FLD _3
-	FLD _25
-	FMUL
+	FLD b
+	FLD _6
+	FCOM
+	FSTSW AX
+	SAHF
+	JBE etiqueta1
+	FLD _6
+	FLD _2
+	FSUB
 	FSTP @aux2
 	FFREE
 
 	FLD @aux2
-	FSTP c
+	FSTP b
 
+	etiqueta1:
+	FLD z
 	FLD _1
-	FLD _4
-	FSUB
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta2
+	FLD z
+	FLD _2
+	FCOM
+	FSTSW AX
+	SAHF
+	JA etiqueta3
+	etiqueta2:
+	FLD z
+	FLD _3
+	FCOM
+	FSTSW AX
+	SAHF
+	JAE etiqueta4
+	FLD _11
+	FLD _5
+	FMUL
 	FSTP @aux3
 	FFREE
 
 	FLD @aux3
-	FSTP b
+	FSTP z
 
-	etiqueta0
+	etiqueta4:
+	etiqueta3:
+	JMP etiqueta6
+	FLD z
+	FLD _1
+	FXCH
+	FDIV
+	FSTP @aux4
+	FFREE
+
+	FLD @aux4
+	FSTP a
+
+	etiqueta6:
 
 	MOV EAX, 4C00h
 	INT 21h
