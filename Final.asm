@@ -34,6 +34,8 @@ include macros2.asm
 	@aux9	dd	?
 	@aux10	dd	?
 	@aux11	dd	?
+	@aux12	dd	?
+	@aux13	dd	?
 
 
 .CODE
@@ -78,13 +80,42 @@ etiqueta0:
 	SAHF
 	JNE etiqueta1
 
+	FLD c
+	FLD _5
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta2
+
+	FLD z
+	FLD _1
+	FADD
+	FSTP @aux1
+	FFREE
+
+	FLD @aux1
+	FSTP z
+
+	JMP etiqueta3
+etiqueta2:
+	FLD z
+	FLD _2
+	FADD
+	FSTP @aux2
+	FFREE
+
+	FLD @aux2
+	FSTP z
+
+etiqueta3:
 	FLD a
 	FLD _3
 	FXCH
 	FCOM
 	FSTSW AX
 	SAHF
-	JNE etiqueta2
+	JNE etiqueta5
 
 	FLD a
 	FLD _4
@@ -92,15 +123,15 @@ etiqueta0:
 	FCOM
 	FSTSW AX
 	SAHF
-	JAE etiqueta2
+	JAE etiqueta5
 
-	FLD _1
+	FLD a
 	FLD _2
 	FADD
-	FSTP @aux1
+	FSTP @aux3
 	FFREE
 
-	FLD @aux1
+	FLD @aux3
 	FSTP a
 
 	FLD b
@@ -109,136 +140,135 @@ etiqueta0:
 	FCOM
 	FSTSW AX
 	SAHF
-	JBE etiqueta3
+	JBE etiqueta6
 
 	FLD _6
 	FLD _2
 	FSUB
-	FSTP @aux2
+	FSTP @aux4
 	FFREE
 
-	FLD @aux2
+	FLD @aux4
 	FSTP b
 
-	JMP etiqueta4
-etiqueta3:
+	JMP etiqueta7
+etiqueta6:
 	FLD _8
 	FSTP z
 
 	FLD z
 	FLD b
 	FADD
-	FSTP @aux3
+	FSTP @aux5
 	FFREE
 
-	FLD @aux3
+	FLD @aux5
 	FLD _8
 	FXCH
 	FCOM
 	FSTSW AX
 	SAHF
-	JAE etiqueta5
+	JAE etiqueta8
 
 	FLD _2
 	FLD _2
 	FMUL
-	FSTP @aux4
-	FFREE
-
-	FLD _3
-	FLD @aux4
-	FADD
-	FSTP @aux5
-	FFREE
-
-	FLD @aux5
-	FLD b
-	FADD
 	FSTP @aux6
 	FFREE
 
+	FLD _3
 	FLD @aux6
-	FSTP a
-
-etiqueta5:
-etiqueta4:
-etiqueta6:
-	FLD aux2
-	FLD _1
-	FXCH
-	FCOM
-	FSTSW AX
-	SAHF
-	JAE etiqueta7
-
-	FLD aux2
-	FLD _1
 	FADD
 	FSTP @aux7
 	FFREE
 
 	FLD @aux7
-	FSTP aux2
+	FLD b
+	FADD
+	FSTP @aux8
+	FFREE
 
-	JMP etiqueta6
-etiqueta7:
-	FLD z
-	FLD _1
-	FXCH
-	FCOM
-	FSTSW AX
-	SAHF
-	JNE etiqueta8
-
-	FLD z
-	FLD _2
-	FXCH
-	FCOM
-	FSTSW AX
-	SAHF
-	JA etiqueta9
+	FLD @aux8
+	FSTP a
 
 etiqueta8:
-	FLD z
-	FLD _3
+etiqueta7:
+etiqueta9:
+	FLD aux2
+	FLD _1
 	FXCH
 	FCOM
 	FSTSW AX
 	SAHF
 	JAE etiqueta10
 
-	FLD _11
-	FLD _5
-	FMUL
-	FSTP @aux8
-	FFREE
-
-	FLD @aux8
-	FSTP z
-
-	JMP etiqueta11
-etiqueta10:
-	FLD a
-	FLD b
+	FLD aux2
+	FLD _1
 	FADD
 	FSTP @aux9
 	FFREE
 
 	FLD @aux9
-	FSTP z
+	FSTP aux2
 
-etiqueta11:
-etiqueta9:
-	JMP etiqueta14
-etiqueta2:
+	JMP etiqueta9
+etiqueta10:
 	FLD z
 	FLD _1
 	FXCH
-	FDIV
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta11
+
+	FLD z
+	FLD _2
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JA etiqueta12
+
+etiqueta11:
+	FLD z
+	FLD _3
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JAE etiqueta13
+
+	FLD _11
+	FLD _5
+	FMUL
 	FSTP @aux10
 	FFREE
 
 	FLD @aux10
+	FSTP z
+
+	JMP etiqueta14
+etiqueta13:
+	FLD a
+	FLD b
+	FADD
+	FSTP @aux11
+	FFREE
+
+	FLD @aux11
+	FSTP z
+
+etiqueta14:
+etiqueta12:
+	JMP etiqueta17
+etiqueta5:
+	FLD z
+	FLD _1
+	FDIV
+	FSTP @aux12
+	FFREE
+
+	FLD @aux12
 	FSTP a
 
 	FLD a
@@ -247,20 +277,20 @@ etiqueta2:
 	FCOM
 	FSTSW AX
 	SAHF
-	JBE etiqueta15
+	JBE etiqueta18
 
 	FLD _1
 	FSTP b
 
-etiqueta15:
-etiqueta14:
+etiqueta18:
+etiqueta17:
 	FLD aux
 	FLD _1
 	FADD
-	FSTP @aux11
+	FSTP @aux13
 	FFREE
 
-	FLD @aux11
+	FLD @aux13
 	FSTP aux
 
 	JMP etiqueta0

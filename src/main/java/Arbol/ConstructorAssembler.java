@@ -107,7 +107,7 @@ public class ConstructorAssembler {
                 case "*":
                     return generarAssemblerPosOperacion(nodo, Collections.singletonList("FMUL"));
                 case "/":
-                    return generarAssemblerPosOperacion(nodo, asList("FXCH", "FDIV"));
+                    return generarAssemblerPosOperacion(nodo, Collections.singletonList("FDIV"));
                 case ":=":
                     generarAssemblerPosAsignacion(nodo);
                     break;
@@ -297,7 +297,6 @@ public class ConstructorAssembler {
 
     private String crearEtiqueta() {
         String etiqueta = "etiqueta" + NRO_ETIQUETA;
-        System.out.println("APILAR "+etiqueta);
         pilaEtiquetas.push(etiqueta + ":");
         return etiqueta;
     }
@@ -310,7 +309,6 @@ public class ConstructorAssembler {
 
     private String desapilarUltimaEtiquetaCreada() {
         String aux = pilaEtiquetas.pop() ;
-        System.out.println("DESAPILAR "+aux);
         return aux;
     }
 

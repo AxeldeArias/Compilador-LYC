@@ -10,10 +10,10 @@ z=2
 aux = 0
 aux2=0
 while( aux < 3 AND 1==1){
-
+    z = IF ( c==5 , z+1 , z+2)
     if(a == 3 AND a < 4){
 
-       a = 1+2
+       a+=2
 
 
        if( b > 6 ) {
