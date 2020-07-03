@@ -11,11 +11,15 @@ public enum ArchivosDePrueba {
     IF_IN_IF("test-IfInIf"),
     IF_WHILE("test-IfWhile"),
     IF_FACTOR("test-IfFactor"),
+
     PROGRAMA("..\\..\\prueba"),
     TEST_ASSEMBLER("test-Assembler"),
     TEST_ASSEMBLER_GET("test-Assembler-Get"),
     TEST_ASSEMBLER_DISPLAY("test-Assembler-Display"),
     TEST_ASSEMBLER_IF("test-Assembler-If"),
+
+    ASIGNACIONES_ESPECIALES("test-AsignacionesEspeciales"),
+    IF_UNARIO("test-IfUnario"),
 
     DISPLAY("test-Display"),
     GET("test-Get");

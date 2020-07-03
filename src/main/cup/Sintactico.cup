@@ -242,35 +242,46 @@ termino_logico	::= expresion {:
                     :}
                     ;
 
-asignacion 	::= ID:_id OP_ASIG expresion_asignacion {:
+asignacion 	::= ID:_id OP_ASIG expresion  {:
                 tablaDeSimbolos.chequearEnTabla(_id);
-                nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresionAsignacion);
+                nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresion);
               :}
+              | ID:_id OP_ASIG IF P_A expresion_logica COMA expresion{:
+                    pilaMantenerEstadoPorNivel.push(nodoExpresion); RESULT = new Symbol(-1);
+                :} COMA expresion P_C {:
+                    nodoAsignacion = new Nodo("IF",
+                    nodoExpresionLogica,
+                    new Nodo("CUERPO",
+                        new Nodo(":=", new Hoja(_id), pilaMantenerEstadoPorNivel.pop()),
+                        new Nodo(":=", new Hoja(_id), nodoExpresion))
+                    );
+                :}
               ;
 
-expresion_asignacion ::= expresion {: nodoExpresionAsignacion = nodoExpresion; :}
-                        | sentencia_if_unario{: nodoExpresionAsignacion = nodoIfUnario; :};
-
-sentencia_if_unario	::= IF P_A expresion_logica COMA expresion{: pilaMantenerEstadoPorNivel.push(nodoExpresion); RESULT = new Symbol(-1);:} COMA expresion P_C {:
-                                nodoIfUnario = new Nodo("IF-U",
-                                nodoExpresionLogica,
-                                new Nodo("CUERPO",
-                                    pilaMantenerEstadoPorNivel.pop(),
-                                    nodoExpresion)
-                                );
-                          :}
-                    ;
+//expresion_asignacion ::= expresion {: nodoExpresionAsignacion = nodoExpresion; :}
+//                        | sentencia_if_unario{: nodoExpresionAsignacion = nodoIfUnario; :};
+//
+//sentencia_if_unario	::= IF P_A expresion_logica COMA expresion{: pilaMantenerEstadoPorNivel.push(nodoExpresion); RESULT = new Symbol(-1);:} COMA expresion P_C {:
+//                                nodoIfUnario = new Nodo("IF-U",
+//                                nodoExpresionLogica,
+//                                new Nodo("CUERPO",
+//                                    pilaMantenerEstadoPorNivel.pop(),
+//                                    nodoExpresion)
+//                                );
+//                          :}
+//                    ;
 
 asignacion_especial ::= ID:_id operadores_especiales:_operador expresion  {: 
 						    tablaDeSimbolos.chequearEnTabla(_id);
-						    nodoAsignacionEspecial = new Nodo(_operador, new Hoja(_id), nodoExpresion);
+						    Nodo operacionAsigEspecial = new Nodo(_operador, new Hoja(_id), nodoExpresion);
+						    nodoAsignacionEspecial = new Nodo(":=", new Hoja(_id), operacionAsigEspecial);
 					    :}
 					;
 															
-operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=_op; :}
-                        | OP_ASIG_RES:_op {: RESULT=_op; :}
-                        | OP_ASIG_MUL:_op {: RESULT=_op; :}
-                        | OP_ASIG_DIV:_op {: RESULT=_op; :}
+operadores_especiales   ::= OP_ASIG_SUM {: RESULT="+"; :}
+                        | OP_ASIG_RES {: RESULT="-"; :}
+                        | OP_ASIG_MUL {: RESULT="*"; :}
+                        | OP_ASIG_DIV {: RESULT="/"; :}
 						;
 
 		

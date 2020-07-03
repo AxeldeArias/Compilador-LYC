@@ -1,0 +1,9 @@
+DEFVAR
+    Integer: a;b
+ENDDEF
+
+a=1
+b=12
+
+a*=3
+b/=6

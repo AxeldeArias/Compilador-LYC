@@ -1,0 +1,8 @@
+DEFVAR
+    Float: a1;b1
+ENDDEF
+
+a1=1
+b1=400
+
+a1 = IF( b1 > 300, a1+1, a1+2)
