@@ -16,7 +16,7 @@ public class Main {
 
 //        File archivo = new File("prueba");
 
-        String nombreArchivo = ArchivosDePrueba.IF_UNARIO.nombre;
+        String nombreArchivo = ArchivosDePrueba.PROGRAMA.nombre;
 
         File archivo = new File(nombreArchivo);
 
