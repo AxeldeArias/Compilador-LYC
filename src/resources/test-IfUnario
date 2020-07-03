@@ -5,4 +5,9 @@ ENDDEF
 a1=1
 b1=400
 
+DISPLAY a1
+DISPLAY b1
+
 a1 = IF( b1 > 300, a1+1, a1+2)
+
+DISPLAY a1

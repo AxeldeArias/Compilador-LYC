@@ -15,7 +15,7 @@ public class Graficador {
     private ConstructorAssembler constructorAssembler = new ConstructorAssembler();
 
     private static final String INTERMEDIA_GRAPHVIZ = "intermedia-graphviz.txt";
-    private static final String INTERMEDIA = "intermedia.txt";
+    private static final String INTERMEDIA = "Final.asm";
 
     public void graficarArbol(Nodo arbol, List<Simbolo> listaDeSimbolos) {
         try {
