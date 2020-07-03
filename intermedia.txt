@@ -11,18 +11,13 @@ include macros2.asm
 	z	dd	?
 	c	dd	?
 	_3	dd	3.0
+	_10	dd	10.0
+	_5	dd	5.0
+	_2	dd	2.0
 	_4	dd	4.0
 	_1	dd	1.0
-	_2	dd	2.0
 	_6	dd	6.0
-	_6	dd	6.0
-	_2	dd	2.0
-	_1	dd	1.0
-	_2	dd	2.0
-	_3	dd	3.0
 	_11	dd	11.0
-	_5	dd	5.0
-	_1	dd	1.0
 
 	@aux1	dd	?
 	@aux2	dd	?
@@ -36,6 +31,18 @@ start:
 	MOV EAX,@DATA
 	MOV DS,EAX
 	MOV ES,EAX
+
+	FLD _3
+	FSTP a
+
+	FLD _10
+	FSTP b
+
+	FLD _5
+	FSTP c
+
+	FLD _2
+	FSTP z
 
 	FLD a
 	FLD _3
@@ -105,7 +112,8 @@ start:
 	etiqueta4:
 	etiqueta3:
 	JMP etiqueta6
-	FLD z
+
+etiqueta0:	FLD z
 	FLD _1
 	FXCH
 	FDIV
@@ -116,6 +124,19 @@ start:
 	FSTP a
 
 	etiqueta6:
+
+	DisplayFloat a,1
+	newline 1
+
+	DisplayFloat b,1
+	newline 1
+
+	DisplayFloat c,1
+	newline 1
+
+	DisplayFloat z,1
+	newline 1
+
 
 	MOV EAX, 4C00h
 	INT 21h

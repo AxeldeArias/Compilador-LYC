@@ -147,11 +147,13 @@ public class ConstructorAssembler {
 
     private void generarSubarbolCuerpo(){
         String etiqueta = obtenerUltimaEtiquetaCreada();
+        incrementarNroEtiqueta();
         assembler += formatAssembler(etiqueta);
     }
 
     private void generarSubarbolOR() {
         String etiqueta = obtenerAnteUltimaEtiquetaCreada();
+        incrementarNroEtiqueta();
         assembler += formatAssembler(etiqueta);
     }
 
@@ -167,7 +169,11 @@ public class ConstructorAssembler {
     }
 
     private void generaEtiquetaInicioCuerpo() {
-        assembler += formatAssembler("JMP",crearEtiqueta());
+        String ultimaEtiqueta = obtenerUltimaEtiquetaCreada();
+        String etiquetaJMP = crearEtiqueta();
+        assembler += formatAssembler("JMP", etiquetaJMP+'\n');
+
+        assembler += ultimaEtiqueta;
         incrementarNroEtiqueta();
     }
 
@@ -176,6 +182,7 @@ public class ConstructorAssembler {
         Nodo der = nodo.getDer();
         if (der.getDato() != "CUERPO") {
             assembler += formatAssembler(obtenerUltimaEtiquetaCreada());
+            incrementarNroEtiqueta();
         }
     }
 
@@ -277,7 +284,6 @@ public class ConstructorAssembler {
     }
 
     private String obtenerUltimaEtiquetaCreada() {
-        incrementarNroEtiqueta();
         return pilaEtiquetas.pop()+":";
     }
 
@@ -286,7 +292,6 @@ public class ConstructorAssembler {
     }
 
     private String obtenerAnteUltimaEtiquetaCreada() {
-        incrementarNroEtiqueta();
         String aux = pilaEtiquetas.pop();
         String etiqueta = pilaEtiquetas.pop();
         pilaEtiquetas.push(aux);

@@ -3,10 +3,15 @@ DEFVAR
     Float: c
 ENDDEF
 
+a=3
+b=10
+c=5
+z=2
 
 if(a == 3 AND a < 4){
 
    a = 1+2
+
 
    if( b > 6 ) {
     b=6-2
@@ -23,4 +28,7 @@ else{
   a=z/1
 }
 
-
+DISPLAY a
+DISPLAY b
+DISPLAY c
+DISPLAY z
