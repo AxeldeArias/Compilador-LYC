@@ -789,9 +789,7 @@ class CUP$AnalizadorSintactico$actions {
 
                              //negamos el lado der para facilitar el assembler
                             String operadorIzq = nodoTerminoLogicoIzq.getDato();
-                            System.out.println(operadorIzq);
                             String operadorIzqNegado = gestorOperadoresLogicos.negarOperador(operadorIzq);
-                            System.out.println(operadorIzqNegado);
                             nodoTerminoLogicoIzq.setDato(operadorIzqNegado);
 
                             nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
