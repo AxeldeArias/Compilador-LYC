@@ -15,14 +15,8 @@ include macros2.asm
 	_1	dd	1.0
 	_2	dd	2.0
 	_6	dd	6.0
-	_6	dd	6.0
-	_2	dd	2.0
-	_1	dd	1.0
-	_2	dd	2.0
-	_3	dd	3.0
 	_11	dd	11.0
 	_5	dd	5.0
-	_1	dd	1.0
 
 	@aux1	dd	?
 	@aux2	dd	?
@@ -43,12 +37,14 @@ start:
 	FSTSW AX
 	SAHF
 	JNE etiqueta0
+
 	FLD a
 	FLD _4
 	FCOM
 	FSTSW AX
 	SAHF
 	JAE etiqueta0
+
 	FLD _1
 	FLD _2
 	FADD
@@ -64,6 +60,7 @@ start:
 	FSTSW AX
 	SAHF
 	JBE etiqueta1
+
 	FLD _6
 	FLD _2
 	FSUB
@@ -73,26 +70,29 @@ start:
 	FLD @aux2
 	FSTP b
 
-	etiqueta1:
+etiqueta1:
 	FLD z
 	FLD _1
 	FCOM
 	FSTSW AX
 	SAHF
 	JNE etiqueta2
+
 	FLD z
 	FLD _2
 	FCOM
 	FSTSW AX
 	SAHF
 	JA etiqueta3
-	etiqueta2:
+
+etiqueta2:
 	FLD z
 	FLD _3
 	FCOM
 	FSTSW AX
 	SAHF
 	JAE etiqueta4
+
 	FLD _11
 	FLD _5
 	FMUL
@@ -102,8 +102,8 @@ start:
 	FLD @aux3
 	FSTP z
 
-	etiqueta4:
-	etiqueta3:
+etiqueta4:
+etiqueta3:
 	JMP etiqueta6
 	FLD z
 	FLD _1
@@ -115,7 +115,7 @@ start:
 	FLD @aux4
 	FSTP a
 
-	etiqueta6:
+etiqueta6:
 
 	MOV EAX, 4C00h
 	INT 21h

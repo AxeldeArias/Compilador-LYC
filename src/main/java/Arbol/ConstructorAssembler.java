@@ -1,12 +1,10 @@
 package Arbol;
 
 import Tabla.Simbolo;
-import Tabla.TablaDeSimbolos;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 import static java.util.Arrays.asList;
@@ -145,37 +143,43 @@ public class ConstructorAssembler {
 
     }
 
-    private void generarSubarbolCuerpo(){
+    private void generarSubarbolCuerpo() {
         String etiqueta = obtenerUltimaEtiquetaCreada();
-        assembler += formatAssembler(etiqueta);
+        assembler += etiqueta + "\n";
     }
 
     private void generarSubarbolOR() {
         String etiqueta = obtenerAnteUltimaEtiquetaCreada();
-        assembler += formatAssembler(etiqueta);
+        assembler += etiqueta + "\n";
     }
 
     private void generarSubarbolCondicionSimple(Nodo nodo) {
         Nodo izq = nodo.getIzq();
         Nodo der = nodo.getDer();
+
         String etiqueta = crearEtiqueta();
-        assembler += formatAssembler("FLD", izq.getDato()) + formatAssembler("FLD", der.getDato());
-        assembler += formatAssembler("FCOM");
-        assembler += formatAssembler("FSTSW AX");
-        assembler += formatAssembler("SAHF");
-        assembler += formatAssembler(getSalto(nodo.getDato()) + " " + etiqueta);
+
+        String asmFields = formatAssembler("FLD", izq.getDato()) + formatAssembler("FLD", der.getDato());
+        String asmComp = formatAssembler("FCOM") +
+                        formatAssembler("FSTSW AX") +
+                        formatAssembler("SAHF");
+        String asmJmpEtiqueta = formatAssembler(getTipoDeSalto(nodo.getDato()) + " " + etiqueta);
+
+        String subarbolActual = asmFields + asmComp + asmJmpEtiqueta + "\n";
+
+        assembler += subarbolActual;
     }
 
     private void generaEtiquetaInicioCuerpo() {
-        assembler += formatAssembler("JMP",crearEtiqueta());
+        assembler += formatAssembler("JMP", crearEtiqueta());
         incrementarNroEtiqueta();
     }
 
     private void generarSubarbolIF(Nodo nodo) {
-        Nodo izq = nodo.getIzq();
+        //Nodo izq = nodo.getIzq(); No se usa?
         Nodo der = nodo.getDer();
-        if (der.getDato() != "CUERPO") {
-            assembler += formatAssembler(obtenerUltimaEtiquetaCreada());
+        if (!der.getDato().equals("CUERPO")) {
+            assembler += obtenerUltimaEtiquetaCreada() + "\n";
         }
     }
 
@@ -190,7 +194,9 @@ public class ConstructorAssembler {
         String asmCommands = commands.stream().reduce("", (subtotal, command) -> subtotal + formatAssembler(command));
         String asmStore = formatAssembler("FSTP", aux);
         String asmFree = formatAssembler("FFREE");
+
         String subarbolActual = asmFields + asmCommands + asmStore + asmFree + "\n";
+
         assembler += subarbolActual;
 
         return aux;
@@ -223,6 +229,7 @@ public class ConstructorAssembler {
 
         String asmFields = formatAssembler("FLD", der.getDato());
         String asmStore = formatAssembler("FSTP", izq.getDato());
+
         String subarbolActual = asmFields + asmStore + "\n";
 
         assembler += subarbolActual;
@@ -247,7 +254,7 @@ public class ConstructorAssembler {
     }
 
 
-    private String getSalto(String operador) {
+    private String getTipoDeSalto(String operador) {
         switch (operador) {
             case "==":
                 return "JNE";
@@ -278,11 +285,11 @@ public class ConstructorAssembler {
 
     private String obtenerUltimaEtiquetaCreada() {
         incrementarNroEtiqueta();
-        return pilaEtiquetas.pop()+":";
+        return pilaEtiquetas.pop() + ":";
     }
 
     private String desapilarUltimoParaEvitarDuplicidad() {
-        return pilaEtiquetas.pop()+":";
+        return pilaEtiquetas.pop() + ":";
     }
 
     private String obtenerAnteUltimaEtiquetaCreada() {
@@ -290,7 +297,7 @@ public class ConstructorAssembler {
         String aux = pilaEtiquetas.pop();
         String etiqueta = pilaEtiquetas.pop();
         pilaEtiquetas.push(aux);
-        return etiqueta+":";
+        return etiqueta + ":";
     }
 
 }
