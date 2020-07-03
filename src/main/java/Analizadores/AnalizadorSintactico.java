@@ -935,7 +935,8 @@ class CUP$AnalizadorSintactico$actions {
 		String _operador = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)).value;
 		 
 						    tablaDeSimbolos.chequearEnTabla(_id);
-						    nodoAsignacionEspecial = new Nodo(_operador, new Hoja(_id), nodoExpresion);
+						    Nodo operacionAsigEspecial = new Nodo(_operador, new Hoja(_id), nodoExpresion);
+						    nodoAsignacionEspecial = new Nodo(":=", new Hoja(_id), operacionAsigEspecial);
 					    
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("asignacion_especial",18, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
@@ -945,10 +946,7 @@ class CUP$AnalizadorSintactico$actions {
           case 48: // operadores_especiales ::= OP_ASIG_SUM 
             {
               String RESULT =null;
-		int _opleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
-		int _opright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
-		String _op = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT=_op; 
+		 RESULT="+"; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",24, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -957,10 +955,7 @@ class CUP$AnalizadorSintactico$actions {
           case 49: // operadores_especiales ::= OP_ASIG_RES 
             {
               String RESULT =null;
-		int _opleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
-		int _opright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
-		String _op = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT=_op; 
+		 RESULT="-"; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",24, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -969,10 +964,7 @@ class CUP$AnalizadorSintactico$actions {
           case 50: // operadores_especiales ::= OP_ASIG_MUL 
             {
               String RESULT =null;
-		int _opleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
-		int _opright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
-		String _op = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT=_op; 
+		 RESULT="*"; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",24, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -981,10 +973,7 @@ class CUP$AnalizadorSintactico$actions {
           case 51: // operadores_especiales ::= OP_ASIG_DIV 
             {
               String RESULT =null;
-		int _opleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
-		int _opright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
-		String _op = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
-		 RESULT=_op; 
+		 RESULT="/"; 
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("operadores_especiales",24, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;

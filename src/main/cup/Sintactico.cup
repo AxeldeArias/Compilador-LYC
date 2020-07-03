@@ -263,14 +263,15 @@ sentencia_if_unario	::= IF P_A expresion_logica COMA expresion{: pilaMantenerEst
 
 asignacion_especial ::= ID:_id operadores_especiales:_operador expresion  {: 
 						    tablaDeSimbolos.chequearEnTabla(_id);
-						    nodoAsignacionEspecial = new Nodo(_operador, new Hoja(_id), nodoExpresion);
+						    Nodo operacionAsigEspecial = new Nodo(_operador, new Hoja(_id), nodoExpresion);
+						    nodoAsignacionEspecial = new Nodo(":=", new Hoja(_id), operacionAsigEspecial);
 					    :}
 					;
 															
-operadores_especiales   ::= OP_ASIG_SUM:_op {: RESULT=_op; :}
-                        | OP_ASIG_RES:_op {: RESULT=_op; :}
-                        | OP_ASIG_MUL:_op {: RESULT=_op; :}
-                        | OP_ASIG_DIV:_op {: RESULT=_op; :}
+operadores_especiales   ::= OP_ASIG_SUM {: RESULT="+"; :}
+                        | OP_ASIG_RES {: RESULT="-"; :}
+                        | OP_ASIG_MUL {: RESULT="*"; :}
+                        | OP_ASIG_DIV {: RESULT="/"; :}
 						;
 
 		
