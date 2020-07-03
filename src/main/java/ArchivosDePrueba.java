@@ -19,6 +19,8 @@ public enum ArchivosDePrueba {
     TEST_ASSEMBLER_IF("test-Assembler-If"),
 
     ASIGNACIONES_ESPECIALES("test-AsignacionesEspeciales"),
+    IF_UNARIO("test-IfUnario"),
+
     DISPLAY("test-Display"),
     GET("test-Get");
 
