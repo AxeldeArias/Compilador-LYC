@@ -52,7 +52,7 @@ public class Simbolo {
     @Override
     public String toString() {
         return String.format(
-                "%-30s|%-30s|%-30s|%-30s", orDash(nombre), orDash(tipo), orDash(valor), orDash(longitud)
+                "%-50s|%-30s|%-30s|%-30s", orDash(nombre), orDash(tipo), orDash(valor), orDash(longitud)
         );
     }
 }

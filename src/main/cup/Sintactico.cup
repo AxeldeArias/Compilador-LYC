@@ -14,21 +14,15 @@ import java.util.Map;
 // ---------> Codigo para las acciones gramaticales
 action code
 {:
-    Stack<Nodo> pilaExpresionFactor = new Stack<Nodo>();
-    Stack<Nodo> pilaMantenerEstadoPorNivel = new Stack<Nodo>();
-    Map<Integer, Nodo> listaBloquesPorNivel = new HashMap<Integer, Nodo>();
-    Integer nivel = 0;
+    Integer cantidadDeOperacionARealizar = 0, identificadorTake = 0;
+    public ListaTercetos listaTercetos = new ListaTercetos();
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
-    public Graficador graficador = new Graficador();
-    GestorOperadoresLogicos gestorOperadoresLogicos = new GestorOperadoresLogicos(false);
     public TipoDato tipoId;
-    public Nodo nodoInicio, nodoPrograma, nodoBloque, nodoSentencia, 
-               nodoAsignacion, nodoAsignacionEspecial, nodoExpresionLogica, nodoTerminoLogico,
-               nodoExpresion, nodoTermino, nodoFactor, nodoTerminoLogicoIzq,
-               nodoIf, nodoIfUnario, nodoElse, nodoCuerpoIf,
-               nodoWhile,
-               nodoDisplay, nodoGet,
-               nodoExpresionAsignacion;
+    Integer indexLista = 0, indexSentenciaTake = 0, indexInicioTake = 0,
+            indexCant = 0, indexSaltoAlFinDelTake = 0, indexFinTake = 0,
+            indexDecrementaCant = 0;
+    Integer indexFactor= null, indexTermino=null,indexExpresion=null;
+
 :}
 
 
@@ -46,9 +40,6 @@ parser code
         System.out.println("\t\tLexema: "+lexema);
         System.out.println("\t\tFila: "+(fila+1));
         System.out.println("\t\tColumna: "+(columna+1));
-
-
-
     }
 
     //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
@@ -62,276 +53,93 @@ parser code
         System.out.println("\t\tLexema: "+lexema);
         System.out.println("\t\tFila: "+(fila+1));
         System.out.println("\t\tColumna: "+(columna+1));
+    }
 
-
+    public void semantic_error(String error){
+        System.out.println("!!!!!!! Error Semántico !!!!!!! ");
+        System.out.println(error);
+        System.exit(1);
     }
 :}
 
 /*2da Area: Código de Usuario*/
 //----------> declaracion de terminales
 
+terminal String id, cte_s, cte;
+terminal Symbol pa, pc, ca, cc,
+                pyc, take, mas, coma,
+                read, write, asigna;
 
-terminal String ID;
-terminal String CONST_INT;
-terminal String CONST_FLOAT;
-terminal String CONST_STR;
-
-terminal DEFVAR, ENDDEF;
-terminal TIPO_INTEGER, TIPO_FLOAT;
-
-terminal WHILE;
-terminal IF, ELSE;
-terminal OP_AND, OP_OR, OP_NOT;
-
-terminal OP_ASIG;
-terminal OP_SUMA, OP_RESTA;
-terminal OP_MUL, OP_DIV;
-terminal String OP_IGUAL, OP_DISTINTO;
-terminal String OP_MENOR, OP_MENOR_IGUAL, OP_MAYOR, OP_MAYOR_IGUAL;
-terminal String OP_ASIG_SUM, OP_ASIG_RES, OP_ASIG_MUL, OP_ASIG_DIV;
-terminal LL_A, LL_C, P_A, P_C;
-terminal PUNTO_COMA;
-terminal DOS_PUNTOS;
-terminal COMA;
-terminal GET;
-terminal DISPLAY;
-                              
 
 //----------> declaracion de no terminales
-non terminal Symbol inicio, programa, vacio,
-             seccion_declaraciones, bloque_declaraciones, declaracion,
-             tipo_dato, lista_ids, bloque, sentencia, sentencia_if,
-             sentencia_if_unario ,expresion_asignacion, sentencia_if_parte_else, sentencia_while,
-             expresion_logica, termino_logico, asignacion , asignacion_especial,
-             factor, escritura, lectura, expresion, termino ;
-non terminal String operadores_especiales, op_booleano;
+non terminal Symbol S,
+                     PROGRAMA, TAKE ,
+                     READ, WRITE, LISTA, SENTENCIA, ASIG;
 
 
 
-start with inicio;
+start with S;
 
+S ::= PROGRAMA {:
+        tablaDeSimbolos.guardarTabla();
+        listaTercetos.show();
+    :};
 
-inicio   ::= programa {:
-                    nodoInicio = nodoPrograma;
-                    //tablaDeSimbolos.recorrerTabla();
-                    tablaDeSimbolos.guardarTabla();
-                    System.out.println("Regla Compilacion OK");
-                    nodoPrograma.recorrer();
-                    graficador.graficarArbol(nodoInicio, tablaDeSimbolos.getListaDeSimbolos());
-                :};
+PROGRAMA ::= SENTENCIA;
 
-programa	::= seccion_declaraciones  bloque {: nodoPrograma = listaBloquesPorNivel.get(nivel); :};
+PROGRAMA ::= PROGRAMA SENTENCIA{:System.out.println("cant");:}  ;
 
-seccion_declaraciones 	::= DEFVAR bloque_declaraciones ENDDEF {: :};
+SENTENCIA ::= READ {:System.out.println("finread");:} | ASIG | WRITE ;
 
-bloque_declaraciones	::= declaracion
-						| bloque_declaraciones declaracion  {: :}
-						;
+ASIG ::= id:_id asigna TAKE {:
+                tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_STRING, null, _id.length()-2);
+                listaTercetos.add(new Terceto("=", _id, indexExpresion ));
+        :} ;
 
-declaracion ::= tipo_dato DOS_PUNTOS lista_ids  {: :}
-			;
+READ ::= read id:_id {:
+                tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_STRING, null, null);
+                listaTercetos.add(new Terceto("READ", _id ));
+        :};
 
-tipo_dato 	::= TIPO_INTEGER {: tipoId = TipoDato.T_INTEGER; :}
-			| TIPO_FLOAT {: tipoId = TipoDato.T_FLOAT; :}
-			;
-
-lista_ids	::= ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, tipoId, null, null); :}
-			| lista_ids PUNTO_COMA ID:_id {: tablaDeSimbolos.agregarEnTabla(_id, tipoId, null, null); :}
-			;
-
-bloque  ::= sentencia  {: listaBloquesPorNivel.put(nivel, nodoSentencia); :}
-		    | bloque sentencia {:
-		            listaBloquesPorNivel.put(nivel, new Nodo(";;", listaBloquesPorNivel.get(nivel), nodoSentencia));
-                :}
-		    ;
-
-sentencia ::= asignacion {: nodoSentencia = nodoAsignacion; :}
-			| asignacion_especial {: nodoSentencia = nodoAsignacionEspecial; :}
-			| sentencia_if {: nodoSentencia = nodoIf; nivel--; :}
-			| sentencia_while {: nodoSentencia = nodoWhile; :}
-			| escritura {: nodoSentencia = nodoDisplay; :}
-			| lectura {: nodoSentencia = nodoGet; :}
-			;
-
-sentencia_if ::= IF P_A expresion_logica {:
-                    nivel++;
-                    /* Apilamos la expresion lógica por si hay otra en el proximo bloque.
-                     De esta manera no perdemos la referencia */
-                    pilaMantenerEstadoPorNivel.push(nodoExpresionLogica);
-                    RESULT = new Symbol(-1);
-                :} P_C LL_A bloque {:
-                    /*Apilamos por si hay un else*/
-                    pilaMantenerEstadoPorNivel.push(listaBloquesPorNivel.get(nivel));
-                    RESULT = new Symbol(-1);
-                :} LL_C sentencia_if_parte_else
-                ;
-
-sentencia_if_parte_else ::= ELSE LL_A bloque LL_C {:
-                                /*Caso IF Con Else*/
-                                Nodo nodoCuerpoIf = new Nodo ("CUERPO",
-                                    pilaMantenerEstadoPorNivel.pop(),           // TRUE
-                                    listaBloquesPorNivel.get(nivel)             // FALSE
-                                );
-                                Nodo nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                nodoIf = new Nodo("IF", nodoCondicion, nodoCuerpoIf );
-                                RESULT = new Symbol(-1);
-                            :}
-                            | vacio {:
-                                /*Caso IF Sin Else*/
-                                Nodo _nodoBloque = pilaMantenerEstadoPorNivel.pop();
-                                Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                nodoIf = new Nodo("IF", _nodoCondicion, _nodoBloque);
-                                RESULT = new Symbol(-1);
-                            :}
-                            ;
-vacio ::= {: RESULT = new Symbol(-1); :};
-
-
-
-sentencia_while    ::= WHILE P_A expresion_logica {:
-                                    nivel++;
-                                    pilaMantenerEstadoPorNivel.push(nodoExpresionLogica);
-                                    RESULT = new Symbol(-1);
-                                  :} P_C LL_A bloque LL_C {:
-                                                Nodo _nodoBloque = listaBloquesPorNivel.get(nivel);
-                                                Nodo _nodoCondicion = pilaMantenerEstadoPorNivel.pop();
-                                                nodoWhile = new Nodo("WHILE", _nodoCondicion, _nodoBloque);
-                                                nivel--;
-                                                RESULT = new Symbol(-1);
-                                            :}
-				    ;
-
-op_booleano 	::=  OP_MENOR: _opB {: RESULT = _opB; :}
-				| OP_MENOR_IGUAL: _opB {: RESULT = _opB; :}
-				| OP_MAYOR: _opB {: RESULT = _opB; :}
-				| OP_MAYOR_IGUAL: _opB {: RESULT = _opB; :}
-				| OP_IGUAL: _opB {: RESULT = _opB; :}
-				| OP_DISTINTO: _opB {: RESULT = _opB; :}
-				;
-
-expresion_logica	::= termino_logico {:
-                            nodoTerminoLogicoIzq = nodoTerminoLogico;
-                            RESULT = new Symbol(-1);
-                        :} OP_AND termino_logico {:
-                            nodoExpresionLogica = new Nodo("AND", nodoTerminoLogicoIzq, nodoTerminoLogico);
-                        :}
-					| termino_logico {:
-                            nodoTerminoLogicoIzq = nodoTerminoLogico;
-                            RESULT = new Symbol(-1);
-                        :} OP_OR termino_logico {:
-
-                             //negamos el lado der para facilitar el assembler
-                            String operadorIzq = nodoTerminoLogicoIzq.getDato();
-                            String operadorIzqNegado = gestorOperadoresLogicos.negarOperador(operadorIzq);
-                            nodoTerminoLogicoIzq.setDato(operadorIzqNegado);
-
-                            nodoExpresionLogica = new Nodo("OR", nodoTerminoLogicoIzq, nodoTerminoLogico);
-                        :}
-					| termino_logico {: nodoExpresionLogica = nodoTerminoLogico; :}
-					|  OP_NOT {: gestorOperadoresLogicos.negarProximosOperadores(true); RESULT = new Symbol(-1); :} termino_logico {: gestorOperadoresLogicos.negarProximosOperadores(false); nodoExpresionLogica = nodoTerminoLogico; :}
-					;
-
-termino_logico	::= expresion {:
-                        pilaMantenerEstadoPorNivel.push(nodoExpresion);
-                        RESULT = new Symbol(-1);
-                    :} op_booleano: _operadorB expresion {:
-                        Nodo nodoExpresionIzq = pilaMantenerEstadoPorNivel.pop();
-                        nodoTerminoLogico = new Nodo(gestorOperadoresLogicos.getOperador(_operadorB), nodoExpresionIzq,  nodoExpresion);
-                    :}
-                    ;
-
-asignacion 	::= ID:_id OP_ASIG expresion  {:
-                tablaDeSimbolos.chequearEnTabla(_id);
-                nodoAsignacion = new Nodo(":=", new Hoja(_id), nodoExpresion);
-              :}
-              | ID:_id OP_ASIG IF P_A expresion_logica COMA expresion{:
-                    pilaMantenerEstadoPorNivel.push(nodoExpresion); RESULT = new Symbol(-1);
-                :} COMA expresion P_C {:
-                    nodoAsignacion = new Nodo("IF",
-                    nodoExpresionLogica,
-                    new Nodo("CUERPO",
-                        new Nodo(":=", new Hoja(_id), pilaMantenerEstadoPorNivel.pop()),
-                        new Nodo(":=", new Hoja(_id), nodoExpresion))
-                    );
-                :}
-              ;
-
-//expresion_asignacion ::= expresion {: nodoExpresionAsignacion = nodoExpresion; :}
-//                        | sentencia_if_unario{: nodoExpresionAsignacion = nodoIfUnario; :};
-//
-//sentencia_if_unario	::= IF P_A expresion_logica COMA expresion{: pilaMantenerEstadoPorNivel.push(nodoExpresion); RESULT = new Symbol(-1);:} COMA expresion P_C {:
-//                                nodoIfUnario = new Nodo("IF-U",
-//                                nodoExpresionLogica,
-//                                new Nodo("CUERPO",
-//                                    pilaMantenerEstadoPorNivel.pop(),
-//                                    nodoExpresion)
-//                                );
-//                          :}
-//                    ;
-
-asignacion_especial ::= ID:_id operadores_especiales:_operador expresion  {: 
-						    tablaDeSimbolos.chequearEnTabla(_id);
-						    Nodo operacionAsigEspecial = new Nodo(_operador, new Hoja(_id), nodoExpresion);
-						    nodoAsignacionEspecial = new Nodo(":=", new Hoja(_id), operacionAsigEspecial);
-					    :}
-					;
-															
-operadores_especiales   ::= OP_ASIG_SUM {: RESULT="+"; :}
-                        | OP_ASIG_RES {: RESULT="-"; :}
-                        | OP_ASIG_MUL {: RESULT="*"; :}
-                        | OP_ASIG_DIV {: RESULT="/"; :}
-						;
-
-		
-expresion	::= termino {: nodoExpresion = nodoTermino; :}
-			| expresion OP_SUMA termino {: nodoExpresion = new Nodo("+",nodoExpresion, nodoTermino); :}
-			| expresion OP_RESTA termino {: nodoExpresion = new Nodo("-",nodoExpresion, nodoTermino); :}
-			;
-
-		
-termino	::= termino OP_MUL factor {: nodoTermino = new Nodo("*",nodoTermino, nodoFactor); :}
-		| termino OP_DIV factor  {: nodoTermino = new Nodo("/",nodoTermino, nodoFactor); :}
-		| factor {: nodoTermino = nodoFactor; :}
-		;
-			
-factor	::= P_A {:
-                pilaExpresionFactor.push(nodoExpresion);
-                pilaExpresionFactor.push(nodoTermino);
+TAKE ::= take pa mas pyc id:_idCant {:
+                Integer numeroTake = identificadorTake ++;
+                String auxCant = "@auxCant" + numeroTake;
+                tablaDeSimbolos.agregarEnTabla(auxCant, TipoDato.T_INTEGER, null, null);
+                indexCant = listaTercetos.add(new Terceto("=", auxCant , _idCant ));
+                indexInicioTake = listaTercetos.add(new Terceto("ETIQ"));
+                listaTercetos.add(new Terceto("CMP" , indexCant,  "0" ));
+                indexSaltoAlFinDelTake = listaTercetos.add(new Terceto("JA"));
+                indexDecrementaCant = listaTercetos.add(new Terceto("-" , auxCant,  "1" ));
+                listaTercetos.add(new Terceto("=" , auxCant,  indexDecrementaCant ));
                 RESULT = new Symbol(-1);
-            :} expresion  P_C {:
-                nodoFactor = nodoExpresion;
-                nodoTermino = pilaExpresionFactor.pop();
-                nodoExpresion= pilaExpresionFactor.pop();
+
+            :} pyc ca LISTA {:
+                listaTercetos.add(new Terceto("JMP", indexInicioTake ));
+                indexFinTake = listaTercetos.add(new Terceto("ETIQ"));
+                listaTercetos.reemplazarSalto(indexSaltoAlFinDelTake, indexFinTake);
                 RESULT = new Symbol(-1);
-            :}
-		;
 
-factor	::= ID:_id {:
-                tablaDeSimbolos.chequearEnTabla(_id);
-                nodoFactor = new Hoja(_id);
-            :}
-		| CONST_INT:_intVal {:
-                tablaDeSimbolos.agregarEnTabla("_"+_intVal, TipoDato.T_INTEGER, _intVal, null);
-                nodoFactor = new Hoja(_intVal);
-		    :}
-		| CONST_FLOAT:_floatVal {:
-		        tablaDeSimbolos.agregarEnTabla("_"+_floatVal, TipoDato.T_FLOAT, _floatVal, null);
-		        nodoFactor = new Hoja(_floatVal);
-            :}
-		;
+            :} cc pc {: indexSentenciaTake = indexLista; :};
 
-escritura	::= DISPLAY ID:_id {:
-                        tablaDeSimbolos.chequearEnTabla(_id);
-                        nodoDisplay = new Nodo("DISPLAY", new Hoja(_id));
-                    :}
-			| DISPLAY CONST_STR:_strVal {:
-			    tablaDeSimbolos.agregarEnTabla(_strVal, TipoDato.T_STRING, null, _strVal.length()-2);
-			    nodoDisplay = new Nodo("DISPLAY", new Hoja(_strVal));
-            :}
-			;
 
-lectura	::= GET ID:_id {:
-                tablaDeSimbolos.chequearEnTabla(_id);
-                nodoGet = new Nodo("GET", new Hoja(_id));
-            :}
-		;
+LISTA ::= cte:_intVal {:
+                String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, null, null);
+                indexLista = listaTercetos.add(new Terceto(constanteCreada));
+        :};
+
+LISTA ::= LISTA coma cte:_intVal {:
+                String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, _intVal, null);
+                indexLista = listaTercetos.add(new Terceto("+", constanteCreada , indexLista ));
+        :};
+
+WRITE ::= write cte_s:_strVal {:
+            tablaDeSimbolos.agregarEnTabla(_strVal, TipoDato.T_STRING, null, _strVal.length()-2);
+            listaTercetos.add(new Terceto("WRITE", _strVal ));
+        :};
+
+WRITE ::= write id:_id {:
+            if(!tablaDeSimbolos.chequearEnTabla(_id)){
+                semantic_error("La variable " + _id + " no fué definida");
+            }
+            listaTercetos.add(new Terceto("WRITE", _id ));
+        :};
