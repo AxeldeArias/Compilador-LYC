@@ -26,13 +26,6 @@ public class Terceto {
         this.campo3 = campo3;
     }
 
-    public String reducirTercetoAVariableAux(){
-        this.campo1 = "@aux" + nroTerceto;
-        this.campo2 = null;
-        this.campo3 = null;
-        return this.campo1;
-    }
-
     public Terceto(String campo1, Integer campo2,  Integer campo3){
         this.campo1 = campo1;
         this.campo2 = "[ "+ campo2 +" ]";
@@ -72,7 +65,14 @@ public class Terceto {
         return getOperando(campo3, tipo);
     }
 
-        private String getOperando(String str,String tipo){
+    public String reducirTercetoAVariableAux(){
+        this.campo1 = "@aux" + nroTerceto;
+        this.campo2 = null;
+        this.campo3 = null;
+        return this.campo1;
+    }
+
+    private String getOperando(String str,String tipo){
         if(str.contains("[")){
             if(tipo == "operando"){
                 String aux = quitarCorchetes(str);

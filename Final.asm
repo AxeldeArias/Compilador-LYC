@@ -21,7 +21,6 @@ include macros2.asm
 	@aux13	dd	?
 
 
-
 .CODE
 
 start:

@@ -84,9 +84,7 @@ public class Assembler {
         tablaDeSimbolos.agregarEnTabla(aux, TipoDato.T_INTEGER, null, null);
         String asmStore = formatAssembler("FSTP", aux);
         String asmFree = formatAssembler("FFREE");
-
         String subarbolActual = asmFields + asmCommands + asmStore + asmFree + "\n";
-
         return subarbolActual;
 
     }
@@ -127,13 +125,8 @@ public class Assembler {
         String variablesDeclaradas = listaDeSimbolos.stream()
                 .map(this::formatTs)
                 .reduce("", (subtotal, linea) -> subtotal + linea);
-
-        String variablesAuxiliares = IntStream.range(1, CANT_AUXILIARES + 1)
-                .mapToObj(i -> String.format("\t@aux%d\tdd\t?\n", i))
-                .reduce("", (subtotal, linea) -> subtotal + linea);
-
-        return variablesDeclaradas + "\n" + variablesAuxiliares + "\n"
-    ;}
+        return variablesDeclaradas + "\n";
+    }
 
     public String generarCodigo(String codigoPrograma) {
         String codigo =
