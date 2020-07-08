@@ -18,10 +18,12 @@ action code
     public ListaTercetos listaTercetos = new ListaTercetos();
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public TipoDato tipoId;
+    String cantOperacionesAsm = null;
     Integer indexLista = 0, indexSentenciaTake = 0, indexInicioTake = 0,
             indexCant = 0, indexSaltoAlFinDelTake = 0, indexFinTake = 0,
             indexDecrementaCant = 0;
     Integer indexFactor= null, indexTermino=null,indexExpresion=null;
+    Assembler assembler = new Assembler();
 
 :}
 
@@ -81,8 +83,8 @@ non terminal Symbol S,
 start with S;
 
 S ::= PROGRAMA {:
-        tablaDeSimbolos.guardarTabla();
         listaTercetos.show();
+        assembler.generarAssembler(listaTercetos.getListaTercetos(), tablaDeSimbolos);
     :};
 
 PROGRAMA ::= SENTENCIA;
@@ -94,6 +96,10 @@ SENTENCIA ::= READ {:System.out.println("finread");:} | ASIG | WRITE ;
 ASIG ::= id:_id asigna TAKE {:
                 tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_STRING, null, _id.length()-2);
                 listaTercetos.add(new Terceto("=", _id, indexExpresion ));
+
+                indexCant = listaTercetos.add(new Terceto("ETIQ", "fintake_"+ (identificadorTake++) ));
+                indexCant = listaTercetos.add(new Terceto("=", _id , indexLista ));
+
         :} ;
 
 READ ::= read id:_id {:
@@ -102,34 +108,37 @@ READ ::= read id:_id {:
         :};
 
 TAKE ::= take pa mas pyc id:_idCant {:
-                Integer numeroTake = identificadorTake ++;
-                String auxCant = "@auxCant" + numeroTake;
-                tablaDeSimbolos.agregarEnTabla(auxCant, TipoDato.T_INTEGER, null, null);
-                indexCant = listaTercetos.add(new Terceto("=", auxCant , _idCant ));
-                indexInicioTake = listaTercetos.add(new Terceto("ETIQ"));
-                listaTercetos.add(new Terceto("CMP" , indexCant,  "0" ));
-                indexSaltoAlFinDelTake = listaTercetos.add(new Terceto("JA"));
-                indexDecrementaCant = listaTercetos.add(new Terceto("-" , auxCant,  "1" ));
-                listaTercetos.add(new Terceto("=" , auxCant,  indexDecrementaCant ));
+                cantOperacionesAsm = "@cantOp_n" + identificadorTake;
+                tablaDeSimbolos.agregarEnTabla(cantOperacionesAsm, TipoDato.T_INTEGER, null, null);
+                indexCant = listaTercetos.add(new Terceto("=", cantOperacionesAsm , _idCant ));
                 RESULT = new Symbol(-1);
 
-            :} pyc ca LISTA {:
-                listaTercetos.add(new Terceto("JMP", indexInicioTake ));
-                indexFinTake = listaTercetos.add(new Terceto("ETIQ"));
-                listaTercetos.reemplazarSalto(indexSaltoAlFinDelTake, indexFinTake);
-                RESULT = new Symbol(-1);
-
-            :} cc pc {: indexSentenciaTake = indexLista; :};
-
+            :} pyc ca LISTA cc pc {:
+                 listaTercetos.add(new Terceto("ETIQ", "fintake_n"+identificadorTake ));
+            :};
 
 LISTA ::= cte:_intVal {:
+                //agregamos en tabla de simbolos
                 String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, null, null);
+
+                //Realizamos la operación
                 indexLista = listaTercetos.add(new Terceto(constanteCreada));
         :};
 
 LISTA ::= LISTA coma cte:_intVal {:
+                //decrementamos la variable @cantOperacionesAsm
+                indexDecrementaCant = listaTercetos.add(new Terceto("-" , cantOperacionesAsm,  "1" ));
+                indexDecrementaCant = listaTercetos.add(new Terceto("=" , cantOperacionesAsm,  indexDecrementaCant ));
+
+                //preguntamos si la cantidad de repeticiones es mayor que 1
+                listaTercetos.add(new Terceto("CMP" , indexDecrementaCant,  "1" ));
+                indexSaltoAlFinDelTake = listaTercetos.add(new Terceto("JB", "fintake_n"+ identificadorTake));
+
+                //agregamos en tabla de simbolos
                 String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, _intVal, null);
+                //Realizamos la operación
                 indexLista = listaTercetos.add(new Terceto("+", constanteCreada , indexLista ));
+
         :};
 
 WRITE ::= write cte_s:_strVal {:
