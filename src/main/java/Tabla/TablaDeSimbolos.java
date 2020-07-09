@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 public class TablaDeSimbolos {
     private TipoDato tipoDato;
     public static final String TABLA_SIMBOLOS_ARCHIVO = "ts.txt";
-
+    private Integer nro_const_string = 0;
     private static Logger LOGGER = Logger.getLogger(TablaDeSimbolos.class.getName());
 
     private List<Simbolo> listaDeSimbolos;
@@ -20,10 +20,15 @@ public class TablaDeSimbolos {
     }
 
     public String agregarEnTabla(String nombre, TipoDato tipo, String valor, Integer longitud) {
-        if (!chequearEnTabla(nombre)) {
-            listaDeSimbolos.add(new Simbolo(nombre, tipo, valor, longitud));
+        String nombrePorTipo = nombre;
+        if(tipo.equals(TipoDato.T_STRING) && nombre.equals("")){
+            nombrePorTipo = "@const_string_" + nro_const_string++;
         }
-        return nombre;
+
+        if (!chequearEnTabla(nombre)) {
+            listaDeSimbolos.add(new Simbolo(nombrePorTipo, tipo, valor, longitud));
+        }
+        return nombrePorTipo;
     }
 
     public String agregarEnTabla(Integer nombre, TipoDato tipo, String valor, Integer longitud) {

@@ -1,12 +1,12 @@
 NOMBRE                                            |TIPODATO                      |VALOR                         |LONGITUD                      
-"Ingrese un digito del uno al veinte:"            |String                        |-                             |36                            
+@const_string_0                                   |String                        |"Ingrese un digito del uno al veinte:"|36                            
 n                                                 |String                        |-                             |-                             
 @cantOp_n0                                        |Integer                       |-                             |-                             
 _1                                                |Integer                       |-                             |-                             
 _2                                                |Integer                       |2                             |-                             
 _3                                                |Integer                       |3                             |-                             
-resu                                              |String                        |-                             |2                             
-"El resultado es: "                               |String                        |-                             |17                            
+resu                                              |Integer                       |-                             |-                             
+@const_string_1                                   |String                        |"El resultado es: "           |17                            
 @aux3                                             |Integer                       |-                             |-                             
 @aux4                                             |Integer                       |-                             |-                             
 @aux8                                             |Integer                       |-                             |-                             

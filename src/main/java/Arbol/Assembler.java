@@ -17,17 +17,16 @@ public class Assembler {
     public TipoDato tipoId;
 
     public void generarAssembler(List<Terceto> listaTercetos, TablaDeSimbolos tablaDeSimbolos) throws IOException {
-
         try {
             setupWriter(INTERMEDIA);
             String cuerpo = "";
             String codigo = null;
             String header = null;
 
+            // recorremos los tercetos para generar código assembler
             for(Terceto str : listaTercetos){
                 cuerpo += traducirTercetoAAsm(str, tablaDeSimbolos);
             }
-
             codigo = generarCodigo(cuerpo);
             tablaDeSimbolos.guardarTabla();
             header = generarHeader(tablaDeSimbolos.getListaDeSimbolos());
@@ -52,19 +51,43 @@ public class Assembler {
             case "-":
                 return traducirOperacionAritmeticaAAsm(terceto, "FSUB", tablaDeSimbolos);
             case "WRITE":
-                return "WRITE\n";
+                return traducirWriteAAsm(terceto);
             case "READ":
-                return "READ\n";
+                return traducirReadAAsm(terceto);
             case "CMP":
-                return "CMP\n";
+                return traducirCMPAAsm(terceto);
             case "ETIQ":
-                return "ETIQ\n";
+                return traducirEtiqAAsm(terceto);
             case "JB":
-                return "JB\n";
+                return traducirSaltoAAsm(terceto);
             default:
                 // cte y ids
                 return traducirOperandosAAsm(terceto, tablaDeSimbolos);
         }
+    }
+
+    private String traducirEtiqAAsm(Terceto terceto){
+        return terceto.getCampo2("etiqueta")+":"+"\n";
+    }
+    private String traducirSaltoAAsm(Terceto terceto){
+       return formatAssembler(terceto.getCampo1(), terceto.getCampo2("etiqueta"));
+    }
+
+    private String traducirCMPAAsm(Terceto terceto) {
+        String asmFields = formatAssembler("FLD", terceto.getCampo2("operando")) + formatAssembler("FLD", terceto.getCampo3("operando"));
+        String asmComp = formatAssembler("FXCH") +
+                        formatAssembler("FCOM") +
+                        formatAssembler("FSTSW AX") +
+                        formatAssembler("SAHF");
+        return asmFields + asmComp;
+    }
+
+    private String traducirReadAAsm(Terceto terceto){
+        return formatAssembler("getString", terceto.getCampo2("operando"));
+    }
+
+    private String traducirWriteAAsm(Terceto terceto){
+        return formatAssembler("DisplayString", terceto.getCampo2("operando"));
     }
 
     private String traducirOperandosAAsm(Terceto terceto,  TablaDeSimbolos tablaDeSimbolos){
@@ -76,9 +99,11 @@ public class Assembler {
     }
 
     private String traducirOperacionAritmeticaAAsm(Terceto terceto, String command, TablaDeSimbolos tablaDeSimbolos) {
-
         String asmFields = formatAssembler("FLD", terceto.getCampo2("operando")) +
                            formatAssembler("FLD", terceto.getCampo3("operando"));
+        if(command.equals("FSUB")){
+            asmFields += formatAssembler("FXCH");
+        }
         String asmCommands = formatAssembler(command);
         String aux = terceto.reducirTercetoAVariableAux();
         tablaDeSimbolos.agregarEnTabla(aux, TipoDato.T_INTEGER, null, null);
@@ -89,16 +114,13 @@ public class Assembler {
 
     }
 
-
-
     private String traducirAsignacionAAsm(Terceto terceto){
         String asmFields = formatAssembler("FLD", terceto.getCampo2("operando"));
         String asmStore = formatAssembler("FSTP", terceto.getCampo3("operando"));
         return asmFields + asmStore + "\n";
     }
 
-
-     public String generarHeader(List<Simbolo> listaDeSimbolos) {
+    public String generarHeader(List<Simbolo> listaDeSimbolos) {
         String includes =
                 "include number.asm\n" +
                         "include macros2.asm\n\n" +
@@ -114,12 +136,17 @@ public class Assembler {
     }
 
     private String formatTs(Simbolo linea) {
-        String valor = linea.getValor() != null ? Double.valueOf(linea.getValor()).toString() : "?";
+        String valor = null;
         //String nombre = (linea.getNombre().matches("_[0-9]+") ? "_" : "") + linea.getNombre(); //TODO Ver caso de CONST_STR
         String nombre = linea.getNombre();
-        return String.format("\t%s\tdd\t%s\n", nombre, valor);
+        if(linea.getTipo().equals(TipoDato.T_STRING) ){
+            valor = linea.getValor() != null ? linea.getValor() : "?";
+            return String.format("\t%s\tdb\t%s, \"$\"\n", nombre, valor);
+        }else{
+            valor = linea.getValor() != null ? Double.valueOf(linea.getValor()).toString() : "?";
+            return String.format("\t%s\tdd\t%s\n", nombre, valor);
+        }
     }
-
 
     public String generarData(List<Simbolo> listaDeSimbolos) {
         String variablesDeclaradas = listaDeSimbolos.stream()
@@ -142,7 +169,6 @@ public class Assembler {
         return String.format(codigo, codigoPrograma);
     }
 
-
     private String formatAssembler(String command) {
         return String.format("\t%s\n", command);
     }
@@ -155,26 +181,6 @@ public class Assembler {
         CANT_AUXILIARES++;
         return "@aux" + CANT_AUXILIARES;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private void setupWriter(String filename) throws IOException {
         this.br = new BufferedWriter(new FileWriter(filename));

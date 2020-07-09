@@ -221,6 +221,8 @@ class CUP$AnalizadorSintactico$actions {
 		
         listaTercetos.show();
         assembler.generarAssembler(listaTercetos.getListaTercetos(), tablaDeSimbolos);
+                listaTercetos.show();
+
     
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("S",0, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
@@ -279,12 +281,8 @@ class CUP$AnalizadorSintactico$actions {
 		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).right;
 		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
 		
-                tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_STRING, null, _id.length()-2);
-                listaTercetos.add(new Terceto("=", _id, indexExpresion ));
-
-                indexCant = listaTercetos.add(new Terceto("ETIQ", "fintake_"+ (identificadorTake++) ));
-                indexCant = listaTercetos.add(new Terceto("=", _id , indexLista ));
-
+                String idRecienInsertado = tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_INTEGER, null, null);
+                listaTercetos.add(new Terceto("=", idRecienInsertado, indexLista ));
         
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("ASIG",7, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
@@ -370,7 +368,7 @@ class CUP$AnalizadorSintactico$actions {
                 indexDecrementaCant = listaTercetos.add(new Terceto("=" , cantOperacionesAsm,  indexDecrementaCant ));
 
                 //preguntamos si la cantidad de repeticiones es mayor que 1
-                listaTercetos.add(new Terceto("CMP" , indexDecrementaCant,  "1" ));
+                listaTercetos.add(new Terceto("CMP" , cantOperacionesAsm,  "1" ));
                 indexSaltoAlFinDelTake = listaTercetos.add(new Terceto("JB", "fintake_n"+ identificadorTake));
 
                 //agregamos en tabla de simbolos
@@ -391,8 +389,8 @@ class CUP$AnalizadorSintactico$actions {
 		int _strValright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _strVal = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-            tablaDeSimbolos.agregarEnTabla(_strVal, TipoDato.T_STRING, null, _strVal.length()-2);
-            listaTercetos.add(new Terceto("WRITE", _strVal ));
+            String nombreLexema = tablaDeSimbolos.agregarEnTabla("", TipoDato.T_STRING, _strVal, _strVal.length()-2);
+            listaTercetos.add(new Terceto("WRITE", nombreLexema ));
         
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("WRITE",4, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }

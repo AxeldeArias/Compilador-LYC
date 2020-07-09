@@ -6,14 +6,14 @@ include macros2.asm
 .STACK 200h ;Bytes en el Stack
 
 .DATA
-	"Ingrese un digito del uno al veinte:"	dd	?
-	n	dd	?
+	@const_string_0	db	"Ingrese un digito del uno al veinte:", "$"
+	n	db	?, "$"
 	@cantOp_n0	dd	?
 	_1	dd	?
 	_2	dd	2.0
 	_3	dd	3.0
 	resu	dd	?
-	"El resultado es: "	dd	?
+	@const_string_1	db	"El resultado es: ", "$"
 	@aux3	dd	?
 	@aux4	dd	?
 	@aux8	dd	?
@@ -28,8 +28,8 @@ start:
 	MOV DS,EAX
 	MOV ES,EAX
 
-WRITE
-READ
+	DisplayString @const_string_0
+	getString n
 	FLD @cantOp_n0
 	FSTP n
 
@@ -38,6 +38,7 @@ READ
 
 	FLD @cantOp_n0
 	FLD _1
+	FXCH
 	FSUB
 	FSTP @aux4
 	FFREE
@@ -45,8 +46,13 @@ READ
 	FLD @cantOp_n0
 	FSTP @aux4
 
-CMP
-JB
+	FLD @cantOp_n0
+	FLD _1
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JB fintake_n0
 	FLD _2
 	FLD @aux3
 	FADD
@@ -55,6 +61,7 @@ JB
 
 	FLD @cantOp_n0
 	FLD _1
+	FXCH
 	FSUB
 	FSTP @aux9
 	FFREE
@@ -62,24 +69,25 @@ JB
 	FLD @cantOp_n0
 	FSTP @aux9
 
-CMP
-JB
+	FLD @cantOp_n0
+	FLD _1
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JB fintake_n0
 	FLD _3
 	FLD @aux8
 	FADD
 	FSTP @aux13
 	FFREE
 
-ETIQ
-	FLD resu
-	FSTP @auxnull
-
-ETIQ
+fintake_n0:
 	FLD resu
 	FSTP @aux13
 
-WRITE
-WRITE
+	DisplayString @const_string_1
+	DisplayString resu
 
 	MOV EAX, 4C00h
 	INT 21h
