@@ -51,7 +51,7 @@ public class Assembler {
             case "-":
                 return traducirOperacionAritmeticaAAsm(terceto, "FSUB", tablaDeSimbolos);
             case "WRITE":
-                return traducirWriteAAsm(terceto);
+                return traducirWriteAAsm(terceto, tablaDeSimbolos);
             case "READ":
                 return traducirReadAAsm(terceto);
             case "CMP":
@@ -59,7 +59,10 @@ public class Assembler {
             case "ETIQ":
                 return traducirEtiqAAsm(terceto);
             case "JB":
+            case "JAE":
+            case "JMP":
                 return traducirSaltoAAsm(terceto);
+
             default:
                 // cte y ids
                 return traducirOperandosAAsm(terceto, tablaDeSimbolos);
@@ -83,11 +86,16 @@ public class Assembler {
     }
 
     private String traducirReadAAsm(Terceto terceto){
-        return formatAssembler("getString", terceto.getCampo2("operando"));
+        return formatAssembler("GetInteger", terceto.getCampo2("operando"));
     }
 
-    private String traducirWriteAAsm(Terceto terceto){
-        return formatAssembler("DisplayString", terceto.getCampo2("operando"));
+    private String traducirWriteAAsm(Terceto terceto, TablaDeSimbolos tablaDeSimbolos) {
+        String lexemaAEscribir = terceto.getCampo2("operando");
+        TipoDato tipo = tablaDeSimbolos.getSimbolo(lexemaAEscribir).getTipo();
+        if(tipo.equals(TipoDato.T_STRING)){
+            return formatAssembler("DisplayString", lexemaAEscribir);
+        }
+        return formatAssembler("DisplayInteger", lexemaAEscribir+", 1");
     }
 
     private String traducirOperandosAAsm(Terceto terceto,  TablaDeSimbolos tablaDeSimbolos){
@@ -101,9 +109,6 @@ public class Assembler {
     private String traducirOperacionAritmeticaAAsm(Terceto terceto, String command, TablaDeSimbolos tablaDeSimbolos) {
         String asmFields = formatAssembler("FLD", terceto.getCampo2("operando")) +
                            formatAssembler("FLD", terceto.getCampo3("operando"));
-        if(command.equals("FSUB")){
-            asmFields += formatAssembler("FXCH");
-        }
         String asmCommands = formatAssembler(command);
         String aux = terceto.reducirTercetoAVariableAux();
         tablaDeSimbolos.agregarEnTabla(aux, TipoDato.T_INTEGER, null, null);
@@ -115,8 +120,8 @@ public class Assembler {
     }
 
     private String traducirAsignacionAAsm(Terceto terceto){
-        String asmFields = formatAssembler("FLD", terceto.getCampo2("operando"));
-        String asmStore = formatAssembler("FSTP", terceto.getCampo3("operando"));
+        String asmFields = formatAssembler("FLD", terceto.getCampo3("operando"));
+        String asmStore = formatAssembler("FSTP", terceto.getCampo2("operando"));
         return asmFields + asmStore + "\n";
     }
 
@@ -139,11 +144,12 @@ public class Assembler {
         String valor = null;
         //String nombre = (linea.getNombre().matches("_[0-9]+") ? "_" : "") + linea.getNombre(); //TODO Ver caso de CONST_STR
         String nombre = linea.getNombre();
+        System.out.println(nombre);
         if(linea.getTipo().equals(TipoDato.T_STRING) ){
             valor = linea.getValor() != null ? linea.getValor() : "?";
             return String.format("\t%s\tdb\t%s, \"$\"\n", nombre, valor);
         }else{
-            valor = linea.getValor() != null ? Double.valueOf(linea.getValor()).toString() : "?";
+            valor = linea.getValor() != null ? linea.getValor().toString() : "?";
             return String.format("\t%s\tdd\t%s\n", nombre, valor);
         }
     }

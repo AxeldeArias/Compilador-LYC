@@ -30,6 +30,14 @@ public class TablaDeSimbolos {
         }
         return nombrePorTipo;
     }
+    public Simbolo getSimbolo(String lexema){
+        for (Simbolo  simbolo : listaDeSimbolos) {
+            if (simbolo.getNombre().equals(lexema)) {
+                return simbolo;
+            }
+        }
+        return null;
+    }
 
     public String agregarEnTabla(Integer nombre, TipoDato tipo, String valor, Integer longitud) {
          String nombrePorTipo = "_" + nombre;

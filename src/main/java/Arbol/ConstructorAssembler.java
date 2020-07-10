@@ -259,7 +259,7 @@ public class ConstructorAssembler {
     }
 
     private String formatAssembler(String command, String value) {
-        String _value = (value.matches("[0-9]+") ? "_" : "") + value; //TODO Ver caso de CONST_STR
+        String _value = (value.matches("[0-9]+") ? "_" : "") + value;
         return String.format("\t%s %s\n", command, _value);
     }
 

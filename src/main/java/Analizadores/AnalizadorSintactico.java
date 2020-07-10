@@ -38,11 +38,12 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\017\000\002\002\004\000\002\002\003\000\002\003" +
+    "\000\020\000\002\002\004\000\002\002\003\000\002\003" +
     "\003\000\002\003\004\000\002\010\003\000\002\010\003" +
-    "\000\002\010\003\000\002\011\005\000\002\005\004\000" +
-    "\002\012\002\000\002\004\015\000\002\007\003\000\002" +
-    "\007\005\000\002\006\004\000\002\006\004" });
+    "\000\002\010\003\000\002\012\002\000\002\011\006\000" +
+    "\002\005\004\000\002\013\002\000\002\004\015\000\002" +
+    "\007\003\000\002\007\005\000\002\006\004\000\002\006" +
+    "\004" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -50,27 +51,27 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\037\000\010\004\005\017\006\020\014\001\002\000" +
+    "\000\040\000\010\004\005\017\006\020\014\001\002\000" +
     "\012\002\ufffd\004\ufffd\017\ufffd\020\ufffd\001\002\000\004" +
-    "\021\022\001\002\000\004\004\021\001\002\000\012\002" +
+    "\021\ufffa\001\002\000\004\004\021\001\002\000\012\002" +
     "\000\004\005\017\006\020\014\001\002\000\004\002\017" +
     "\001\002\000\012\002\uffff\004\uffff\017\uffff\020\uffff\001" +
     "\002\000\012\002\ufffc\004\ufffc\017\ufffc\020\ufffc\001\002" +
     "\000\012\002\ufffb\004\ufffb\017\ufffb\020\ufffb\001\002\000" +
-    "\006\004\016\005\015\001\002\000\012\002\ufff4\004\ufff4" +
-    "\017\ufff4\020\ufff4\001\002\000\012\002\ufff3\004\ufff3\017" +
-    "\ufff3\020\ufff3\001\002\000\004\002\001\001\002\000\012" +
+    "\006\004\016\005\015\001\002\000\012\002\ufff3\004\ufff3" +
+    "\017\ufff3\020\ufff3\001\002\000\012\002\ufff2\004\ufff2\017" +
+    "\ufff2\020\ufff2\001\002\000\004\002\001\001\002\000\012" +
     "\002\ufffe\004\ufffe\017\ufffe\020\ufffe\001\002\000\012\002" +
-    "\ufff9\004\ufff9\017\ufff9\020\ufff9\001\002\000\004\014\023" +
-    "\001\002\000\004\007\025\001\002\000\012\002\ufffa\004" +
-    "\ufffa\017\ufffa\020\ufffa\001\002\000\004\015\026\001\002" +
-    "\000\004\013\027\001\002\000\004\004\030\001\002\000" +
-    "\004\013\ufff8\001\002\000\004\013\032\001\002\000\004" +
-    "\011\033\001\002\000\004\006\035\001\002\000\006\012" +
-    "\037\016\036\001\002\000\006\012\ufff6\016\ufff6\001\002" +
-    "\000\004\006\041\001\002\000\004\010\040\001\002\000" +
-    "\012\002\ufff7\004\ufff7\017\ufff7\020\ufff7\001\002\000\006" +
-    "\012\ufff5\016\ufff5\001\002" });
+    "\ufff8\004\ufff8\017\ufff8\020\ufff8\001\002\000\004\021\023" +
+    "\001\002\000\004\014\024\001\002\000\004\007\026\001" +
+    "\002\000\012\002\ufff9\004\ufff9\017\ufff9\020\ufff9\001\002" +
+    "\000\004\015\027\001\002\000\004\013\030\001\002\000" +
+    "\004\004\031\001\002\000\004\013\ufff7\001\002\000\004" +
+    "\013\033\001\002\000\004\011\034\001\002\000\004\006" +
+    "\036\001\002\000\006\012\040\016\037\001\002\000\006" +
+    "\012\ufff5\016\ufff5\001\002\000\004\006\042\001\002\000" +
+    "\004\010\041\001\002\000\012\002\ufff6\004\ufff6\017\ufff6" +
+    "\020\ufff6\001\002\000\006\012\ufff4\016\ufff4\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -78,18 +79,19 @@ public class AnalizadorSintactico extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\037\000\016\002\007\003\006\005\003\006\012\010" +
-    "\010\011\011\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\012\005\003\006\012\010\017\011" +
-    "\011\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\004\004\023\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\004\012\030\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\007\033\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001" });
+    "\000\040\000\016\002\007\003\006\005\003\006\012\010" +
+    "\010\011\011\001\001\000\002\001\001\000\004\012\021" +
+    "\001\001\000\002\001\001\000\012\005\003\006\012\010" +
+    "\017\011\011\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\004" +
+    "\024\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\013" +
+    "\031\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\007\034\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -172,11 +174,13 @@ class CUP$AnalizadorSintactico$actions {
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public TipoDato tipoId;
     String cantOperacionesAsm = null;
+    String compararCon0 = null;
     Integer indexLista = 0, indexSentenciaTake = 0, indexInicioTake = 0,
             indexCant = 0, indexSaltoAlFinDelTake = 0, indexFinTake = 0,
             indexDecrementaCant = 0;
     Integer indexFactor= null, indexTermino=null,indexExpresion=null;
     Assembler assembler = new Assembler();
+    public String idAAsignarleElTake = null;
 
 
   private final AnalizadorSintactico parser;
@@ -219,6 +223,7 @@ class CUP$AnalizadorSintactico$actions {
             {
               Symbol RESULT =null;
 		
+        listaTercetos.add(new Terceto("ETIQ", "fin_programa"));
         listaTercetos.show();
         assembler.generarAssembler(listaTercetos.getListaTercetos(), tablaDeSimbolos);
                 listaTercetos.show();
@@ -250,7 +255,7 @@ class CUP$AnalizadorSintactico$actions {
           case 4: // SENTENCIA ::= READ 
             {
               Symbol RESULT =null;
-		System.out.println("finread");
+
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("SENTENCIA",6, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
@@ -274,29 +279,46 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // ASIG ::= id asigna TAKE 
+          case 7: // NT$0 ::= 
             {
               Symbol RESULT =null;
-		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).left;
-		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).right;
-		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
-		
-                String idRecienInsertado = tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_INTEGER, null, null);
-                listaTercetos.add(new Terceto("=", idRecienInsertado, indexLista ));
+		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
+		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
+		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
+
+                idAAsignarleElTake = tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_INTEGER, null, null);
+                System.out.println("#######"+idAAsignarleElTake);
+                RESULT = new Symbol(-1);
         
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("ASIG",7, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("NT$0",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // READ ::= read id 
+          case 8: // ASIG ::= id NT$0 asigna TAKE 
+            {
+              Symbol RESULT =null;
+              // propagate RESULT from NT$0
+                RESULT = (Symbol) ((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)).value;
+		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).left;
+		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).right;
+		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)).value;
+		
+            identificadorTake++;
+        
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("ASIG",7, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-3)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+            }
+          return CUP$AnalizadorSintactico$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 9: // READ ::= read id 
             {
               Symbol RESULT =null;
 		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _idright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _id = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-                tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_STRING, null, null);
+                tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_INTEGER, null, null);
                 listaTercetos.add(new Terceto("READ", _id ));
         
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("READ",3, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-1)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
@@ -304,41 +326,46 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // NT$0 ::= 
+          case 10: // NT$1 ::= 
             {
               Symbol RESULT =null;
 		int _idCantleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _idCantright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _idCant = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 
-                cantOperacionesAsm = "@cantOp_n" + identificadorTake;
+                // creamos una variable para controlar la cantidad de operaciones a realizar
+                cantOperacionesAsm = "@cantidadDeOperaciones_n" + identificadorTake;
                 tablaDeSimbolos.agregarEnTabla(cantOperacionesAsm, TipoDato.T_INTEGER, null, null);
-                indexCant = listaTercetos.add(new Terceto("=", cantOperacionesAsm , _idCant ));
+
+                //inicializamos la cantidad como cant-1 para luego preguntar por cant > 0
+                Integer indexCantMenosUno = listaTercetos.add(new Terceto("-" , _idCant,  "1" ));
+                listaTercetos.add(new Terceto("=" , cantOperacionesAsm,  indexCantMenosUno ));
+
                 RESULT = new Symbol(-1);
 
             
-              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("NT$0",8, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
+              CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("NT$1",9, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // TAKE ::= take pa mas pyc id NT$0 pyc ca LISTA cc pc 
+          case 11: // TAKE ::= take pa mas pyc id NT$1 pyc ca LISTA cc pc 
             {
               Symbol RESULT =null;
-              // propagate RESULT from NT$0
+              // propagate RESULT from NT$1
                 RESULT = (Symbol) ((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-5)).value;
 		int _idCantleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)).left;
 		int _idCantright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)).right;
 		String _idCant = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-6)).value;
 		
-                 listaTercetos.add(new Terceto("ETIQ", "fintake_n"+identificadorTake ));
+                 listaTercetos.add(new Terceto("ETIQ", "asignacion_take_n"+identificadorTake ));
             
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("TAKE",2, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-10)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // LISTA ::= cte 
+          case 12: // LISTA ::= cte 
             {
               Symbol RESULT =null;
 		int _intValleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
@@ -346,43 +373,57 @@ class CUP$AnalizadorSintactico$actions {
 		String _intVal = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
                 //agregamos en tabla de simbolos
-                String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, null, null);
+                String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, _intVal, null);
 
-                //Realizamos la operación
-                indexLista = listaTercetos.add(new Terceto(constanteCreada));
+                //preguntamos si la cantidad de repeticiones es mayor que 1
+                compararCon0 = tablaDeSimbolos.agregarEnTabla(0, TipoDato.T_INTEGER, "0", null);
+                listaTercetos.add(new Terceto("CMP" , cantOperacionesAsm,  compararCon0 ));
+                listaTercetos.add(new Terceto("JAE", "inicio_take_n"+ identificadorTake));
+                String mensajeError = "\"ERROR- Solo puede ingresar una cantidad positiva en la sentencia take.\"";
+                String errorNoEnteroPositivo = tablaDeSimbolos.agregarEnTabla("_error_no_positivo", TipoDato.T_STRING, mensajeError, mensajeError.length());
+                listaTercetos.add(new Terceto("WRITE", errorNoEnteroPositivo ));
+                listaTercetos.add(new Terceto("JMP", "fin_programa"));
+                listaTercetos.add(new Terceto("ETIQ", "inicio_take_n"+ identificadorTake));
+
+
+                //asignamos
+                listaTercetos.add(new Terceto("=", idAAsignarleElTake , constanteCreada ));
         
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("LISTA",5, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // LISTA ::= LISTA coma cte 
+          case 13: // LISTA ::= LISTA coma cte 
             {
               Symbol RESULT =null;
 		int _intValleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
 		int _intValright = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).right;
 		String _intVal = (String)((java_cup.runtime.Symbol) CUP$AnalizadorSintactico$stack.peek()).value;
 		
-                //decrementamos la variable @cantOperacionesAsm
+                //decrementamos la cantidad de operaciones
                 indexDecrementaCant = listaTercetos.add(new Terceto("-" , cantOperacionesAsm,  "1" ));
                 indexDecrementaCant = listaTercetos.add(new Terceto("=" , cantOperacionesAsm,  indexDecrementaCant ));
 
                 //preguntamos si la cantidad de repeticiones es mayor que 1
-                listaTercetos.add(new Terceto("CMP" , cantOperacionesAsm,  "1" ));
-                indexSaltoAlFinDelTake = listaTercetos.add(new Terceto("JB", "fintake_n"+ identificadorTake));
+                listaTercetos.add(new Terceto("CMP" , cantOperacionesAsm,  compararCon0 ));
+                indexSaltoAlFinDelTake = listaTercetos.add(new Terceto("JB", "asignacion_take_n"+ identificadorTake));
 
                 //agregamos en tabla de simbolos
                 String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, _intVal, null);
-                //Realizamos la operación
-                indexLista = listaTercetos.add(new Terceto("+", constanteCreada , indexLista ));
 
+                //Realizamos la operación
+                indexLista = listaTercetos.add(new Terceto("+", idAAsignarleElTake, constanteCreada ));
+
+                //asignamos
+                listaTercetos.add(new Terceto("=", idAAsignarleElTake , indexLista ));
         
               CUP$AnalizadorSintactico$result = parser.getSymbolFactory().newSymbol("LISTA",5, ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.elementAt(CUP$AnalizadorSintactico$top-2)), ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()), RESULT);
             }
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // WRITE ::= write cte_s 
+          case 14: // WRITE ::= write cte_s 
             {
               Symbol RESULT =null;
 		int _strValleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;
@@ -397,7 +438,7 @@ class CUP$AnalizadorSintactico$actions {
           return CUP$AnalizadorSintactico$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // WRITE ::= write id 
+          case 15: // WRITE ::= write id 
             {
               Symbol RESULT =null;
 		int _idleft = ((java_cup.runtime.Symbol)CUP$AnalizadorSintactico$stack.peek()).left;

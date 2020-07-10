@@ -19,11 +19,13 @@ action code
     public TablaDeSimbolos tablaDeSimbolos = new TablaDeSimbolos();
     public TipoDato tipoId;
     String cantOperacionesAsm = null;
+    String compararCon0 = null;
     Integer indexLista = 0, indexSentenciaTake = 0, indexInicioTake = 0,
             indexCant = 0, indexSaltoAlFinDelTake = 0, indexFinTake = 0,
             indexDecrementaCant = 0;
     Integer indexFactor= null, indexTermino=null,indexExpresion=null;
     Assembler assembler = new Assembler();
+    public String idAAsignarleElTake = null;
 
 :}
 
@@ -83,6 +85,7 @@ non terminal Symbol S,
 start with S;
 
 S ::= PROGRAMA {:
+        listaTercetos.add(new Terceto("ETIQ", "fin_programa"));
         listaTercetos.show();
         assembler.generarAssembler(listaTercetos.getListaTercetos(), tablaDeSimbolos);
                 listaTercetos.show();
@@ -93,50 +96,72 @@ PROGRAMA ::= SENTENCIA;
 
 PROGRAMA ::= PROGRAMA SENTENCIA{:System.out.println("cant");:}  ;
 
-SENTENCIA ::= READ {:System.out.println("finread");:} | ASIG | WRITE ;
+SENTENCIA ::= READ | ASIG | WRITE ;
 
-ASIG ::= id:_id asigna TAKE {:
-                String idRecienInsertado = tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_INTEGER, null, null);
-                listaTercetos.add(new Terceto("=", idRecienInsertado, indexLista ));
-        :} ;
+ASIG ::= id:_id {:
+                idAAsignarleElTake = tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_INTEGER, null, null);
+                System.out.println("#######"+idAAsignarleElTake);
+                RESULT = new Symbol(-1);
+        :} asigna TAKE {:
+            identificadorTake++;
+        :}  ;
 
 READ ::= read id:_id {:
-                tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_STRING, null, null);
+                tablaDeSimbolos.agregarEnTabla(_id, TipoDato.T_INTEGER, null, null);
                 listaTercetos.add(new Terceto("READ", _id ));
         :};
 
 TAKE ::= take pa mas pyc id:_idCant {:
-                cantOperacionesAsm = "@cantOp_n" + identificadorTake;
+                // creamos una variable para controlar la cantidad de operaciones a realizar
+                cantOperacionesAsm = "@cantidadDeOperaciones_n" + identificadorTake;
                 tablaDeSimbolos.agregarEnTabla(cantOperacionesAsm, TipoDato.T_INTEGER, null, null);
-                indexCant = listaTercetos.add(new Terceto("=", cantOperacionesAsm , _idCant ));
+
+                //inicializamos la cantidad como cant-1 para luego preguntar por cant > 0
+                Integer indexCantMenosUno = listaTercetos.add(new Terceto("-" , _idCant,  "1" ));
+                listaTercetos.add(new Terceto("=" , cantOperacionesAsm,  indexCantMenosUno ));
+
                 RESULT = new Symbol(-1);
 
             :} pyc ca LISTA cc pc {:
-                 listaTercetos.add(new Terceto("ETIQ", "fintake_n"+identificadorTake ));
+                 listaTercetos.add(new Terceto("ETIQ", "asignacion_take_n"+identificadorTake ));
             :};
 
 LISTA ::= cte:_intVal {:
                 //agregamos en tabla de simbolos
-                String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, null, null);
+                String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, _intVal, null);
 
-                //Realizamos la operación
-                indexLista = listaTercetos.add(new Terceto(constanteCreada));
+                //preguntamos si la cantidad de repeticiones es mayor que 1
+                compararCon0 = tablaDeSimbolos.agregarEnTabla(0, TipoDato.T_INTEGER, "0", null);
+                listaTercetos.add(new Terceto("CMP" , cantOperacionesAsm,  compararCon0 ));
+                listaTercetos.add(new Terceto("JAE", "inicio_take_n"+ identificadorTake));
+                String mensajeError = "\"ERROR- Solo puede ingresar una cantidad positiva en la sentencia take.\"";
+                String errorNoEnteroPositivo = tablaDeSimbolos.agregarEnTabla("_error_no_positivo", TipoDato.T_STRING, mensajeError, mensajeError.length());
+                listaTercetos.add(new Terceto("WRITE", errorNoEnteroPositivo ));
+                listaTercetos.add(new Terceto("JMP", "fin_programa"));
+                listaTercetos.add(new Terceto("ETIQ", "inicio_take_n"+ identificadorTake));
+
+
+                //asignamos
+                listaTercetos.add(new Terceto("=", idAAsignarleElTake , constanteCreada ));
         :};
 
 LISTA ::= LISTA coma cte:_intVal {:
-                //decrementamos la variable @cantOperacionesAsm
+                //decrementamos la cantidad de operaciones
                 indexDecrementaCant = listaTercetos.add(new Terceto("-" , cantOperacionesAsm,  "1" ));
                 indexDecrementaCant = listaTercetos.add(new Terceto("=" , cantOperacionesAsm,  indexDecrementaCant ));
 
                 //preguntamos si la cantidad de repeticiones es mayor que 1
-                listaTercetos.add(new Terceto("CMP" , cantOperacionesAsm,  "1" ));
-                indexSaltoAlFinDelTake = listaTercetos.add(new Terceto("JB", "fintake_n"+ identificadorTake));
+                listaTercetos.add(new Terceto("CMP" , cantOperacionesAsm,  compararCon0 ));
+                indexSaltoAlFinDelTake = listaTercetos.add(new Terceto("JB", "asignacion_take_n"+ identificadorTake));
 
                 //agregamos en tabla de simbolos
                 String constanteCreada = tablaDeSimbolos.agregarEnTabla(Integer.valueOf(_intVal), TipoDato.T_INTEGER, _intVal, null);
-                //Realizamos la operación
-                indexLista = listaTercetos.add(new Terceto("+", constanteCreada , indexLista ));
 
+                //Realizamos la operación
+                indexLista = listaTercetos.add(new Terceto("+", idAAsignarleElTake, constanteCreada ));
+
+                //asignamos
+                listaTercetos.add(new Terceto("=", idAAsignarleElTake , indexLista ));
         :};
 
 WRITE ::= write cte_s:_strVal {:
