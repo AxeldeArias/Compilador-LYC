@@ -88,6 +88,12 @@ public class ConstructorAssembler {
             case "AND":
                 desapilarUltimaEtiquetaCreada();
                 return null;
+            case "WHILE":
+            case "IF":
+                if(!nodo.getIzq().getDato().equals("AND") && !nodo.getIzq().getDato().equals("OR")){
+                    incrementarNroEtiqueta();
+                }
+                return null;
             default:
                 return null;
         }

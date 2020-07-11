@@ -6,22 +6,32 @@ include macros2.asm
 .STACK 200h ;Bytes en el Stack
 
 .DATA
-	a	dd	?
-	b	dd	?
-	z	dd	?
-	aux	dd	?
-	aux2	dd	?
-	c	dd	?
-	_3	dd	3.0
+	AUXa_anio	dd	?
+	AUXa_mes	dd	?
+	AUXa_dia	dd	?
+	a_anio	dd	?
+	a_mes	dd	?
+	a_dia	dd	?
+	cantASumar	dd	?
+	AUXcantdiames	dd	?
 	_10	dd	10.0
+	_2020	dd	2020.0
 	_5	dd	5.0
-	_2	dd	2.0
+	_31	dd	31.0
 	_0	dd	0.0
-	_1	dd	1.0
+	_2	dd	2.0
 	_4	dd	4.0
-	_6	dd	6.0
+	_400	dd	400.0
+	_29	dd	29.0
+	_28	dd	28.0
+	_1	dd	1.0
+	_3	dd	3.0
+	_7	dd	7.0
 	_8	dd	8.0
-	_11	dd	11.0
+	_9	dd	9.0
+	_30	dd	30.0
+	_6	dd	6.0
+	_12	dd	12.0
 
 	@aux1	dd	?
 	@aux2	dd	?
@@ -34,8 +44,6 @@ include macros2.asm
 	@aux9	dd	?
 	@aux10	dd	?
 	@aux11	dd	?
-	@aux12	dd	?
-	@aux13	dd	?
 
 
 .CODE
@@ -45,272 +53,332 @@ start:
 	MOV DS,EAX
 	MOV ES,EAX
 
-	FLD _3
-	FSTP a
-
 	FLD _10
-	FSTP b
+	FSTP cantASumar
+
+	FLD _2020
+	FSTP a_anio
 
 	FLD _5
-	FSTP c
+	FSTP a_mes
 
-	FLD _2
-	FSTP z
-
-	FLD _0
-	FSTP aux
+	FLD _31
+	FSTP a_dia
 
 	FLD _0
-	FSTP aux2
+	FSTP AUXcantdiames
+
+	FLD a_anio
+	FSTP AUXa_anio
+
+	FLD a_mes
+	FSTP AUXa_mes
+
+	FLD a_dia
+	FSTP AUXa_dia
 
 etiqueta0:
-	FLD aux
-	FLD _3
+	FLD cantASumar
+	FLD _0
 	FXCH
 	FCOM
 	FSTSW AX
 	SAHF
-	JAE etiqueta1
+	JBE etiqueta1
 
-	FLD _1
-	FLD _1
-	FXCH
-	FCOM
-	FSTSW AX
-	SAHF
-	JNE etiqueta1
-
-	FLD c
-	FLD _5
+	FLD AUXa_mes
+	FLD _2
 	FXCH
 	FCOM
 	FSTSW AX
 	SAHF
 	JNE etiqueta2
 
-	FLD z
-	FLD _1
-	FADD
+	FLD _4
+	FLD AUXa_anio
+	FMUL
 	FSTP @aux1
 	FFREE
 
 	FLD @aux1
-	FSTP z
-
-	JMP etiqueta3
-etiqueta2:
-	FLD z
-	FLD _2
-	FADD
+	FLD _4
+	FDIV
 	FSTP @aux2
 	FFREE
 
+	FLD AUXa_anio
 	FLD @aux2
-	FSTP z
-
-etiqueta3:
-	FLD a
-	FLD _3
-	FXCH
-	FCOM
-	FSTSW AX
-	SAHF
-	JNE etiqueta5
-
-	FLD a
-	FLD _4
-	FXCH
-	FCOM
-	FSTSW AX
-	SAHF
-	JAE etiqueta5
-
-	FLD a
-	FLD _2
-	FADD
+	FSUB
 	FSTP @aux3
 	FFREE
 
 	FLD @aux3
-	FSTP a
-
-	FLD b
-	FLD _6
+	FLD _0
 	FXCH
 	FCOM
 	FSTSW AX
 	SAHF
-	JBE etiqueta6
+	JE etiqueta3
 
-	FLD _6
-	FLD _2
-	FSUB
+	FLD _400
+	FLD AUXa_anio
+	FMUL
 	FSTP @aux4
 	FFREE
 
 	FLD @aux4
-	FSTP b
-
-	JMP etiqueta7
-etiqueta6:
-	FLD _8
-	FSTP z
-
-	FLD z
-	FLD b
-	FADD
+	FLD _400
+	FDIV
 	FSTP @aux5
 	FFREE
 
+	FLD AUXa_anio
 	FLD @aux5
-	FLD _8
-	FXCH
-	FCOM
-	FSTSW AX
-	SAHF
-	JAE etiqueta8
-
-	FLD _2
-	FLD _2
-	FMUL
+	FSUB
 	FSTP @aux6
 	FFREE
 
-	FLD _3
 	FLD @aux6
-	FADD
-	FSTP @aux7
-	FFREE
+	FLD _0
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta4
 
-	FLD @aux7
-	FLD b
-	FADD
-	FSTP @aux8
-	FFREE
+etiqueta3:
+	FLD _29
+	FSTP AUXcantdiames
 
-	FLD @aux8
-	FSTP a
+	JMP etiqueta6
+etiqueta4:
+	FLD _28
+	FSTP AUXcantdiames
 
-etiqueta8:
-etiqueta7:
-etiqueta9:
-	FLD aux2
+etiqueta6:
+	JMP etiqueta9
+etiqueta2:
+	FLD AUXa_mes
 	FLD _1
 	FXCH
 	FCOM
 	FSTSW AX
 	SAHF
-	JAE etiqueta10
+	JE etiqueta10
 
-	FLD aux2
-	FLD _1
-	FADD
-	FSTP @aux9
-	FFREE
-
-	FLD @aux9
-	FSTP aux2
-
-	JMP etiqueta9
-etiqueta10:
-	FLD z
-	FLD _1
+	FLD AUXa_mes
+	FLD _3
 	FXCH
 	FCOM
 	FSTSW AX
 	SAHF
 	JNE etiqueta11
 
-	FLD z
-	FLD _2
-	FXCH
-	FCOM
-	FSTSW AX
-	SAHF
-	JA etiqueta12
+etiqueta10:
+	FLD _31
+	FSTP AUXcantdiames
 
 etiqueta11:
-	FLD z
-	FLD _3
+	FLD AUXa_mes
+	FLD _5
 	FXCH
 	FCOM
 	FSTSW AX
 	SAHF
-	JAE etiqueta13
+	JE etiqueta12
 
-	FLD _11
+	FLD AUXa_mes
+	FLD _7
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta13
+
+etiqueta12:
+	FLD _31
+	FSTP AUXcantdiames
+
+etiqueta13:
+	FLD AUXa_mes
 	FLD _5
-	FMUL
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JE etiqueta14
+
+	FLD AUXa_mes
+	FLD _7
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta15
+
+etiqueta14:
+	FLD _31
+	FSTP AUXcantdiames
+
+etiqueta15:
+	FLD AUXa_mes
+	FLD _8
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JE etiqueta16
+
+	FLD AUXa_mes
+	FLD _10
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta17
+
+etiqueta16:
+	FLD _31
+	FSTP AUXcantdiames
+
+etiqueta17:
+	FLD AUXa_mes
+	FLD _4
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JE etiqueta18
+
+	FLD AUXa_mes
+	FLD _9
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta19
+
+etiqueta18:
+	FLD _30
+	FSTP AUXcantdiames
+
+etiqueta19:
+	FLD AUXa_mes
+	FLD _10
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JE etiqueta20
+
+	FLD AUXa_mes
+	FLD _6
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JNE etiqueta21
+
+etiqueta20:
+	FLD _30
+	FSTP AUXcantdiames
+
+etiqueta21:
+etiqueta9:
+	FLD AUXa_dia
+	FLD AUXcantdiames
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JAE etiqueta23
+
+	FLD AUXa_dia
+	FLD _1
+	FADD
+	FSTP @aux7
+	FFREE
+
+	FLD @aux7
+	FSTP AUXa_dia
+
+	JMP etiqueta25
+etiqueta23:
+	FLD AUXa_mes
+	FLD _12
+	FXCH
+	FCOM
+	FSTSW AX
+	SAHF
+	JE etiqueta26
+
+	FLD AUXa_mes
+	FLD _1
+	FADD
+	FSTP @aux8
+	FFREE
+
+	FLD @aux8
+	FSTP AUXa_mes
+
+	FLD _1
+	FSTP AUXa_dia
+
+	JMP etiqueta28
+etiqueta26:
+	FLD _1
+	FSTP AUXa_dia
+
+	FLD _1
+	FSTP AUXa_mes
+
+	FLD AUXa_dia
+	FLD _1
+	FADD
+	FSTP @aux9
+	FFREE
+
+	FLD @aux9
+	FSTP AUXa_dia
+
+	FLD AUXa_anio
+	FLD _1
+	FADD
 	FSTP @aux10
 	FFREE
 
 	FLD @aux10
-	FSTP z
+	FSTP AUXa_anio
 
-	JMP etiqueta14
-etiqueta13:
-	FLD a
-	FLD b
-	FADD
+etiqueta28:
+etiqueta25:
+	FLD cantASumar
+	FLD _1
+	FSUB
 	FSTP @aux11
 	FFREE
 
 	FLD @aux11
-	FSTP z
-
-etiqueta14:
-etiqueta12:
-	JMP etiqueta17
-etiqueta5:
-	FLD z
-	FLD _1
-	FDIV
-	FSTP @aux12
-	FFREE
-
-	FLD @aux12
-	FSTP a
-
-	FLD a
-	FLD z
-	FXCH
-	FCOM
-	FSTSW AX
-	SAHF
-	JBE etiqueta18
-
-	FLD _1
-	FSTP b
-
-etiqueta18:
-etiqueta17:
-	FLD aux
-	FLD _1
-	FADD
-	FSTP @aux13
-	FFREE
-
-	FLD @aux13
-	FSTP aux
+	FSTP cantASumar
 
 	JMP etiqueta0
 etiqueta1:
-	DisplayFloat a,1
+	FLD AUXa_anio
+	FSTP a_anio
+
+	FLD AUXa_mes
+	FSTP a_mes
+
+	FLD AUXa_dia
+	FSTP a_dia
+
+	DisplayFloat a_anio,1
 	newline 1
 
-	DisplayFloat b,1
+	DisplayFloat a_mes,1
 	newline 1
 
-	DisplayFloat c,1
-	newline 1
-
-	DisplayFloat z,1
-	newline 1
-
-	DisplayFloat aux,1
-	newline 1
-
-	DisplayFloat aux2,1
+	DisplayFloat a_dia,1
 	newline 1
 
 
